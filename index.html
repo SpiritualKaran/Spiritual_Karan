@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spiritual Karan | Psychic Medium</title>
+  
+  <!-- Modern, High-End Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & Lenis for Buttery Smooth Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    /* Absolute Reset & Base */
+    :root {
+      --bg: #03010A; /* Dark cosmic blue */
+      --text: #F3F3F3;
+      --accent: #FF6600; /* Deep ethereal indigo to reference Orange */
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none; /* Hide default cursor */
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, .display-font { font-family: 'Syne', sans-serif; }
+    .signature-font { font-family: 'Eagle Horizon', 'Great Vibes', cursive; font-weight: 400; }
+
+    /* Custom Cursor */
+    .cursor-dot, .cursor-outline {
+      position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+      border-radius: 50%; z-index: 9999; pointer-events: none;
+    }
+    .cursor-dot { width: 6px; height: 6px; background-color: white; }
+    .cursor-outline {
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5);
+      transition: width 0.3s, height 0.3s, background-color 0.3s;
+    }
+    .cursor-outline.hover {
+      width: 80px; height: 80px; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(2px);
+    }
+
+    /* Loader Screen */
+    #loader {
+      position: fixed; inset: 0; background: var(--bg); z-index: 10000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .loader-text { font-size: 5vw; font-weight: 800; text-transform: uppercase; overflow: hidden; }
+    .loader-text span { display: inline-block; transform: translateY(100%); }
+    .progress-bar { width: 0%; height: 2px; background: white; margin-top: 2rem; }
+
+    /* Cinematic Noise Grain */
+    .noise {
+      position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.03;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    }
+
+    /* Abstract CSS Mesh Gradient */
+    .mesh-bg {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 100vw; height: 100vh; z-index: -1; overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Typography Utilities */
+    .text-huge { font-size: 7.7vw; line-height: 0.85; letter-spacing: -0.02em; font-weight: 800; }
+    .split-parent { overflow: hidden; }
+    .split-child { display: inline-block; transform: translateY(110%); }
+
+    /* Magnetic Button */
+    .magnetic-btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 1.25rem 2.5rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent;
+      color: white; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      position: relative; overflow: hidden; transition: border-color 0.3s;
+      z-index: 1;
+    }
+    .magnetic-btn span {
+      position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    }
+    .magnetic-btn::before {
+      content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+      background: white; transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); z-index: 1;
+    }
+    .magnetic-btn:hover { border-color: white; }
+    .magnetic-btn:hover span { color: black; }
+    .magnetic-btn:hover::before { transform: translateY(-100%); }
+
+    /* Primary Orange Magnetic Button */
+    .btn-primary-orange {
+      background-color: #FF6600;
+      border: none !important;
+      font-weight: 600;
+    }
+    .btn-primary-orange span {
+      color: #FFFFFF !important;
+    }
+    .btn-primary-orange::before {
+      background: #FFFFFF;
+    }
+    .btn-primary-orange:hover span {
+      color: #000000 !important;
+    }
+
+    /* Horizontal Scroll Layout */
+    .horizontal-wrapper { width: 500vw; display: flex; height: 100vh; }
+    .pillar-card {
+      width: 100vw; height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; padding: 10vw;
+    }
+    
+    /* Stacking Cards Section */
+    .cards-container { position: relative; width: 100%; margin-top: 10vh; }
+    .stack-card {
+      position: sticky; top: 15vh; height: 70vh; width: 100%;
+      background: rgba(20,20,20,0.6); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.05); border-radius: 2vw;
+      padding: 4vw; display: flex; flex-direction: column; justify-content: space-between;
+      transform-origin: top center;
+    }
+
+    /* Responsive Fullscreen Video Scaling for Hero Section */
+    .video-hero-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .video-hero-wrapper iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw; /* 16:9 ratio */
+      min-height: 100vh;
+      min-width: 177.77vh; /* 16:9 ratio */
+      transform: translate(-50%, -50%) scale(1.15); /* Scale up slightly to avoid edge cuts */
+      object-fit: cover;
+    }
+
+    /* Overlay for optimum text contrast over YouTube video */
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(3, 1, 10, 0.45) 0%, rgba(3, 1, 10, 0.85) 80%, rgba(3, 1, 10, 0.98) 100%),
+                  linear-gradient(to bottom, rgba(3,1,10,0.6) 0%, rgba(3,1,10,0.2) 50%, rgba(3,1,10,0.95) 100%);
+      z-index: 1;
+    }
+
+    /* Utilities */
+    .hide { opacity: 0; visibility: hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+
+  <!-- Noise Overlay -->
+  <div class="noise"></div>
+
+  <!-- Background Fluid Mesh -->
+  <div class="mesh-bg"></div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="display-font loader-text"><span id="loader-word">AWAKEN</span></div>
+    <div class="w-64 h-[1px] bg-gray-800 mt-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 h-full bg-white progress-bar" id="progress"></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full p-4 md:p-6 z-50 text-white hide transition-all duration-300 backdrop-blur-sm bg-black/20" id="nav">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+      
+      <!-- Mobile Menu Icon -->
+      <div class="md:hidden flex items-center hover-trigger cursor-pointer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </div>
+
+      <!-- Left Links -->
+      <div class="hidden md:flex flex-1 justify-end items-center gap-10 pr-10">
+        <a href="#hero" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Home</a>
+        <a href="#consultation" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Services</a>
+        <a href="#programs-section" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Sadhana</a>
+      </div>
+
+      <!-- Center Logo -->
+      <a href="#hero" class="flex-shrink-0 hover-trigger">
+        <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-10 md:h-14 w-auto object-contain">
+      </a>
+
+      <!-- Right Links -->
+      <div class="hidden md:flex flex-1 justify-start items-center gap-10 pl-10">
+        <a href="#members-support" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Members</a>
+        <a href="#about" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">About</a>
+        <a href="#contact" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Contact</a>
+      </div>
+
+      <!-- Mobile Empty Spacer -->
+      <div class="md:hidden w-6"></div>
+    </div>
+  </nav>
+
+  <!-- 1. Hero Section with YouTube Background -->
+  <section class="h-screen w-full flex flex-col justify-center items-center px-[5%] relative text-center overflow-hidden" id="hero">
+    
+    <!-- Hero Video Background Container -->
+    <div class="video-hero-wrapper">
+      <iframe 
+        id="hero-yt-player"
+        width="1280" 
+        height="720" 
+        style="border:0;" 
+        scrolling="no" 
+        src="https://go.screenpal.com/player/cOjjXRnvtjt?ff=1&title=0&controls=0&a=1&m=1&l=1&autoplay=1&muted=1&loop=1&width=100%&height=100%&oembed=1" 
+        title="Hero ScreenPal Video"
+        allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen="true">
+      </iframe>
+    </div>
+
+    <!-- Gradient Darkness Overlay for visual hierarchy and high readability -->
+    <div class="hero-video-overlay"></div>
+
+    <!-- Hero Content Overlay -->
+    <div class="relative z-10 max-w-6xl mx-auto flex flex-col items-center justify-center">
+      <p class="text-[10px] md:text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-6 hero-elem split-parent font-medium">
+        <span class="split-child">Discover Your Spiritual Journey With</span>
+      </p>
+      
+      <div class="relative w-full flex flex-col items-center justify-center">
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent drop-shadow-2xl">
+          <span class="split-child">SPIRITUAL</span>
+        </h1>
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent mt-[-2vw] drop-shadow-2xl">
+          <span class="split-child text-[#F3F3F3]">KARAN</span>
+        </h1>
+      </div>
+
+      <div class="mt-8 md:mt-12 hero-elem flex flex-wrap justify-center gap-4 items-center">
+        <a href="#programs-section" class="magnetic magnetic-btn btn-primary-orange hover-trigger shadow-lg shadow-orange-500/20">
+          <span>Explore Sadhana Program</span>
+        </a>
+        <a href="#members-support" class="magnetic magnetic-btn hover-trigger bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black">
+          <span>Book Consultation</span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Video Sound / Status Badge -->
+    <div class="absolute bottom-10 right-[5%] z-20 flex items-center gap-3">
+      <span class="text-[10px] tracking-widest uppercase text-gray-300 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span>Hero Video Active</span>
+      </span>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-[5%] text-xs tracking-widest uppercase text-gray-400 hero-elem flex gap-4 items-center z-10">
+      <span>Scroll</span>
+      <div class="w-px h-12 bg-gray-500 origin-top animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- 2. The Manifesto (Scroll Reveal Text) -->
+  <section class="min-h-screen w-full flex items-center justify-center px-[10%] py-32" id="manifesto">
+    <h2 class="display-font text-4xl md:text-6xl lg:text-8xl leading-tight text-center max-w-7xl mx-auto text-gray-700" id="reveal-text">
+      True spirituality is not an escape from reality. It is the absolute mastery of it. We construct the bridge between ancient energetic science and modern human potential.
+    </h2>
+  </section>
+
+  <!-- 2.5 Consultation Section -->
+  <section class="min-h-screen w-full px-[5%] pt-32 pb-16 relative z-10" id="consultation">
+    <div class="max-w-6xl mx-auto">
+      
+      <!-- Header -->
+      <div class="mb-20">
+        <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-4">Personal Support</p>
+        <h2 class="display-font text-5xl md:text-7xl mb-6">Spiritual Guidance <br>& Healing</h2>
+        <p class="text-gray-400 text-lg md:text-xl font-light max-w-2xl">Thoughtful guidance and supportive practices for clarity, balance, and your spiritual wellbeing.</p>
+      </div>
+
+      <!-- Service Rows -->
+      <div class="w-full border-t border-gray-800">
+        
+        <!-- Service 1 -->
+        <div class="group border-b border-gray-800 py-12 flex flex-col md:flex-row md:items-center justify-between hover-trigger cursor-pointer transition-colors hover:border-gray-500">
+          <div class="flex items-center gap-8 md:gap-16 mb-4 md:mb-0">
+            <span class="display-font text-4xl text-gray-700 group-hover:text-[#FF6600] transition-colors">01</span>
+            <h3 class="display-font text-3xl md:text-5xl group-hover:text-white transition-colors">Spiritual Alignment</h3>
+          </div>
+          <p class="text-gray-400 text-sm md:text-base max-w-sm font-light">Personal spiritual wellness guidance to help reconnect with your intention and practice.</p>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="group border-b border-gray-800 py-12 flex flex-col md:flex-row md:items-center justify-between hover-trigger cursor-pointer transition-colors hover:border-gray-500">
+          <div class="flex items-center gap-8 md:gap-16 mb-4 md:mb-0">
+            <span class="display-font text-4xl text-gray-700 group-hover:text-[#FF6600] transition-colors">02</span>
+            <h3 class="display-font text-3xl md:text-5xl group-hover:text-white transition-colors">Karmic Guidance</h3>
+          </div>
+          <p class="text-gray-400 text-sm md:text-base max-w-sm font-light">Pitra Dosh guidance and nivaran, karmic record cleansing, and ancestral energy support.</p>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="group border-b border-gray-800 py-12 flex flex-col md:flex-row md:items-center justify-between hover-trigger cursor-pointer transition-colors hover:border-gray-500">
+          <div class="flex items-center gap-8 md:gap-16 mb-4 md:mb-0">
+            <span class="display-font text-4xl text-gray-700 group-hover:text-[#FF6600] transition-colors">03</span>
+            <h3 class="display-font text-3xl md:text-5xl group-hover:text-white transition-colors">Energy & Aura Support</h3>
+          </div>
+          <p class="text-gray-400 text-sm md:text-base max-w-sm font-light">Aura scanning and cleansing, energy balancing, and support for clearing negative patterns or blockages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. The 5 Pillars (Horizontal Scroll) -->
+  <section class="h-screen w-full overflow-hidden bg-black relative" id="horizontal-section">
+    <div class="absolute top-10 left-10 text-xs tracking-widest uppercase text-gray-400 z-10">The Architecture</div>
+    
+    <div class="horizontal-wrapper" id="horizontal-wrapper">
+      
+      <!-- Pillar 1 -->
+      <div class="pillar-card">
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">01</h3>
+        <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Gyan</h4>
+        <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The foundation of earth. Absolute knowledge and the enduring wisdom of the ancients.</p>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="pillar-card">
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">02</h3>
+        <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Bhakti</h4>
+        <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The flow of water. Gratitude, devotion, and the dissolution of the ego.</p>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="pillar-card">
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">03</h3>
+        <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Yog</h4>
+        <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The fire of transformation. Internal alchemy through physical and energetic discipline.</p>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div class="pillar-card">
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">04</h3>
+        <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Karam</h4>
+        <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The breath of air. Action without attachment. The physics of universal return.</p>
+      </div>
+
+      <!-- Pillar 5 -->
+      <div class="pillar-card">
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">05</h3>
+        <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Dhyan</h4>
+        <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The expanse of space. Absolute stillness, meditation, and total awareness.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. Sadhana Programs (Stacking Cards) -->
+  <section class="min-h-[300vh] w-full px-[5%] py-32" id="programs-section">
+    <div class="text-center mb-20">
+      <h2 class="display-font text-6xl md:text-8xl">The Pathways</h2>
+      <p class="text-gray-400 mt-4 tracking-widest uppercase text-sm">Select your trajectory</p>
+    </div>
+
+    <div class="cards-container w-full max-w-6xl mx-auto">
+      
+      <!-- Card 1 -->
+      <div class="stack-card card-1 hover-trigger">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-xs tracking-[0.3em] uppercase text-gray-400">Level I</span>
+            <h3 class="display-font text-5xl md:text-7xl mt-4">Initiation</h3>
+          </div>
+          <div class="display-font text-3xl md:text-5xl">₹11,000</div>
+        </div>
+        <div class="flex justify-between items-end">
+          <ul class="text-gray-400 space-y-2 text-sm md:text-base font-light">
+            <li>+ Health, Wealth & Prosperity Sadhana</li>
+            <li>+ 6-Month Protocol</li>
+            <li>+ Digital Archives Access</li>
+          </ul>
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer z-10 hover-trigger">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="stack-card card-2 hover-trigger" style="background: rgba(40,40,40,0.8); border-color: rgba(255,255,255,0.2);">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-xs tracking-[0.3em] uppercase text-indigo-400">Level II</span>
+            <h3 class="display-font text-5xl md:text-7xl mt-4">Deepening</h3>
+          </div>
+          <div class="display-font text-3xl md:text-5xl">₹51,000</div>
+        </div>
+        <div class="flex justify-between items-end">
+          <ul class="text-gray-300 space-y-2 text-sm md:text-base font-light">
+            <li>+ Advanced Divine Practices</li>
+            <li>+ Kul Tree Cleansing Protocol</li>
+            <li>+ 9-Month Immersion</li>
+          </ul>
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-indigo-400 flex items-center justify-center text-indigo-400 hover:bg-indigo-400 hover:text-white transition-colors cursor-pointer z-10 hover-trigger">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="stack-card card-3 hover-trigger" style="background: white; color: black;">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-xs tracking-[0.3em] uppercase text-gray-500">Level III</span>
+            <h3 class="display-font text-5xl md:text-7xl mt-4">Mastery</h3>
+          </div>
+          <div class="display-font text-3xl md:text-5xl">₹1,51,000</div>
+        </div>
+        <div class="flex justify-between items-end">
+          <ul class="text-gray-600 space-y-2 text-sm md:text-base font-light">
+            <li>+ Divya Drishti Activation</li>
+            <li>+ Tantric Energetic Shielding</li>
+            <li>+ 12-Month Mentorship</li>
+          </ul>
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-black flex items-center justify-center bg-black text-white hover:bg-transparent hover:text-black transition-colors cursor-pointer z-10 hover-trigger">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4.5 Members Support & Consultations Pricing Section -->
+  <section class="w-full px-[5%] py-32 relative z-10" id="members-support">
+    <div class="max-w-6xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="mb-16">
+        <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-4">One-to-one guidance</p>
+        <h2 class="display-font text-5xl md:text-7xl mb-6">Consultations & <br>Member Support</h2>
+      </div>
+
+      <!-- Specific Consultations List -->
+      <div class="w-full border-t border-gray-800">
+        
+        <!-- Consultation 1 -->
+        <div class="group border-b border-gray-800 py-10 flex flex-col lg:flex-row lg:items-center justify-between hover-trigger transition-colors hover:border-gray-500">
+          <div class="flex-1 mb-6 lg:mb-0 pr-4">
+            <h3 class="display-font text-3xl md:text-4xl text-white mb-2 transition-colors">Online Spiritual Consultation</h3>
+            <p class="text-gray-400 text-sm md:text-base font-light">30 minutes of personal guidance.</p>
+          </div>
+          <div class="flex flex-row items-center gap-8 lg:gap-12">
+            <div class="display-font text-2xl md:text-3xl text-gray-300">₹3,100</div>
+            <a href="https://razorpay.me/@believingspiritual" target="_blank" class="px-6 py-3 rounded-full border border-gray-500 text-xs tracking-widest uppercase text-white hover:bg-white hover:border-white hover:text-black transition-all hover-trigger whitespace-nowrap">Buy Now</a>
+          </div>
+        </div>
+
+        <!-- Consultation 2 -->
+        <div class="group border-b border-gray-800 py-10 flex flex-col lg:flex-row lg:items-center justify-between hover-trigger transition-colors hover:border-gray-500">
+          <div class="flex-1 mb-6 lg:mb-0 pr-4">
+            <h3 class="display-font text-3xl md:text-4xl text-white mb-2 transition-colors">Aura Consultation</h3>
+            <p class="text-gray-400 text-sm md:text-base font-light">Aura analysis and guidance.</p>
+          </div>
+          <div class="flex flex-row items-center gap-8 lg:gap-12">
+            <div class="display-font text-2xl md:text-3xl text-gray-300">₹2,100</div>
+            <a href="https://razorpay.me/@believingspiritual" target="_blank" class="px-6 py-3 rounded-full border border-gray-500 text-xs tracking-widest uppercase text-white hover:bg-white hover:border-white hover:text-black transition-all hover-trigger whitespace-nowrap">Buy Now</a>
+          </div>
+        </div>
+
+        <!-- Consultation 3 -->
+        <div class="group border-b border-gray-800 py-10 flex flex-col lg:flex-row lg:items-center justify-between hover-trigger transition-colors hover:border-gray-500">
+          <div class="flex-1 mb-6 lg:mb-0 pr-4">
+            <h3 class="display-font text-3xl md:text-4xl text-white mb-2 transition-colors">Chakra & Five Elements Report</h3>
+            <p class="text-gray-400 text-sm md:text-base font-light">Personalized analysis, element balance report, and suggested remedies.</p>
+          </div>
+          <div class="flex flex-row items-center gap-8 lg:gap-12">
+            <div class="display-font text-2xl md:text-3xl text-gray-300">₹1,100</div>
+            <a href="https://razorpay.me/@believingspiritual" target="_blank" class="px-6 py-3 rounded-full border border-gray-500 text-xs tracking-widest uppercase text-white hover:bg-white hover:border-white hover:text-black transition-all hover-trigger whitespace-nowrap">Buy Now</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Members Club Highlight Card -->
+      <div class="mt-20 p-8 md:p-16 rounded-[2vw] border border-[#FF6600]/30 bg-gradient-to-br from-[rgba(255,102,0,0.1)] to-transparent backdrop-blur-md relative overflow-hidden group">
+        <!-- Glow effect behind -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-[#FF6600] blur-[120px] rounded-full opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-700"></div>
+        
+        <div class="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12">
+          
+          <div class="flex-1">
+            <h3 class="display-font text-5xl md:text-6xl text-white mb-2">Members club</h3>
+            <p class="text-xl md:text-2xl text-[#FF6600] display-font mb-8">Annual Membership — ₹21,000 / year</p>
+            
+            <ul class="text-gray-300 space-y-4 font-light text-sm md:text-base">
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-1">✦</span> 
+                <span>Online consultation every 15 days</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-1">✦</span> 
+                <span>One aura consultation every month</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-1">✦</span> 
+                <span>Chakra & Five Element Report every 3 months</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-1">✦</span> 
+                <span>Priority guidance & continued support</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="w-full lg:w-auto flex justify-start lg:justify-end">
+            <a href="https://razorpay.me/@believingspiritual" target="_blank" class="magnetic magnetic-btn btn-primary-orange hover-trigger w-full lg:w-auto text-center">
+              <span>Join Members Club</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4.75 About Section -->
+  <section class="min-h-screen w-full px-[5%] py-32 relative z-10 flex items-center border-t border-gray-900/50" id="about">
+    <div class="max-w-6xl mx-auto w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+        
+        <!-- Left: Title & Subtitle -->
+        <div class="lg:col-span-5 mb-8 lg:mb-0">
+          <h2 class="display-font text-5xl md:text-7xl mb-6 text-white">Welcome to <br><span class="text-[#FF6600]">Spiritual Karan</span></h2>
+          <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-8 border-l-2 border-[#FF6600] pl-4">Ancient wisdom, a practical path.</p>
+        </div>
+
+        <!-- Right: Body Text -->
+        <div class="lg:col-span-7 space-y-8 text-gray-300 font-light text-lg md:text-xl leading-relaxed">
+          <p>
+            Hello, I’m Karan Chawla. My spiritual journey began in 2002. For over two decades, I have studied spiritual traditions, scriptures, meditation techniques, and ancient practices.
+          </p>
+          <p>
+            In 2023, I founded Spiritual Karan with a simple mission: to make authentic spiritual practice easy, practical, and accessible for everyone.
+          </p>
+          <p>
+            With the right guidance, regular practice, and discipline, anyone can cultivate deeper peace, clarity, confidence, and spiritual awareness—without leaving home or changing their lifestyle.
+          </p>
+          <div class="pt-8">
+            <span class="display-font text-3xl md:text-4xl text-white tracking-widest">— Karan Chawla</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Footer (Massive CTA) -->
+  <footer class="h-screen w-full flex flex-col justify-between p-[5%] bg-[#020202]" id="contact">
+    <div class="flex justify-between items-start w-full border-b border-gray-800 pb-12">
+      <div>
+        <h4 class="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Direct Contact</h4>
+        <a href="mailto:hi@spiritualkaran.com" class="text-xl md:text-3xl hover:text-white transition-colors hover-trigger block">hi@spiritualkaran.com</a>
+        <a href="https://wa.me/917666554400" target="_blank" class="text-xl md:text-3xl hover:text-white transition-colors hover-trigger block mt-2">+91 76665 54400</a>
+      </div>
+      <div class="text-right">
+        <h4 class="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Social</h4>
+        <a href="https://www.instagram.com/spiritualkaranx" target="_blank" class="block hover:text-white hover-trigger">Instagram</a>
+        <a href="https://youtube.com/@spiritualkaranx" target="_blank" class="block hover:text-white hover-trigger mt-2">YouTube</a>
+        <a href="https://t.me/spiritualkaran" target="_blank" class="block hover:text-white hover-trigger mt-2">Telegram</a>
+      </div>
+    </div>
+    
+    <a href="https://wa.me/917666554400" target="_blank" class="w-full text-center mt-auto block z-10">
+      <h2 class="display-font text-[15vw] leading-none uppercase text-white hover-trigger cursor-pointer" id="footer-cta" style="transition: -webkit-text-stroke 0.3s; -webkit-text-stroke: 2px transparent;">
+        Begin
+      </h2>
+    </a>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Register GSAP Plugins
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Lenis Smooth Scroll Setup
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      mouseMultiplier: 1
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // 2. Custom Cursor Logic
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+    const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      
+      // Dot follows instantly
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+      
+      // Outline has a slight delay (smooth interpolation)
+      gsap.to(cursorOutline, {
+        x: posX - 20, // offset by half width
+        y: posY - 20,
+        duration: 0.15,
+        ease: "power2.out"
+      });
+    });
+
+    hoverTriggers.forEach(trigger => {
+      trigger.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+      trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+    });
+
+    // 3. Magnetic Button Logic
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.4, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+
+    // 4. Initial Loader Sequence
+    const initSequence = () => {
+      const tl = gsap.timeline();
+      
+      // Progress bar fill
+      tl.to("#progress", { width: "100%", duration: 1.5, ease: "expo.inOut" })
+        // Text reveal
+        .to(".loader-text span", { y: "0%", duration: 0.8, ease: "power4.out" }, "-=0.5")
+        // Hide loader
+        .to("#loader", { yPercent: -100, duration: 1, ease: "expo.inOut", delay: 0.5 })
+        // Show Nav
+        .fromTo("#nav", { y: -50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.5")
+        // Reveal Hero Text
+        .to(".hero-elem .split-child", { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out" }, "-=0.8");
+    };
+    
+    // Start sequence on load
+    window.addEventListener('load', initSequence);
+
+    // 5. ScrollTrigger: Manifesto Text Reveal
+    const textElement = document.getElementById('reveal-text');
+    const textContent = textElement.innerText;
+    textElement.innerHTML = '';
+    textContent.split(' ').forEach(word => {
+      if(word.trim() !== '') {
+        textElement.innerHTML += `<span class="inline-block mx-1" style="color: rgba(255,255,255,0.1); transition: color 0.5s;">${word}</span> `;
+      }
+    });
+
+    gsap.to("#reveal-text span", {
+      color: "#FFF",
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: "#manifesto",
+        start: "top 70%",
+        end: "bottom 60%",
+        scrub: 1
+      }
+    });
+
+    // 6. ScrollTrigger: Horizontal Scroll (The 5 Pillars)
+    const horizontalWrapper = document.getElementById('horizontal-wrapper');
+    gsap.to(horizontalWrapper, {
+      xPercent: -100 * (5 - 1) / 5, // 5 cards
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#horizontal-section",
+        pin: true,
+        scrub: 1,
+        snap: 1 / (5 - 1),
+        end: () => "+=" + horizontalWrapper.offsetWidth
+      }
+    });
+
+    // 7. ScrollTrigger: Stacking Cards Effect
+    const cards = document.querySelectorAll('.stack-card');
+    cards.forEach((card, index) => {
+      ScrollTrigger.create({
+        trigger: card,
+        start: "top 15vh",
+        endTrigger: ".cards-container",
+        end: "bottom bottom",
+        pin: true,
+        pinSpacing: false
+      });
+      
+      if (index !== cards.length - 1) {
+        gsap.to(card, {
+          scale: 0.9,
+          opacity: 0.5,
+          scrollTrigger: {
+            trigger: cards[index + 1],
+            start: "top 80%",
+            end: "top 15vh",
+            scrub: true
+          }
+        });
+      }
+    });
+
+    // 8. Footer Hover Effect
+    const footerCta = document.getElementById('footer-cta');
+    footerCta.addEventListener('mouseenter', () => {
+      footerCta.style.color = 'transparent';
+      footerCta.style.webkitTextStroke = '2px #FFF';
+    });
+    footerCta.addEventListener('mouseleave', () => {
+      footerCta.style.color = '#FFF';
+      footerCta.style.webkitTextStroke = '2px transparent';
+    });
+
+  </script>
+</body>
+</html>
