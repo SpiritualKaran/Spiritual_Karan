@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spiritual Karan | Psychic Medium</title>
+  <title>SPIRITUAL KARAN | Psychic Medium</title>
   
   <!-- Modern, High-End Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -136,6 +136,14 @@
       transform-origin: top center;
     }
 
+    /* Fallback Gradient Background for Hero Section */
+    #hero {
+      background: radial-gradient(circle at 50% 50%, rgba(93, 26, 175, 0.8) 0%, rgba(40, 13, 147, 0.95) 50%, rgba(3, 1, 10, 1) 100%),
+                  linear-gradient(135deg, #5d1aaf 0%, #280d93 50%, #03010a 100%);
+      background-size: cover;
+      background-position: center;
+    }
+
     /* Responsive Fullscreen Video Scaling for Hero Section */
     .video-hero-wrapper {
       position: absolute;
@@ -158,6 +166,13 @@
       min-width: 177.77vh; /* 16:9 ratio */
       transform: translate(-50%, -50%) scale(1.15); /* Scale up slightly to avoid edge cuts */
       object-fit: cover;
+    }
+
+    /* Mobile Device Video Background Disable: Show Gradient Background */
+    @media (max-width: 768px), (pointer: coarse) {
+      .video-hero-wrapper {
+        display: none !important;
+      }
     }
 
     /* Overlay for optimum text contrast over YouTube video */
@@ -228,10 +243,10 @@
     </div>
   </nav>
 
-  <!-- 1. Hero Section with YouTube Background -->
+  <!-- 1. Hero Section with Fallback Gradient & Mobile Video Toggle -->
   <section class="h-screen w-full flex flex-col justify-center items-center px-[5%] relative text-center overflow-hidden" id="hero">
     
-    <!-- Hero Video Background Container -->
+    <!-- Hero Video Background Container (Disabled on mobile devices) -->
     <div class="video-hero-wrapper">
       <iframe 
         id="hero-yt-player"
@@ -278,7 +293,7 @@
     <div class="absolute bottom-10 right-[5%] z-20 flex items-center gap-3">
       <span class="text-[10px] tracking-widest uppercase text-gray-300 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-        <span>Hero Video Active</span>
+        <span>Mantra Chikitsa</span>
       </span>
     </div>
 
