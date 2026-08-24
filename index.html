@@ -56,6 +56,12 @@
       width: 80px; height: 80px; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(2px);
     }
 
+    /* Disable custom cursor on mobile / touch screens to fix touch/click issues */
+    @media (max-width: 768px), (pointer: coarse) {
+      body { cursor: auto !important; }
+      .cursor-dot, .cursor-outline { display: none !important; }
+    }
+
     /* Loader Screen */
     #loader {
       position: fixed; inset: 0; background: var(--bg); z-index: 10000;
@@ -208,16 +214,34 @@
     </div>
   </div>
 
+  <!-- Mobile Navigation Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[99999] flex flex-col justify-center items-center text-center p-6 opacity-0 pointer-events-none transition-all duration-300">
+    <button id="mobile-menu-close" aria-label="Close Navigation Menu" class="absolute top-6 right-6 p-4 text-white focus:outline-none hover-trigger">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <div class="flex flex-col gap-8 text-xl font-medium tracking-[0.2em] uppercase">
+      <a href="#hero" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Home</a>
+      <a href="#consultation" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Services</a>
+      <a href="#programs-section" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Sadhana</a>
+      <a href="#members-support" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Members</a>
+      <a href="#about" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">About</a>
+      <a href="#contact" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Contact</a>
+    </div>
+  </div>
+
   <!-- Navigation -->
   <nav class="fixed top-0 w-full p-4 md:p-6 z-50 text-white hide transition-all duration-300 backdrop-blur-sm bg-black/20" id="nav">
     <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
       
-      <!-- Mobile Menu Icon -->
-      <div class="md:hidden flex items-center hover-trigger cursor-pointer">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" aria-label="Open Navigation Menu" class="md:hidden flex items-center justify-center p-2 text-white hover-trigger cursor-pointer focus:outline-none">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 12h18M3 6h18M3 18h18"/>
         </svg>
-      </div>
+      </button>
 
       <!-- Left Links -->
       <div class="hidden md:flex flex-1 justify-end items-center gap-10 pr-10">
@@ -284,7 +308,7 @@
           <span>Explore Sadhana Program</span>
         </a>
         <a href="#members-support" class="magnetic magnetic-btn hover-trigger bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black">
-          <span>Free Consultation</span>
+          <span>Book Consultation</span>
         </a>
       </div>
     </div>
@@ -361,37 +385,37 @@
     
     <div class="horizontal-wrapper" id="horizontal-wrapper">
       
-      <!-- Pillar 1 -->
+      <!-- Pillar 1: Earth -->
       <div class="pillar-card">
-        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">01</h3>
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.35;">🜃</h3>
         <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Gyan</h4>
         <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The foundation of earth. Absolute knowledge and the enduring wisdom of the ancients.</p>
       </div>
 
-      <!-- Pillar 2 -->
+      <!-- Pillar 2: Water -->
       <div class="pillar-card">
-        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">02</h3>
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.35;">〇</h3>
         <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Bhakti</h4>
         <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The flow of water. Gratitude, devotion, and the dissolution of the ego.</p>
       </div>
 
-      <!-- Pillar 3 -->
+      <!-- Pillar 3: Fire -->
       <div class="pillar-card">
-        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">03</h3>
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.35;">△</h3>
         <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Yog</h4>
         <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The fire of transformation. Internal alchemy through physical and energetic discipline.</p>
       </div>
 
-      <!-- Pillar 4 -->
+      <!-- Pillar 4: Air -->
       <div class="pillar-card">
-        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">04</h3>
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.35;">༄</h3>
         <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Karam</h4>
         <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The breath of air. Action without attachment. The physics of universal return.</p>
       </div>
 
-      <!-- Pillar 5 -->
+      <!-- Pillar 5: Space -->
       <div class="pillar-card">
-        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.2;">05</h3>
+        <h3 class="display-font text-[12vw] leading-none text-transparent" style="-webkit-text-stroke: 1px #fff; opacity: 0.35;">꩜</h3>
         <h4 class="display-font text-5xl md:text-8xl mt-[-4vw]">Dhyan</h4>
         <p class="mt-8 text-lg md:text-xl text-gray-400 max-w-lg text-center font-light">The expanse of space. Absolute stillness, meditation, and total awareness.</p>
       </div>
@@ -667,7 +691,33 @@
       trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
     });
 
-    // 3. Magnetic Button Logic
+    // 3. Mobile Menu Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function openMobileMenu() {
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', openMobileMenu);
+      if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+      });
+    }
+
+    // 4. Magnetic Button Logic
     const magnetics = document.querySelectorAll('.magnetic');
     magnetics.forEach(btn => {
       btn.addEventListener('mousemove', (e) => {
@@ -681,7 +731,7 @@
       });
     });
 
-    // 4. Initial Loader Sequence
+    // 5. Initial Loader Sequence
     const initSequence = () => {
       const tl = gsap.timeline();
       
@@ -700,7 +750,7 @@
     // Start sequence on load
     window.addEventListener('load', initSequence);
 
-    // 5. ScrollTrigger: Manifesto Text Reveal
+    // 6. ScrollTrigger: Manifesto Text Reveal
     const textElement = document.getElementById('reveal-text');
     const textContent = textElement.innerText;
     textElement.innerHTML = '';
@@ -721,7 +771,7 @@
       }
     });
 
-    // 6. ScrollTrigger: Horizontal Scroll (The 5 Pillars)
+    // 7. ScrollTrigger: Horizontal Scroll (The 5 Pillars)
     const horizontalWrapper = document.getElementById('horizontal-wrapper');
     gsap.to(horizontalWrapper, {
       xPercent: -100 * (5 - 1) / 5, // 5 cards
@@ -735,7 +785,7 @@
       }
     });
 
-    // 7. ScrollTrigger: Stacking Cards Effect
+    // 8. ScrollTrigger: Stacking Cards Effect
     const cards = document.querySelectorAll('.stack-card');
     cards.forEach((card, index) => {
       ScrollTrigger.create({
@@ -761,7 +811,7 @@
       }
     });
 
-    // 8. Footer Hover Effect
+    // 9. Footer Hover Effect
     const footerCta = document.getElementById('footer-cta');
     footerCta.addEventListener('mouseenter', () => {
       footerCta.style.color = 'transparent';
