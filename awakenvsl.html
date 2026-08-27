@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spiritual Karan | Master Your Sadhana</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/TPp8bwKy/om-logo.png">
+
+  <!-- Modern, High-End Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & Lenis for Buttery Smooth Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    /* Absolute Reset & Base */
+    :root {
+      --bg: #03010A; 
+      --text: #F3F3F3;
+      --accent: #FF6600; 
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none; 
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, .display-font { font-family: 'Syne', sans-serif; }
+    .signature-font { font-family: 'Eagle Horizon', 'Great Vibes', cursive; font-weight: 400; }
+
+    /* Custom Cursor */
+    .cursor-dot, .cursor-outline {
+      position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+      border-radius: 50%; z-index: 9999; pointer-events: none;
+    }
+    .cursor-dot { width: 6px; height: 6px; background-color: white; }
+    .cursor-outline {
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5);
+      transition: width 0.3s, height 0.3s, background-color 0.3s;
+    }
+    .cursor-outline.hover {
+      width: 80px; height: 80px; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(2px);
+    }
+
+    @media (max-width: 768px), (pointer: coarse) {
+      body { cursor: auto !important; }
+      .cursor-dot, .cursor-outline { display: none !important; }
+    }
+
+    /* Cinematic Noise Grain */
+    .noise {
+      position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.03;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    }
+
+    /* Typography Utilities */
+    .text-huge { font-size: 7.7vw; line-height: 0.85; letter-spacing: -0.02em; font-weight: 800; }
+    .split-parent { overflow: hidden; }
+    .split-child { display: inline-block; transform: translateY(110%); }
+
+    /* Magnetic Button */
+    .magnetic-btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 1.25rem 2.5rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent;
+      color: white; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      position: relative; overflow: hidden; transition: border-color 0.3s;
+      z-index: 1;
+    }
+    .magnetic-btn span {
+      position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    }
+    .magnetic-btn::before {
+      content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+      background: white; transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); z-index: 1;
+    }
+    .magnetic-btn:hover { border-color: white; }
+    .magnetic-btn:hover span { color: black; }
+    .magnetic-btn:hover::before { transform: translateY(-100%); }
+
+    /* Primary Orange Magnetic Button */
+    .btn-primary-orange {
+      background-color: #FF6600;
+      border: none !important;
+      font-weight: 600;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+    }
+    .btn-primary-orange span { color: #FFFFFF !important; }
+    .btn-primary-orange::before { background: #FFFFFF; }
+    .btn-primary-orange:hover span { color: #000000 !important; }
+
+    /* Fallback Gradient Background for Hero Section */
+    #hero {
+      background: radial-gradient(circle at 50% 50%, rgba(93, 26, 175, 0.8) 0%, rgba(40, 13, 147, 0.95) 50%, rgba(3, 1, 10, 1) 100%),
+                  linear-gradient(135deg, #5d1aaf 0%, #280d93 50%, #03010a 100%);
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Responsive Fullscreen Video Scaling for Hero Section */
+    .video-hero-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .video-hero-wrapper iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw; /* 16:9 ratio */
+      min-height: 100vh;
+      min-width: 177.77vh; /* 16:9 ratio */
+      transform: translate(-50%, -50%) scale(1.15); /* Scale up slightly to avoid edge cuts */
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px), (pointer: coarse) {
+      .video-hero-wrapper {
+        display: none !important;
+      }
+    }
+
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(3, 1, 10, 0.45) 0%, rgba(3, 1, 10, 0.85) 80%, rgba(3, 1, 10, 0.98) 100%),
+                  linear-gradient(to bottom, rgba(3,1,10,0.6) 0%, rgba(3,1,10,0.2) 50%, rgba(3,1,10,0.95) 100%);
+      z-index: 1;
+    }
+
+    /* VSL Specific Video Container */
+    .vsl-video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+      background: #000;
+    }
+    .vsl-video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Utilities */
+    .hide { opacity: 0; visibility: hidden; }
+    .text-gradient {
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+
+  <!-- Noise Overlay -->
+  <div class="noise"></div>
+
+  <!-- Minimal Navigation (For Funnel focus) -->
+  <nav class="fixed top-0 w-full p-6 z-50 text-white backdrop-blur-sm bg-black/20 hide" id="nav">
+    <div class="max-w-7xl mx-auto w-full flex justify-center items-center">
+      <a href="#" class="flex-shrink-0 hover-trigger">
+        <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-12 md:h-14 w-auto object-contain">
+      </a>
+    </div>
+  </nav>
+
+  <!-- 1. Original Hero Section -->
+  <section class="h-screen w-full flex flex-col justify-center items-center px-[5%] relative text-center overflow-hidden" id="hero">
+    
+    <!-- Hero Video Background Container (Disabled on mobile devices) -->
+    <div class="video-hero-wrapper">
+      <iframe 
+        id="hero-yt-player"
+        width="1280" 
+        height="720" 
+        style="border:0;" 
+        scrolling="no" 
+        src="https://go.screenpal.com/player/cOjjXRnvtjt?ff=1&title=0&controls=0&a=1&m=1&l=1&autoplay=1&muted=1&loop=1&width=100%&height=100%&oembed=1" 
+        title="Hero ScreenPal Video"
+        allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen="true">
+      </iframe>
+    </div>
+
+    <!-- Gradient Darkness Overlay for visual hierarchy and high readability -->
+    <div class="hero-video-overlay"></div>
+
+    <!-- Hero Content Overlay -->
+    <div class="relative z-10 max-w-6xl mx-auto flex flex-col items-center justify-center">
+      <p class="text-[10px] md:text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-6 font-medium split-parent">
+        <span class="split-child">Master Your Sadhana With</span>
+      </p>
+      
+      <div class="relative w-full flex flex-col items-center justify-center">
+        <h1 class="display-font text-huge text-white uppercase split-parent drop-shadow-2xl">
+          <span class="split-child">SPIRITUAL</span>
+        </h1>
+        <h1 class="display-font text-huge text-white uppercase split-parent mt-[-2vw] drop-shadow-2xl">
+          <span class="split-child text-[#F3F3F3]">KARAN</span>
+        </h1>
+      </div>
+
+      <div class="mt-8 md:mt-12 flex flex-wrap justify-center gap-4 items-center hero-actions opacity-0 transform translate-y-8">
+        <button onclick="document.getElementById('programs-section').scrollIntoView({behavior: 'smooth'})" class="magnetic magnetic-btn btn-primary-orange hover-trigger shadow-lg shadow-orange-500/20">
+          <span>Sadhana Program</span>
+        </button>
+        <button onclick="document.getElementById('free-consultation').scrollIntoView({behavior: 'smooth'})" class="magnetic magnetic-btn hover-trigger bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black">
+          <span>Free Consultation</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Video Sound / Status Badge -->
+    <div class="absolute bottom-10 right-[5%] z-20 flex items-center gap-3 hero-actions opacity-0">
+      <span class="text-[10px] tracking-widest uppercase text-gray-300 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span>Mantra Chikitsa</span>
+      </span>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-[5%] text-xs tracking-widest uppercase text-gray-400 flex gap-4 items-center z-10 hero-actions opacity-0">
+      <span>Scroll</span>
+      <div class="w-px h-12 bg-gray-500 origin-top animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- 2. VSL Video Section -->
+  <section class="min-h-screen w-full flex flex-col justify-center items-center px-[5%] py-24 relative z-10" id="vsl-section">
+    
+    <div class="max-w-5xl mx-auto w-full flex flex-col items-center text-center">
+      
+      <!-- High-converting pre-headline -->
+      <p class="text-xs md:text-sm tracking-[0.3em] uppercase text-[#FF6600] mb-6 font-semibold animate-pulse">
+        Attention: For those seeking profound transformation
+      </p>
+      
+      <!-- Main VSL Headline -->
+      <h2 class="display-font text-4xl md:text-6xl lg:text-7xl text-white leading-tight mb-10">
+        Why Authentic <span class="text-gradient">Sadhana</span> Is The Catalyst <br class="hidden md:block">You've Been Searching For
+      </h2>
+
+      <!-- VSL Video Player (User provided Embed Code) -->
+      <div class="w-full max-w-4xl relative group">
+        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-orange-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+        <div class="vsl-video-container relative">
+          <iframe 
+            src="https://www.youtube.com/embed/BNQGpBDarKE?si=9WPYdqINqJdJHtXk&amp;controls=0" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Post-Video Copy -->
+      <div class="mt-16 max-w-3xl text-gray-300 text-lg md:text-xl font-light leading-relaxed">
+        <p class="mb-6">
+          Have your spiritual practices stopped showing results? Many seekers feel stuck relying on outdated methodologies that no longer serve their energetic evolution. 
+        </p>
+        <p>
+          We guide individuals who feel stagnant in their current routines, providing the precise energetic recalibration needed to shatter blockages, manifest absolute clarity, and achieve your highest life goals. 
+        </p>
+      </div>
+
+      <!-- CTA Anchor -->
+      <div class="mt-10">
+        <button onclick="document.getElementById('programs-section').scrollIntoView({behavior: 'smooth'})" class="magnetic magnetic-btn btn-primary-orange hover-trigger py-4 px-10 text-lg">
+          <span>Start Your Transformation</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. The Pathways (Sadhana Programs) -->
+  <section class="w-full px-[5%] py-24 bg-black/40 relative z-10 border-t border-white/5" id="programs-section">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="text-center mb-20">
+        <h2 class="display-font text-5xl md:text-7xl text-white">The Pathways</h2>
+        <p class="text-gray-400 mt-4 tracking-widest uppercase text-sm">Select your trajectory to mastery</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Tier 1 -->
+        <div class="flex flex-col bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover-trigger transition-all hover:bg-white/10 hover:border-white/30 relative">
+          <div class="flex-grow">
+            <span class="text-[10px] tracking-[0.3em] uppercase text-gray-400 font-semibold">Level I</span>
+            <h3 class="display-font text-4xl text-white mt-2 mb-6">Initiation</h3>
+            <div class="display-font text-4xl text-[#FF6600] mb-8">₹11,000</div>
+            
+            <ul class="text-gray-300 space-y-4 text-sm font-light mb-8">
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-0.5">✦</span> 
+                <span>Health, Wealth & Prosperity Sadhana</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-0.5">✦</span> 
+                <span>6-Month Guided Protocol</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-[#FF6600] mt-0.5">✦</span> 
+                <span>Digital Archives Access</span>
+              </li>
+              <li class="flex items-start gap-3 opacity-50">
+                <span class="mt-0.5">▪</span> 
+                <span>Non-refundable Policy</span>
+              </li>
+            </ul>
+          </div>
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-full py-4 rounded-full border border-white/20 text-center uppercase tracking-widest text-xs font-semibold hover:bg-white hover:text-black transition-colors hover-trigger">
+            Enroll Now
+          </a>
+        </div>
+
+        <!-- Tier 2 (Highlighted) -->
+        <div class="flex flex-col bg-gradient-to-b from-indigo-900/40 to-black/60 backdrop-blur-lg border border-indigo-500/30 rounded-3xl p-8 hover-trigger transition-all hover:border-indigo-400 relative transform md:-translate-y-4 shadow-[0_0_30px_rgba(79,70,229,0.15)]">
+          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 text-white text-[10px] uppercase tracking-widest px-4 py-1 rounded-full font-bold">
+            Most Selected
+          </div>
+          <div class="flex-grow">
+            <span class="text-[10px] tracking-[0.3em] uppercase text-indigo-400 font-semibold">Level I + II</span>
+            <h3 class="display-font text-4xl text-white mt-2 mb-6">Deepening</h3>
+            <div class="display-font text-4xl text-indigo-400 mb-8">₹51,000</div>
+            
+            <ul class="text-gray-200 space-y-4 text-sm font-light mb-8">
+              <li class="flex items-start gap-3">
+                <span class="text-indigo-400 mt-0.5">✦</span> 
+                <span>Advanced Divine Practices</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-indigo-400 mt-0.5">✦</span> 
+                <span>Kul Tree Cleansing Protocol</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-indigo-400 mt-0.5">✦</span> 
+                <span>3-Month Deep Immersion</span>
+              </li>
+              <li class="flex items-start gap-3 opacity-50">
+                <span class="mt-0.5">▪</span> 
+                <span>Non-refundable Policy</span>
+              </li>
+            </ul>
+          </div>
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-full py-4 rounded-full bg-indigo-500 text-white text-center uppercase tracking-widest text-xs font-bold hover:bg-indigo-400 transition-colors hover-trigger shadow-lg shadow-indigo-500/25">
+            Enroll Now
+          </a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="flex flex-col bg-white backdrop-blur-lg border border-white rounded-3xl p-8 hover-trigger transition-all relative">
+          <div class="flex-grow">
+            <span class="text-[10px] tracking-[0.3em] uppercase text-gray-500 font-bold">Level I + II + III</span>
+            <h3 class="display-font text-4xl text-black mt-2 mb-6">Mastery</h3>
+            <div class="display-font text-4xl text-black mb-8">₹1,51,000</div>
+            
+            <ul class="text-gray-800 space-y-4 text-sm font-medium mb-8">
+              <li class="flex items-start gap-3">
+                <span class="text-black mt-0.5">✦</span> 
+                <span>Divya Drishti As Per Zodiac</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-black mt-0.5">✦</span> 
+                <span>Divine Codex Access</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-black mt-0.5">✦</span> 
+                <span>Tantric Energetic Shielding</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-black mt-0.5">✦</span> 
+                <span>12-Month Mentorship</span>
+              </li>
+            </ul>
+          </div>
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-full py-4 rounded-full bg-black text-white text-center uppercase tracking-widest text-xs font-bold hover:bg-gray-900 transition-colors hover-trigger">
+            Enroll Now
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Important Payment Note Section -->
+  <section class="w-full px-[5%] py-12 relative z-10">
+    <div class="max-w-4xl mx-auto">
+      <div class="relative overflow-hidden rounded-2xl border border-[#FF6600]/40 bg-[#FF6600]/5 p-8 md:p-10 backdrop-blur-md text-center">
+        <!-- Background Glow -->
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#FF6600] rounded-full blur-[80px] opacity-20"></div>
+        
+        <h3 class="display-font text-3xl md:text-4xl text-white mb-6">Important Next Steps</h3>
+        
+        <div class="space-y-5 text-gray-300 text-base md:text-xl font-light text-left md:text-center max-w-2xl mx-auto">
+          <p class="flex items-start justify-start md:items-center md:justify-center gap-4">
+            <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#FF6600] text-white text-sm font-bold">1</span>
+            <span>After completing your payment, please take a clear screenshot of the receipt.</span>
+          </p>
+          <p class="flex items-start justify-start md:items-center md:justify-center gap-4">
+            <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#FF6600] text-white text-sm font-bold">2</span>
+            <span>Share the screenshot with us directly on WhatsApp to begin your onboarding.</span>
+          </p>
+          <p class="flex items-start justify-start md:items-center md:justify-center gap-4">
+            <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#FF6600] text-white text-sm font-bold">3</span>
+            <span>Add your WhatsApp number in the note section while making the payment.</span>
+          </p>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-white/10">
+          <p class="text-sm tracking-widest uppercase text-gray-400 mb-2">Our Official WhatsApp Number</p>
+          <a href="https://wa.me/917666554400" target="_blank" class="display-font text-3xl md:text-5xl text-white hover:text-[#FF6600] transition-colors hover-trigger inline-block">
+            +91 7666554400
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Downsell: Free Consultation -->
+  <section class="w-full px-[5%] py-24 relative z-10 border-t border-gray-900/80" id="free-consultation">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 bg-black/60 p-10 rounded-[2rem] border border-gray-800">
+      
+      <div class="flex-1 text-center md:text-left">
+        <span class="text-xs tracking-[0.3em] uppercase text-emerald-400 font-bold mb-3 block">Not sure where to begin?</span>
+        <h3 class="display-font text-4xl md:text-5xl text-white mb-4">Introductory Session</h3>
+        <p class="text-gray-400 text-base md:text-lg font-light max-w-xl mx-auto md:mx-0">
+          We understand that beginning a dedicated Sadhana is a profound commitment. Take advantage of our introductory consultation designed exclusively for seekers ready to understand their spiritual alignment.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center gap-4">
+        <div class="display-font text-3xl md:text-4xl text-emerald-400">₹ZERO</div>
+        <a href="https://wa.me/917666554400" target="_blank" class="px-8 py-4 rounded-full bg-emerald-500/10 border border-emerald-500/50 text-sm tracking-widest uppercase text-emerald-300 hover:bg-emerald-500 hover:text-black transition-all hover-trigger whitespace-nowrap font-bold">
+          Claim Free Consult
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. Minimal Footer -->
+  <footer class="w-full py-12 px-[5%] bg-[#020202] border-t border-gray-900 z-10 relative">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-gray-500 text-sm font-light">
+        &copy; 2026 Spiritual Karan. All rights reserved.
+      </div>
+      <div class="flex gap-8 text-xs tracking-[0.2em] uppercase text-gray-500">
+        <a href="mailto:hi@spiritualkaran.com" class="hover:text-white transition-colors hover-trigger">Support</a>
+        <a href="https://wa.me/917666554400" target="_blank" class="hover:text-white transition-colors hover-trigger">WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Register GSAP Plugins
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Lenis Smooth Scroll Setup
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      mouseMultiplier: 1
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time)=>{
+      lenis.raf(time * 1000)
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Custom Cursor Logic
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+    const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+      
+      gsap.to(cursorOutline, {
+        x: posX - 20,
+        y: posY - 20,
+        duration: 0.15,
+        ease: "power2.out"
+      });
+    });
+
+    hoverTriggers.forEach(trigger => {
+      trigger.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+      trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+    });
+
+    // 3. Magnetic Button Logic
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.4, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+
+    // 4. Initial Intro Sequence (No Loader)
+    const initSequence = () => {
+      const tl = gsap.timeline();
+      
+      // Reveal Nav
+      tl.to("#nav", { autoAlpha: 1, duration: 0.5, ease: "power2.out" })
+        
+        // Reveal Hero Main Text (Split text sliding up)
+        .to(".split-child", { y: "0%", duration: 1.2, stagger: 0.15, ease: "power4.out" }, "-=0.3")
+        
+        // Reveal Buttons and bottom badges
+        .to(".hero-actions", { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out" }, "-=0.8");
+    };
+    
+    window.addEventListener('load', initSequence);
+
+  </script>
+</body>
+</html>
