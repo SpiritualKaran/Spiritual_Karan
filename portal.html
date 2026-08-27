@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sadhak Portal | Spiritual Karan</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/TPp8bwKy/om-logo.png">
+
+  <!-- Modern, High-End Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & Lenis for Buttery Smooth Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    /* Absolute Reset & Base */
+    :root {
+      --bg: #03010A; 
+      --text: #F3F3F3;
+      --accent: #FF6600; 
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, .display-font { font-family: 'Syne', sans-serif; }
+    .signature-font { font-family: 'Eagle Horizon', 'Great Vibes', cursive; font-weight: 400; }
+    .mantra-font { font-family: 'Playfair Display', serif; }
+
+    /* Custom Cursor */
+    .cursor-dot, .cursor-outline {
+      position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+      border-radius: 50%; z-index: 9999; pointer-events: none;
+    }
+    .cursor-dot { width: 6px; height: 6px; background-color: white; }
+    .cursor-outline {
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5);
+      transition: width 0.3s, height 0.3s, background-color 0.3s;
+    }
+    .cursor-outline.hover {
+      width: 80px; height: 80px; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(2px);
+    }
+
+    @media (max-width: 768px), (pointer: coarse) {
+      body { cursor: auto !important; }
+      .cursor-dot, .cursor-outline { display: none !important; }
+    }
+
+    /* Cinematic Noise Grain */
+    .noise {
+      position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.03;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    }
+
+    /* Magnetic Button */
+    .magnetic-btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 1.25rem 3rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent;
+      color: white; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      position: relative; overflow: hidden; transition: border-color 0.3s;
+      z-index: 1; text-decoration: none;
+    }
+    .magnetic-btn span {
+      position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    }
+    .magnetic-btn::before {
+      content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+      background: white; transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); z-index: 1;
+    }
+    .magnetic-btn:hover { border-color: white; }
+    .magnetic-btn:hover span { color: black; }
+    .magnetic-btn:hover::before { transform: translateY(-100%); }
+    
+    .btn-primary-orange { background-color: #FF6600; border: none !important; font-weight: 600; }
+    .btn-primary-orange span { color: #FFFFFF !important; }
+    .btn-primary-orange::before { background: #FFFFFF; }
+    .btn-primary-orange:hover span { color: #000000 !important; }
+
+    /* Luxury Editorial Glass Cards */
+    .glass-panel {
+      background: rgba(10, 10, 12, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 2rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+
+    /* Sacred Mantra Tablet */
+    .mantra-tablet {
+      background: radial-gradient(circle at center, rgba(255,102,0,0.08) 0%, rgba(0,0,0,0.4) 100%);
+      border: 1px solid rgba(255,102,0,0.2);
+      padding: 3rem;
+      border-radius: 1.5rem;
+      box-shadow: inset 0 0 40px rgba(255,102,0,0.05), 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    
+    /* Subtle background glow for sections */
+    .bg-glow-orange {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,102,0,0.15) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0;
+    }
+    .bg-glow-purple {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(93,26,175,0.2) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0;
+    }
+
+    .reveal-elem { opacity: 0; transform: translateY(40px); }
+
+    /* Wide Cinematic Rows for Lists */
+    .cinematic-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
+    }
+    .cinematic-row:hover {
+      background: rgba(255,255,255,0.03);
+      padding-left: 3rem;
+      border-color: rgba(255,102,0,0.3);
+    }
+    @media (max-width: 768px) {
+      .cinematic-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .cinematic-row:hover { padding-left: 2rem; }
+    }
+  </style>
+</head>
+<body class="selection:bg-[#FF6600] selection:text-white">
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+
+  <!-- Noise Overlay -->
+  <div class="noise"></div>
+
+  <!-- Ambient Glows -->
+  <div class="bg-glow-orange top-0 left-1/2 -translate-x-1/2"></div>
+  <div class="bg-glow-purple top-1/3 left-0 -translate-x-1/2"></div>
+  <div class="bg-glow-orange bottom-1/4 right-0 translate-x-1/4 opacity-50"></div>
+
+  <!-- Navigation (Centered Logo Design) -->
+  <nav class="fixed top-0 w-full p-4 md:p-6 z-50 text-white backdrop-blur-xl bg-black/40 border-b border-white/5" id="nav">
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-3 items-center">
+      <!-- Left Side -->
+      <div class="flex items-center justify-start">
+        <span class="text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#FF6600] font-semibold">Sadhak Portal</span>
+      </div>
+      
+      <!-- Center Logo -->
+      <div class="flex justify-center">
+        <a href="index.html" class="flex-shrink-0 hover-trigger">
+          <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-8 md:h-10 w-auto object-contain">
+        </a>
+      </div>
+
+      <!-- Right Side -->
+      <div class="flex justify-end">
+        <a href="#archives" class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gray-300 hover:text-white transition-colors hover-trigger">Archives</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="min-h-screen pt-32 pb-20 px-[5%] relative z-10 flex flex-col justify-center items-center text-center">
+    <div class="max-w-4xl mx-auto w-full">
+      <p class="text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-8 font-medium reveal-elem">
+        Initiation Protocol • Level I
+      </p>
+      <h1 class="display-font text-6xl md:text-8xl lg:text-[7rem] leading-[0.9] text-white uppercase drop-shadow-2xl reveal-elem mb-10">
+        The Inner <br><span class="text-transparent" style="-webkit-text-stroke: 1px #F3F3F3;">Awakening</span>
+      </h1>
+      <p class="text-gray-300 text-lg md:text-2xl font-light max-w-2xl mx-auto reveal-elem leading-relaxed">
+        Welcome to your exclusive sanctuary. Here you will discover the structured protocols, sacred mantras, and foundational wisdom required to initiate your spiritual mastery.
+      </p>
+      
+      <div class="mt-16 reveal-elem">
+        <div class="w-px h-24 bg-gradient-to-b from-[#FF6600] to-transparent mx-auto"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Phase 1: The Foundation -->
+  <section class="py-24 px-[5%] relative z-10">
+    <div class="max-w-4xl mx-auto w-full">
+      
+      <!-- Phase Title -->
+      <div class="text-center mb-20 reveal-elem">
+        <span class="text-[#FF6600] text-sm tracking-[0.3em] uppercase font-semibold">Phase 01</span>
+        <h2 class="display-font text-5xl md:text-6xl mt-4">The Foundation <br>& Cleansing</h2>
+      </div>
+
+      <!-- The Mansik Process Block -->
+      <div class="glass-panel p-8 md:p-16 mb-16 reveal-elem text-center">
+        <h3 class="display-font text-3xl md:text-4xl mb-6">The Mansik Process</h3>
+        <p class="text-gray-300 font-light text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-12">
+          Always perform the <strong>Mansik (Mental) Process</strong> before commencing any new endeavor, prior to starting your <em>Jaap</em>, or whenever you seek divine connection. If you do not know specific mantras, simply chant the names precisely as written below.
+        </p>
+        
+        <div class="mantra-tablet mb-12">
+          <div class="mantra-font text-gray-200 text-xl md:text-2xl space-y-4 italic tracking-wide">
+            <p>Ganeshay Namah</p>
+            <p>Kul Dev, Kul Devi Namah</p>
+            <p>Isht Guru/Dev Namah</p>
+            <p>Sarv Devi Devta Namah</p>
+            <p>Pitru Devta Namah</p>
+          </div>
+          <p class="text-xs text-[#FF6600] uppercase tracking-widest mt-8 font-sans not-italic">Chant the above sequence 3 times.</p>
+        </div>
+
+        <p class="text-gray-300 font-light text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-12">
+          Following this, mentally touch the feet of your mother and father to respectfully seek their blessings, and recite:
+        </p>
+
+        <div class="mantra-tablet">
+          <div class="mantra-font text-gray-200 text-xl md:text-2xl space-y-4 italic tracking-wide leading-relaxed">
+            <p>Gurur Brahmā Gurur Viṣṇu</p>
+            <p>Gurur Devo Maheśvaraḥ</p>
+            <p>Guru Sākṣāt Parabrahma</p>
+            <p>Tasmai Śrī Gurave Namaḥ</p>
+          </div>
+          <p class="mt-8 text-amber-500 text-2xl tracking-[0.5em]">🙏🔱🕉️🔱🙏</p>
+        </div>
+      </div>
+
+      <!-- Essential Preparations (Stacked wide blocks) -->
+      <div class="space-y-8 mb-24">
+        
+        <div class="glass-panel p-8 md:p-12 reveal-elem flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div class="flex-1">
+            <h3 class="display-font text-3xl mb-4">Physical & Energetic Decluttering</h3>
+            <p class="text-gray-400 text-base md:text-lg font-light leading-relaxed mb-4">
+              To accelerate your spiritual growth, it is vital to first purify your physical space. Begin by decluttering your home and decisively removing objects that harbor stagnant or heavy energy. 
+            </p>
+            <p class="text-[#FF6600] text-sm font-light italic">
+              Note: If immediate clearing proves challenging due to family dynamics, approach this process gradually and with deep respect for your elders.
+            </p>
+          </div>
+          <a href="https://drive.google.com/file/d/10Y5JAV3e32IfaVNtHuK4cw8sCGRrxjGl/view" target="_blank" class="magnetic magnetic-btn hover-trigger shrink-0 whitespace-nowrap">
+            <span>Removable Objects List</span>
+          </a>
+        </div>
+
+        <div class="glass-panel p-8 md:p-12 reveal-elem bg-gradient-to-r from-indigo-900/10 to-transparent flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div class="flex-1">
+            <h3 class="display-font text-3xl mb-4">The Guilt Killer Protocol</h3>
+            <p class="text-gray-400 text-base md:text-lg font-light leading-relaxed">
+              Complete this profound meditation to actively forgive everyone across all lifetimes (past, present, and future). This encompasses humans, family, pets, nature, and spaces tied to specific memories. Simultaneously, express profound gratitude to them, acknowledging them as vital teachers in your existence.
+            </p>
+          </div>
+          <a href="https://t.me/spiritualkaran/118" target="_blank" class="flex items-center gap-3 w-16 h-16 rounded-full border border-[#FF6600] text-[#FF6600] justify-center hover:bg-[#FF6600] hover:text-white transition-all hover-trigger shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Essential Rituals (Wide Cinematic Rows) -->
+      <div class="mb-16">
+        <h3 class="display-font text-3xl mb-8 text-center text-white reveal-elem">Essential Rituals</h3>
+        
+        <div class="border-t border-white/5 reveal-elem">
+          
+          <a href="https://t.me/spiritualkaran/158" target="_blank" class="cinematic-row group hover-trigger">
+            <div class="flex items-center gap-8">
+              <span class="text-4xl">🧿</span>
+              <div>
+                <h4 class="display-font text-2xl text-white group-hover:text-[#FF6600] transition-colors mb-2">Nazar Dosha Removal</h4>
+                <p class="text-gray-400 font-light max-w-lg">Play this specific energetic audio on a continuous loop while conducting the home cleansing process.</p>
+              </div>
+            </div>
+            <span class="text-gray-600 group-hover:text-white transition-colors">Explore ↗</span>
+          </a>
+
+          <a href="https://t.me/spiritualkaran/166" target="_blank" class="cinematic-row group hover-trigger">
+            <div class="flex items-center gap-8">
+              <span class="text-4xl">🔥</span>
+              <div>
+                <h4 class="display-font text-2xl text-white group-hover:text-[#FF6600] transition-colors mb-2">Havan Process</h4>
+                <p class="text-gray-400 font-light max-w-lg">Detailed protocol for performing the Havan to completely eradicate deep-rooted negativity.</p>
+              </div>
+            </div>
+            <span class="text-gray-600 group-hover:text-white transition-colors">Explore ↗</span>
+          </a>
+
+          <a href="https://t.me/spiritualkaran/169" target="_blank" class="cinematic-row group hover-trigger">
+            <div class="flex items-center gap-8">
+              <span class="text-4xl">✨</span>
+              <div>
+                <h4 class="display-font text-2xl text-white group-hover:text-[#FF6600] transition-colors mb-2">Divine Incense Sticks</h4>
+                <p class="text-gray-400 font-light max-w-lg">Utilize daily to dissolve all blockages. Invokes the divine blessings of Saraswati, Laxmi, and Parvati.</p>
+              </div>
+            </div>
+            <span class="text-gray-600 group-hover:text-white transition-colors">Explore ↗</span>
+          </a>
+
+          <!-- Karmic Feeding Primary Row -->
+          <a href="https://t.me/spiritualkaran/173" target="_blank" class="cinematic-row group hover-trigger !border-b-0">
+            <div class="flex items-center gap-8">
+              <span class="text-4xl">🕊️</span>
+              <div>
+                <h4 class="display-font text-2xl text-white group-hover:text-[#FF6600] transition-colors mb-2">Karmic Feeding</h4>
+                <p class="text-gray-400 font-light max-w-lg">Hanging bird feeding setup. Highly effective in balancing Karma and cleansing Pitra Dosha.</p>
+              </div>
+            </div>
+            <span class="text-gray-600 group-hover:text-white transition-colors">Explore ↗</span>
+          </a>
+          
+          <!-- Advanced Options (Nested beautifully under Karmic Feeding) -->
+          <div class="p-8 md:p-10 border-b border-white/5 bg-white/[0.015] reveal-elem">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-2 h-2 rounded-full bg-[#FF6600] animate-pulse"></span>
+              <h4 class="text-[#FF6600] text-sm tracking-widest uppercase font-semibold">Advanced Karmic Offerings</h4>
+            </div>
+            <p class="text-gray-400 font-light italic mb-8 text-sm md:text-base border-l-2 border-[#FF6600]/30 pl-4">
+              Strict Mandate: You must seek confirmation from your Guru or Mentor before initiating any of these specific practices.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              <div class="bg-black/40 p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-colors">
+                <span class="text-2xl mb-4 block">🐜</span>
+                <h5 class="text-white font-medium mb-2">Ant Feeding</h5>
+                <p class="text-gray-400 text-sm font-light leading-relaxed">Offering a blend of fine sugar and rice powder to ants near a sacred Peepal tree.</p>
+              </div>
+              
+              <div class="bg-black/40 p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-colors">
+                <span class="text-2xl mb-4 block">🐄</span>
+                <h5 class="text-white font-medium mb-2">Animal Seva</h5>
+                <p class="text-gray-400 text-sm font-light leading-relaxed">Compassionate and selfless feeding of cows, fishes, and street dogs.</p>
+              </div>
+              
+              <div class="bg-black/40 p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-colors">
+                <span class="text-2xl mb-4 block">🛕</span>
+                <h5 class="text-white font-medium mb-2">Sacred Donation</h5>
+                <p class="text-gray-400 text-sm font-light leading-relaxed">Making respectful offerings or financial donations to a Temple, Guru, or Dharamshala.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Temple Setup Links -->
+      <div class="glass-panel p-8 flex flex-col md:flex-row items-center justify-center gap-6 reveal-elem">
+        <span class="text-sm tracking-widest text-gray-500 uppercase font-semibold">House Temple Guidelines:</span>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="https://t.me/spiritualkaran/202" target="_blank" class="px-6 py-3 rounded-full border border-white/20 text-sm text-gray-300 hover:bg-white hover:text-black transition-colors hover-trigger">🛕 Setup</a>
+          <a href="https://t.me/spiritualkaran/178" target="_blank" class="px-6 py-3 rounded-full border border-white/20 text-sm text-gray-300 hover:bg-white hover:text-black transition-colors hover-trigger">💡 Lighting</a>
+          <a href="https://t.me/spiritualkaran/179" target="_blank" class="px-6 py-3 rounded-full border border-white/20 text-sm text-gray-300 hover:bg-white hover:text-black transition-colors hover-trigger">🧘 Clothing & Rituals</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Phase 2: The Core Sadhanas -->
+  <section class="py-32 px-[5%] relative z-10 border-t border-white/5 bg-black/20" id="sadhanas">
+    <div class="max-w-4xl mx-auto w-full">
+      
+      <!-- Phase Title -->
+      <div class="text-center mb-24 reveal-elem">
+        <span class="text-[#FF6600] text-sm tracking-[0.3em] uppercase font-semibold">Phase 02</span>
+        <h2 class="display-font text-5xl md:text-7xl mt-4">The Sankalp <br>Sadhanas</h2>
+        <p class="text-gray-400 mt-6 font-light text-lg md:text-xl">A 41-Day intensive spiritual protocol requiring absolute dedication.</p>
+      </div>
+
+      <!-- Rules & Regulations Alert -->
+      <div class="border border-emerald-500/30 bg-emerald-900/10 p-8 md:p-12 rounded-3xl mb-20 reveal-elem">
+        <h4 class="text-sm tracking-widest uppercase text-emerald-400 mb-8 font-semibold text-center">Crucial Guidelines for Jaap</h4>
+        <div class="space-y-6 text-gray-300 text-base md:text-lg font-light leading-relaxed">
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 mt-1">✦</span> 
+            <p><strong>Hardware:</strong> Strictly avoid using any traditional mala. Utilize a digital finger counter exclusively.</p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 mt-1">✦</span> 
+            <p><strong>The Mansik Method:</strong> All Jaap must be <em>Mansik Jaap</em>. This requires the silent, internal mental repetition of the mantra where your lips, tongue, and vocal cords remain absolutely still.</p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 mt-1">✦</span> 
+            <p><strong>Daily Ritual:</strong> Light a pure Desi Cow Ghee Diya in your home temple. Add a small pinch of yellow turmeric powder to the ghee. Maintain the exact same timing for your Jaap daily, and ignite two incense sticks (agarbatti) during the process.</p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 mt-1">✦</span> 
+            <p><strong>Interruptions:</strong> Refrain from visiting the washroom directly during your Jaap. Should the need arise, carefully pause the Jaap, take a sip of water, wait for 5 minutes, and then proceed.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sadhanas Stack -->
+      <div class="space-y-24">
+        
+        <!-- Sadhana 1 -->
+        <div class="relative reveal-elem">
+          <div class="absolute -top-10 -left-10 text-[10rem] md:text-[15rem] leading-none display-font text-white/5 select-none pointer-events-none z-0">01</div>
+          <div class="relative z-10 text-center mb-10">
+            <h3 class="display-font text-4xl md:text-5xl text-white mb-4">Guru Sankalp Sadhana</h3>
+            <p class="text-[#FF6600] text-sm md:text-base tracking-[0.2em] uppercase font-semibold">41 Days • 1,25,000 Jaap</p>
+            <p class="text-gray-400 mt-6 text-lg font-light max-w-2xl mx-auto">Light a pure Desi Cow Ghee Diya in your home temple. Hold a few drops of water, a pinch of unbroken rice (Akshat), and a fresh flower in your right hand. Recite the following with deep devotion:</p>
+          </div>
+          
+          <div class="mantra-tablet text-center">
+            <div class="mantra-font text-gray-200 text-lg md:text-xl leading-loose space-y-6">
+              <p class="font-bold text-amber-500 text-2xl">Om gam Ganapataye Namaha, Om gam Ganapataye Namaha, Om gam Ganapataye Namaha</p>
+              <div class="text-gray-400 text-base md:text-lg font-sans py-4 border-y border-white/10 my-6">
+                Mera Naam: [Your Name] &nbsp;|&nbsp; Mata Ka Naam: [Mother's Name] &nbsp;|&nbsp; Gotra: [Your Gotra]<br>
+                Kul Dev: [Name] &nbsp;|&nbsp; Kul Devi: [Name] &nbsp;|&nbsp; Isht Guru/Dev: [Name]
+              </div>
+              <p class="italic">O Devo ke Dev Mahadev, Aapko har naam se jaana jaata hai - Bholenath, Shiv Shankar, Shiv Shambhu, Mahadev, Mahakal, Rudra Avatar, Kaal Bhairav, Batuk Bhairav.</p>
+              <p class="italic">Main is deepak ki agni, iski jwala, vayu, aakash, prithvi tatha apne dil, dimaag, aur poore sharir ke har ek ang ko sakshi maankar, aapko apna Guru maanta hoon.</p>
+              <p class="font-bold text-[#FF6600] text-2xl py-4 border-y border-white/5">Mantra: Om Na Ma Si Va Ya, Om Na Ma Si Va Ya, Om Na Ma Si Va Ya</p>
+              <p class="italic">Main is mantra ka 1,25,000 jaap 41 dino mein poora karunga. Agar kisi karan se main is jaap ko 41 dino mein poora na kar paun, toh kripya mujhe maaf karein. Main ek naya sankalp lekar phir se shuruwat karunga.</p>
+              <p class="italic">Is mantra ke jaap se mujhe aapka aashirwad mile aur aap mujhe margdarshan dein. Main yeh sankalp leta hoon, jo main aaj se shuru kar raha hoon. Is mantra ki shakti ko koi anya tantra, negative energy, ya manushya kabhi chura na sake.</p>
+              <p class="font-bold text-amber-500 text-2xl pt-4">Om Na Ma Si Va Ya - Om Na Ma Si Va Ya - Om Na Ma Si Va Ya</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sadhana 2 -->
+        <div class="relative reveal-elem">
+          <div class="absolute -top-10 -right-10 text-[10rem] md:text-[15rem] leading-none display-font text-white/5 select-none pointer-events-none z-0">02</div>
+          <div class="relative z-10 text-center mb-10">
+            <h3 class="display-font text-4xl md:text-5xl text-white mb-4">Ganesha Sankalp Sadhana</h3>
+            <p class="text-[#FF6600] text-sm md:text-base tracking-[0.2em] uppercase font-semibold">41 Days • 1,25,000 Jaap</p>
+            <p class="text-gray-400 mt-6 text-lg font-light max-w-2xl mx-auto">Follow the foundational physical preparations (Ghee Diya, water, rice, and flower in the right hand). Recite:</p>
+          </div>
+          
+          <div class="mantra-tablet text-center">
+            <div class="mantra-font text-gray-200 text-lg md:text-xl leading-loose space-y-6">
+              <p class="font-bold text-amber-500 text-2xl">Om gam Ganapataye Namaha, Om gam Ganapataye Namaha, Om gam Ganapataye Namaha</p>
+              <div class="text-gray-400 text-base md:text-lg font-sans py-4 border-y border-white/10 my-6">
+                Mera Naam: [Your Name] &nbsp;|&nbsp; Mata Ka Naam: [Mother's Name] &nbsp;|&nbsp; Gotra: [Your Gotra]<br>
+                Kul Dev: [Name] &nbsp;|&nbsp; Kul Devi: [Name] &nbsp;|&nbsp; Isht Guru/Dev: [Name]
+              </div>
+              <p class="italic">O Devo ke Dev Mahadev, Bholenath, Shiv Shankar, Shiv Shambhu, Mahadev, Mahakal, Rudra Avatar, Kaal Bhairav, Batuk Bhairav.</p>
+              <p class="italic">Main aap ko sakshi maankar, Ganesh Mantra Sadhana start kar raha hoon.</p>
+              <p class="font-bold text-[#FF6600] text-2xl py-4 border-y border-white/5">Mantra: Om gam Ganapataye Namaha, Om gam Ganapataye Namaha, Om gam Ganapataye Namaha</p>
+              <p class="italic">Main is mantra ka 1,25,000 jaap 41 dino mein poora karunga. Agar kisi karan se main is jaap ko 41 dino mein poora na kar paun, toh kripya mujhe maaf karein. Main ek naya sankalp lekar phir se shuruwat karunga.</p>
+              <p class="italic">Is mantra ke jaap se mujhe Ganesh Ji ka aashirwad mile. Vah meri zindagi aur mere parivaar se saari rukawatein hata de. Is mantra ki shakti ko koi anya tantra, negative energy, ya manushya kabhi chura na sake.</p>
+              <p class="font-bold text-amber-500 text-2xl pt-4">Om Na Ma Si Va Ya - Om Na Ma Si Va Ya - Om Na Ma Si Va Ya</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sadhana 3 -->
+        <div class="relative reveal-elem">
+          <div class="absolute -top-10 -left-10 text-[10rem] md:text-[15rem] leading-none display-font text-white/5 select-none pointer-events-none z-0">03</div>
+          <div class="relative z-10 text-center mb-10">
+            <h3 class="display-font text-4xl md:text-5xl text-white mb-4">Naam Jaap Sankalp Sadhana</h3>
+            <p class="text-[#FF6600] text-sm md:text-base tracking-[0.2em] uppercase font-semibold">41 Days • 1,25,000 Jaap</p>
+            <p class="text-gray-400 mt-6 text-lg font-light max-w-2xl mx-auto">Follow the foundational physical preparations. Recite:</p>
+          </div>
+          
+          <div class="mantra-tablet text-center">
+            <div class="mantra-font text-gray-200 text-lg md:text-xl leading-loose space-y-6">
+              <p class="font-bold text-amber-500 text-2xl">Om gam Ganapataye Namaha, Om gam Ganapataye Namaha, Om gam Ganapataye Namaha</p>
+              <div class="text-gray-400 text-base md:text-lg font-sans py-4 border-y border-white/10 my-6">
+                Mera Naam: [Your Name] &nbsp;|&nbsp; Mata Ka Naam: [Mother's Name] &nbsp;|&nbsp; Gotra: [Your Gotra]<br>
+                Kul Dev: [Name] &nbsp;|&nbsp; Kul Devi: [Name] &nbsp;|&nbsp; Isht Guru/Dev: [Name]
+              </div>
+              <p class="italic">O Devo ke Dev Mahadev, Bholenath, Shiv Shankar, Shiv Shambhu, Mahadev, Mahakal, Rudra Avatar, Kaal Bhairav, Batuk Bhairav.</p>
+              <p class="italic">Main aap ko sakshi maankar, Ram Naam Mantra Sadhana start kar raha hoon.</p>
+              <p class="font-bold text-[#FF6600] text-2xl py-4 border-y border-white/5">Mantra: Shri Ram Jay Ram Jay Jay Ram - Shri Ram Jay Ram Jay Jay Ram - Shri Ram Jay Ram Jay Jay Ram</p>
+              <p class="italic">Main is mantra ka 1,25,000 jaap 41 dino mein poora karunga. Agar kisi karan se main is jaap ko 41 dino mein poora na kar paun, toh kripya mujhe maaf karein. Main ek naya sankalp lekar phir se shuruwat karunga.</p>
+              <p class="italic">Main yeh jaap apne kul (poorvajon) ke sabhi karmo ko kaatne aur unki malinta ko hatakar, apne poorvajon ko sabhi paapon aur karmo se mukt karne ke liye karunga. Mere poorvajon ko sada sukhi rakhein, unhein khana, paani, achha ghar, buddhi, aur Lakshmi pradan karein. Saath hi, mujh par Kul Dev, Kul Devi, Isht Guru/Dev ka aashirwad hamesha bana rahe.</p>
+              <p class="italic">Is mantra ki shakti ko koi anya tantra, negative energy, ya manushya kabhi chura na sake.</p>
+              <p class="font-bold text-amber-500 text-2xl pt-4">Om Na Ma Si Va Ya - Om Na Ma Si Va Ya - Om Na Ma Si Va Ya</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Future Sadhanas Notice -->
+      <div class="mt-24 text-center p-10 border border-white/10 rounded-3xl bg-black/60 backdrop-blur-xl reveal-elem">
+        <p class="text-gray-400 font-light text-lg md:text-xl leading-relaxed">
+          <em>Note: The 4th (Shakti Sadhana) and 5th (Four distinct Beej Mantras for Health, Wealth, Prosperity, and Protection) Sadhana documents will be provided to you separately upon the successful completion of these initial processes.</em>
+          <br><br>
+          <span class="text-white font-medium tracking-[0.2em]">OM NA MA SI VA YA</span>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Phase 3: Archives (Stacked) -->
+  <section class="py-32 px-[5%] relative z-10 border-t border-white/5" id="archives">
+    <div class="max-w-4xl mx-auto w-full">
+      
+      <!-- Phase Title -->
+      <div class="text-center mb-16 reveal-elem">
+        <span class="text-[#FF6600] text-sm tracking-[0.3em] uppercase font-semibold">Phase 03</span>
+        <h2 class="display-font text-5xl md:text-6xl mt-4">Sacred Knowledge <br>Archives</h2>
+      </div>
+      
+      <div class="border-t border-white/5 reveal-elem mb-24">
+        
+        <!-- Archive Item 1 -->
+        <a href="https://tr.ee/wbD4Gu" target="_blank" class="cinematic-row group hover-trigger items-start md:items-center">
+          <div class="flex-1">
+            <h4 class="display-font text-3xl text-white group-hover:text-[#FF6600] transition-colors mb-2">Required Viewing: Case Studies</h4>
+            <p class="text-gray-400 font-light text-lg max-w-2xl">Watch these 3 vital videos. Internalize the profound message delivered at the conclusion of each narrative.</p>
+          </div>
+          <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all shrink-0 mt-4 md:mt-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Archive Item 2 -->
+        <div class="cinematic-row flex-col items-start hover:bg-transparent hover:border-b-white/5 hover:p-8 cursor-default">
+          <h4 class="display-font text-3xl text-white mb-6">Sadhak Playlists</h4>
+          <div class="flex flex-col gap-4 w-full">
+            <a href="https://youtube.com/playlist?list=PLELVYLQ9Um5U&si=14qsqGNimuYMsT_V" target="_blank" class="flex items-center gap-4 text-gray-300 hover:text-white transition-colors text-lg bg-white/5 p-4 rounded-xl hover-trigger">
+              <div class="w-10 h-10 rounded-full bg-[#FF6600]/20 text-[#FF6600] flex items-center justify-center shrink-0">▶</div>
+              The Absolute Importance of Sadhana
+            </a>
+            <a href="https://youtube.com/playlist?list=PLeuFfaDNHggE&si=7EpjA7KMt2iJWXXb" target="_blank" class="flex items-center gap-4 text-gray-300 hover:text-white transition-colors text-lg bg-white/5 p-4 rounded-xl hover-trigger">
+              <div class="w-10 h-10 rounded-full bg-[#FF6600]/20 text-[#FF6600] flex items-center justify-center shrink-0">▶</div>
+              Advanced Sadhana Q&A
+            </a>
+          </div>
+        </div>
+
+        <!-- Archive Item 3 -->
+        <div class="cinematic-row flex-col items-start hover:bg-transparent hover:border-b-white/5 hover:p-8 cursor-default">
+          <h4 class="display-font text-3xl text-white mb-6">Ancient Knowledge (Free Access)</h4>
+          <div class="flex flex-col gap-4 w-full">
+            <a href="https://tr.ee/tzjkDO" target="_blank" class="flex items-center gap-4 text-gray-300 hover:text-white transition-colors text-lg bg-white/5 p-4 rounded-xl hover-trigger">
+              <div class="w-10 h-10 rounded-full bg-[#FF6600]/20 text-[#FF6600] flex items-center justify-center shrink-0">📜</div>
+              Hindu Puranas
+            </a>
+            <a href="https://tr.ee/qEYmzY" target="_blank" class="flex items-center gap-4 text-gray-300 hover:text-white transition-colors text-lg bg-white/5 p-4 rounded-xl hover-trigger">
+              <div class="w-10 h-10 rounded-full bg-[#FF6600]/20 text-[#FF6600] flex items-center justify-center shrink-0">📜</div>
+              Hindu Scriptures
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Anubhav (Document Journey) -->
+  <section class="py-32 px-[5%] relative z-10 border-t border-white/5 bg-gradient-to-b from-black/20 to-emerald-900/10">
+    <div class="max-w-4xl mx-auto w-full text-center reveal-elem">
+      
+      <h2 class="display-font text-5xl md:text-6xl mb-6 text-emerald-400">Document Your Journey</h2>
+      <p class="text-gray-300 font-light text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-16">
+        It is imperative that you periodically share your detailed notes, <strong>Anubhav</strong> (spiritual experiences), and significant dreams with us. Documenting this evolution is a crucial pillar for all dedicated Sadhaks.
+      </p>
+      
+      <div class="bg-black/60 p-8 md:p-12 rounded-3xl border border-emerald-500/20 shadow-[0_0_50px_rgba(16,185,129,0.05)] text-left max-w-3xl mx-auto mb-16">
+        <h5 class="text-sm uppercase tracking-widest text-emerald-500 mb-8 font-semibold text-center">Formatting Requirements</h5>
+        <div class="space-y-6 text-gray-300 text-lg font-light">
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 font-bold font-serif">01.</span> 
+            <p><strong>Environment:</strong> Note whether it was day or night, and the darkness or lightness of your surroundings.</p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 font-bold font-serif">02.</span> 
+            <p><strong>Entity/Energy:</strong> Detail faces, presence, and any specific clothing colors you observed.</p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 font-bold font-serif">03.</span> 
+            <p><strong>Emotional State:</strong> Were you happy, nervous, fearful, or feeling deeply blessed?</p>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-emerald-500 font-bold font-serif">04.</span> 
+            <p><strong>Chronology:</strong> Include the exact Date & Time of the Anubhav or dream.</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://wa.me/message/LZQLBUJRFY64A1" target="_blank" class="magnetic magnetic-btn bg-emerald-600 border-none hover-trigger text-white hover:text-black before:bg-white shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+        <span>Submit Your Anubhav</span>
+      </a>
+      
+      <p class="text-center mt-12 text-2xl text-gray-500 mantra-font italic">Har Har Mahadev</p>
+
+    </div>
+  </section>
+
+  <!-- Footer & Warning -->
+  <footer class="py-20 px-[5%] border-t border-red-900/30 bg-[#010005] text-center relative z-10">
+    <div class="max-w-4xl mx-auto">
+      <div class="w-16 h-16 mx-auto mb-8 flex items-center justify-center rounded-full bg-red-500/10 text-red-500 border border-red-500/20">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <h4 class="text-red-400 uppercase tracking-[0.2em] text-lg font-semibold mb-6">Strict Confidentiality Mandate</h4>
+      <p class="text-gray-400 text-base md:text-lg font-light leading-relaxed mb-16 max-w-3xl mx-auto">
+        Do not share any mantra provided in this sadhana portal publicly. Mantras are energetic keys intended solely for the initiated. Keep this portal's link and its contents strictly confidential. Sharing these sacred processes without explicit Guru permission will result in your energetic and administrative access being permanently revoked.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-8 text-sm tracking-widest uppercase text-gray-500">
+        <a href="https://t.me/spiritualkaran" target="_blank" class="hover:text-[#FF6600] transition-colors hover-trigger">Telegram</a>
+        <a href="https://www.instagram.com/spiritualkaranx" target="_blank" class="hover:text-[#FF6600] transition-colors hover-trigger">Instagram</a>
+        <a href="https://youtube.com/@spiritualkaranx" target="_blank" class="hover:text-[#FF6600] transition-colors hover-trigger">YouTube</a>
+        <a href="mailto:hi@spiritualkaran.com" class="hover:text-[#FF6600] transition-colors hover-trigger">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Register GSAP Plugins
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Lenis Smooth Scroll Setup
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      mouseMultiplier: 1
+    });
+
+    // Connect Lenis smoothly with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time)=>{
+      lenis.raf(time * 1000)
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Custom Cursor Logic
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+    const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+      
+      gsap.to(cursorOutline, {
+        x: posX - 20,
+        y: posY - 20,
+        duration: 0.15,
+        ease: "power2.out"
+      });
+    });
+
+    hoverTriggers.forEach(trigger => {
+      trigger.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+      trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+    });
+
+    // 3. Magnetic Button Logic
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.4, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+
+    // 4. Scroll Reveal Animations
+    const revealElements = document.querySelectorAll('.reveal-elem');
+    revealElements.forEach((elem) => {
+      gsap.to(elem, {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+  </script>
+</body>
+</html>
