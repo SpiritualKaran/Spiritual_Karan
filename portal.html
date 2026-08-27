@@ -112,23 +112,32 @@
     /* ======================================================
        TYPOGRAPHY UTILITIES
     ====================================================== */
+
+    /* Hero heading scale — matches index.html on desktop,
+       scaled down proportionally for longer portal words   */
     .text-huge {
-      font-size: 7.7vw;
-      line-height: 0.85;
+      font-size: 7.7vw;       /* desktop: same as index.html */
+      line-height: 0.9;
       letter-spacing: -0.02em;
       font-weight: 800;
+      white-space: normal;    /* allow natural wrapping on mobile */
+      word-break: break-word;
     }
-    @media (max-width: 768px) {
-      .text-huge { font-size: 13vw; }
-    }
-    @media (min-width: 769px) and (max-width: 1023px) {
-      .text-huge { font-size: 9vw; }
-    }
+    @media (max-width: 480px)  { .text-huge { font-size: 14vw; line-height: 0.95; } }
+    @media (min-width: 481px) and (max-width: 768px) { .text-huge { font-size: 12vw; line-height: 0.92; } }
+    @media (min-width: 769px) and (max-width: 1023px) { .text-huge { font-size: 9vw; } }
 
-    .split-parent { overflow: hidden; }
-    .split-child { display: inline-block; transform: translateY(110%); }
-    .hide { opacity: 0; visibility: hidden; }
-    .reveal-elem { opacity: 0; transform: translateY(30px); }
+    /* split-parent must NOT clip on mobile — only hide overflow
+       on the axis that the animation slides from (Y), never X    */
+    .split-parent {
+      overflow: hidden;
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
+    .split-child  { display: inline-block; transform: translateY(110%); }
+    .hide         { opacity: 0; visibility: hidden; }
+    .reveal-elem  { opacity: 0; transform: translateY(30px); }
 
     /* ======================================================
        MAGNETIC BUTTON — Exact copy from index.html
@@ -267,21 +276,22 @@
   </nav>
 
   <!-- ============================================================
-       HERO SECTION
+       HERO SECTION — structure mirrors index.html exactly
   ============================================================ -->
-  <section class="min-h-screen w-full flex flex-col justify-center items-center px-[5%] relative text-center overflow-hidden" id="hero">
-    
-    <!-- Hero Content -->
-    <div class="relative z-10 max-w-6xl mx-auto flex flex-col items-center justify-center">
+  <section class="h-screen w-full flex flex-col justify-center items-center px-[5%] relative text-center overflow-hidden" id="hero">
+
+    <!-- Hero Content Overlay — identical wrapper to index.html -->
+    <div class="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center justify-center">
+
       <p class="text-[10px] md:text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-6 hero-elem split-parent font-medium">
         <span class="split-child">Initiation Protocol • Level I</span>
       </p>
-      
+
       <div class="relative w-full flex flex-col items-center justify-center">
         <h1 class="display-font text-huge text-white uppercase hero-elem split-parent drop-shadow-2xl">
           <span class="split-child">The Inner</span>
         </h1>
-        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent mt-[-2vw] drop-shadow-2xl">
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent drop-shadow-2xl">
           <span class="split-child text-[#F3F3F3]">Awakening</span>
         </h1>
       </div>
@@ -291,8 +301,9 @@
           <span>Om Na Ma Si Va Ya</span>
         </a>
       </div>
+
     </div>
-    
+
     <!-- Status Badge -->
     <div class="absolute bottom-10 right-[5%] z-20 flex items-center gap-3">
       <span class="text-[10px] tracking-widest uppercase text-gray-300 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
@@ -306,6 +317,7 @@
       <span>Scroll</span>
       <div class="w-px h-12 bg-gray-500 origin-top animate-pulse"></div>
     </div>
+
   </section>
 
   <!-- ============================================================
