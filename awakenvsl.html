@@ -171,12 +171,33 @@
       border: 0;
     }
 
+    /* FAQ Specific Styles */
+    .faq-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-item.active .faq-content {
+      opacity: 1;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+    .faq-icon { transition: transform 0.4s ease; }
+
     /* Utilities */
     .hide { opacity: 0; visibility: hidden; }
     .text-gradient {
       background: linear-gradient(to right, #ffffff, #a5b4fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+    
+    /* Animation Class for ScrollTrigger */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(40px);
     }
   </style>
 </head>
@@ -265,17 +286,17 @@
     <div class="max-w-5xl mx-auto w-full flex flex-col items-center text-center">
       
       <!-- High-converting pre-headline -->
-      <p class="text-xs md:text-sm tracking-[0.3em] uppercase text-[#FF6600] mb-6 font-semibold animate-pulse">
+      <p class="text-xs md:text-sm tracking-[0.3em] uppercase text-[#FF6600] mb-6 font-semibold animate-pulse reveal-up">
         Attention: For those seeking profound transformation
       </p>
       
       <!-- Main VSL Headline -->
-      <h2 class="display-font text-4xl md:text-6xl lg:text-7xl text-white leading-tight mb-10">
+      <h2 class="display-font text-4xl md:text-6xl lg:text-7xl text-white leading-tight mb-10 reveal-up">
         Why Authentic <span class="text-gradient">Sadhana</span> Is The Catalyst <br class="hidden md:block">You've Been Searching For
       </h2>
 
       <!-- VSL Video Player (User provided Embed Code) -->
-      <div class="w-full max-w-4xl relative group">
+      <div class="w-full max-w-4xl relative group reveal-up">
         <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-orange-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
         <div class="vsl-video-container relative">
           <iframe 
@@ -290,7 +311,7 @@
       </div>
 
       <!-- Post-Video Copy -->
-      <div class="mt-16 max-w-3xl text-gray-300 text-lg md:text-xl font-light leading-relaxed">
+      <div class="mt-16 max-w-3xl text-gray-300 text-lg md:text-xl font-light leading-relaxed reveal-up">
         <p class="mb-6">
           Have your spiritual practices stopped showing results? Many seekers feel stuck relying on outdated methodologies that no longer serve their energetic evolution. 
         </p>
@@ -300,7 +321,7 @@
       </div>
 
       <!-- CTA Anchor -->
-      <div class="mt-10">
+      <div class="mt-10 reveal-up">
         <button onclick="document.getElementById('programs-section').scrollIntoView({behavior: 'smooth'})" class="magnetic magnetic-btn btn-primary-orange hover-trigger py-4 px-10 text-lg">
           <span>Start Your Transformation</span>
         </button>
@@ -313,7 +334,7 @@
   <section class="w-full px-[5%] py-24 bg-black/40 relative z-10 border-t border-white/5" id="programs-section">
     <div class="max-w-6xl mx-auto">
       
-      <div class="text-center mb-20">
+      <div class="text-center mb-20 reveal-up">
         <h2 class="display-font text-5xl md:text-7xl text-white">The Pathways</h2>
         <p class="text-gray-400 mt-4 tracking-widest uppercase text-sm">Select your trajectory to mastery</p>
       </div>
@@ -321,7 +342,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
         <!-- Tier 1 -->
-        <div class="flex flex-col bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover-trigger transition-all hover:bg-white/10 hover:border-white/30 relative">
+        <div class="flex flex-col bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 hover-trigger transition-all hover:bg-white/10 hover:border-white/30 relative reveal-up">
           <div class="flex-grow">
             <span class="text-[10px] tracking-[0.3em] uppercase text-gray-400 font-semibold">Level I</span>
             <h3 class="display-font text-4xl text-white mt-2 mb-6">Initiation</h3>
@@ -352,7 +373,7 @@
         </div>
 
         <!-- Tier 2 (Highlighted) -->
-        <div class="flex flex-col bg-gradient-to-b from-indigo-900/40 to-black/60 backdrop-blur-lg border border-indigo-500/30 rounded-3xl p-8 hover-trigger transition-all hover:border-indigo-400 relative transform md:-translate-y-4 shadow-[0_0_30px_rgba(79,70,229,0.15)]">
+        <div class="flex flex-col bg-gradient-to-b from-indigo-900/40 to-black/60 backdrop-blur-lg border border-indigo-500/30 rounded-3xl p-8 hover-trigger transition-all hover:border-indigo-400 relative transform md:-translate-y-4 shadow-[0_0_30px_rgba(79,70,229,0.15)] reveal-up" style="transition-delay: 100ms;">
           <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-500 text-white text-[10px] uppercase tracking-widest px-4 py-1 rounded-full font-bold">
             Most Selected
           </div>
@@ -386,7 +407,7 @@
         </div>
 
         <!-- Tier 3 -->
-        <div class="flex flex-col bg-white backdrop-blur-lg border border-white rounded-3xl p-8 hover-trigger transition-all relative">
+        <div class="flex flex-col bg-white backdrop-blur-lg border border-white rounded-3xl p-8 hover-trigger transition-all relative reveal-up" style="transition-delay: 200ms;">
           <div class="flex-grow">
             <span class="text-[10px] tracking-[0.3em] uppercase text-gray-500 font-bold">Level I + II + III</span>
             <h3 class="display-font text-4xl text-black mt-2 mb-6">Mastery</h3>
@@ -423,7 +444,7 @@
   <!-- 4. Important Payment Note Section -->
   <section class="w-full px-[5%] py-12 relative z-10">
     <div class="max-w-4xl mx-auto">
-      <div class="relative overflow-hidden rounded-2xl border border-[#FF6600]/40 bg-[#FF6600]/5 p-8 md:p-10 backdrop-blur-md text-center">
+      <div class="relative overflow-hidden rounded-2xl border border-[#FF6600]/40 bg-[#FF6600]/5 p-8 md:p-10 backdrop-blur-md text-center reveal-up">
         <!-- Background Glow -->
         <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#FF6600] rounded-full blur-[80px] opacity-20"></div>
         
@@ -456,7 +477,7 @@
 
   <!-- 5. Downsell: Free Consultation -->
   <section class="w-full px-[5%] py-24 relative z-10 border-t border-gray-900/80" id="free-consultation">
-    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 bg-black/60 p-10 rounded-[2rem] border border-gray-800">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 bg-black/60 p-10 rounded-[2rem] border border-gray-800 reveal-up">
       
       <div class="flex-1 text-center md:text-left">
         <span class="text-xs tracking-[0.3em] uppercase text-emerald-400 font-bold mb-3 block">Not sure where to begin?</span>
@@ -476,10 +497,189 @@
     </div>
   </section>
 
-  <!-- 6. Minimal Footer -->
+  <!-- 6. Testimonials / Reviews -->
+  <section class="w-full px-[5%] py-24 relative z-10 border-t border-white/5" id="reviews">
+    <div class="max-w-6xl mx-auto flex flex-col items-center">
+      
+      <!-- Heading -->
+      <h2 class="display-font text-4xl md:text-6xl text-white mb-2 text-center reveal-up">What people are saying</h2>
+      <p class="text-gray-400 text-lg md:text-xl mb-12 text-center font-light tracking-wide reveal-up">Real results from dedicated seekers</p>
+
+      <!-- Google Reviews Badge -->
+      <div class="mb-16 inline-flex flex-col items-center justify-center p-6 rounded-2xl border border-indigo-500/30 bg-gradient-to-b from-indigo-900/40 to-black/40 backdrop-blur-md shadow-lg reveal-up">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" class="mb-3">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        <div class="flex gap-1 text-yellow-400 mb-2 text-xl">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <span class="text-white font-medium tracking-wide">4.8 from 2,790+ reviews</span>
+      </div>
+
+      <!-- Reviews Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+        
+        <!-- Review 1 -->
+        <div class="flex flex-col bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover-trigger transition-all hover:bg-white/10 reveal-up">
+          <div class="flex gap-1 text-yellow-400 text-lg mb-6">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-8 flex-grow text-sm md:text-base">
+            "Before starting my Sadhana, I was constantly anxious and disconnected, trying endless meditations with no real shift. Now, my daily practice centers me completely without forced effort. Last month alone, I manifested incredible clarity in my career decisions."
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold text-xl">
+              J
+            </div>
+            <div>
+              <h4 class="text-white font-semibold">Janvi K.</h4>
+              <p class="text-gray-500 text-xs uppercase tracking-widest mt-1">Dedicated Seeker</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="flex flex-col bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover-trigger transition-all hover:bg-white/10 reveal-up" style="transition-delay: 100ms;">
+          <div class="flex gap-1 text-yellow-400 text-lg mb-6">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-8 flex-grow text-sm md:text-base">
+            "I was highly skeptical. I'd already spent thousands on generic spiritual retreats with nothing sustainable to show for it. But I committed to this guided protocol, and I felt a profound energetic shift within the first week. I wish I had found this guidance years ago."
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-[#FF6600]/20 text-[#FF6600] flex items-center justify-center font-bold text-xl border border-[#FF6600]/30">
+              R
+            </div>
+            <div>
+              <h4 class="text-white font-semibold">Rahul M.</h4>
+              <p class="text-gray-500 text-xs uppercase tracking-widest mt-1">Business Owner</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="flex flex-col bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover-trigger transition-all hover:bg-white/10 reveal-up" style="transition-delay: 200ms;">
+          <div class="flex gap-1 text-yellow-400 text-lg mb-6">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-8 flex-grow text-sm md:text-base">
+            "The best part isn't even the material improvements, it's the profound peace I got back. I used to spend hours overwhelmed by negative patterns. Now, the spiritual shielding practices run themselves, and I spend my time actually living purposefully."
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-400 font-bold text-xl border border-emerald-500/30">
+              M
+            </div>
+            <div>
+              <h4 class="text-white font-semibold">Meera S.</h4>
+              <p class="text-gray-500 text-xs uppercase tracking-widest mt-1">Wellness Coach</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ Section -->
+  <section class="w-full px-[5%] py-24 relative z-10 border-t border-white/5 bg-black/40" id="faq">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="display-font text-4xl md:text-6xl text-white mb-16 text-center reveal-up">Frequently asked questions</h2>
+      
+      <div class="space-y-4">
+        
+        <!-- FAQ 1 -->
+        <div class="faq-item rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-300 reveal-up">
+          <button class="faq-toggle w-full text-left p-6 md:p-8 flex justify-between items-center text-white font-medium text-lg hover-trigger">
+            <span class="pr-8">Do I need prior experience with meditation or spiritual practice?</span>
+            <svg class="faq-icon flex-shrink-0 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 md:px-8 pb-6 md:pb-8 text-gray-400 font-light leading-relaxed">
+              No. The guidance meets you where you are and focuses on practical, home-based steps you can follow consistently.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-300 reveal-up">
+          <button class="faq-toggle w-full text-left p-6 md:p-8 flex justify-between items-center text-white font-medium text-lg hover-trigger">
+            <span class="pr-8">What is included in the guidance?</span>
+            <svg class="faq-icon flex-shrink-0 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 md:px-8 pb-6 md:pb-8 text-gray-400 font-light leading-relaxed">
+              Your support is tailored to your intention and may include spiritual alignment, karmic guidance, aura analysis, aura cleansing, energy balancing, and a sustainable sadhana.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-300 reveal-up">
+          <button class="faq-toggle w-full text-left p-6 md:p-8 flex justify-between items-center text-white font-medium text-lg hover-trigger">
+            <span class="pr-8">Will this require me to change my lifestyle?</span>
+            <svg class="faq-icon flex-shrink-0 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 md:px-8 pb-6 md:pb-8 text-gray-400 font-light leading-relaxed">
+              No. The approach is designed to fit into everyday life. You will receive grounded practices that support your wellbeing without asking you to overhaul your routine.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-300 reveal-up">
+          <button class="faq-toggle w-full text-left p-6 md:p-8 flex justify-between items-center text-white font-medium text-lg hover-trigger">
+            <span class="pr-8">Can I seek guidance for recurring negative patterns or ancestral energy concerns?</span>
+            <svg class="faq-icon flex-shrink-0 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 md:px-8 pb-6 md:pb-8 text-gray-400 font-light leading-relaxed">
+              Yes. You can share concerns around karmic patterns, ancestral energy, Pitra Dosh, or blockages so your guidance can be considered in that context.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-300 reveal-up">
+          <button class="faq-toggle w-full text-left p-6 md:p-8 flex justify-between items-center text-white font-medium text-lg hover-trigger">
+            <span class="pr-8">What happens after I purchase?</span>
+            <svg class="faq-icon flex-shrink-0 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 md:px-8 pb-6 md:pb-8 text-gray-400 font-light leading-relaxed">
+              You will receive access to begin your personalized spiritual guidance and the next steps for your home practice.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Final CTA / End Section -->
+  <section class="w-full px-[5%] py-32 relative z-10 text-center flex flex-col justify-center items-center bg-gradient-to-t from-[#280d93]/30 to-transparent border-t border-white/5">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="display-font text-5xl md:text-7xl text-white mb-6 leading-tight reveal-up">
+        Take a gentle next step toward <br class="hidden md:block"> <span class="text-gradient">spiritual alignment</span>
+      </h2>
+      <p class="text-lg md:text-xl text-gray-300 font-light mb-12 max-w-2xl mx-auto reveal-up">
+        Begin personalized guidance that supports more peace, clarity, confidence, and awareness in your everyday life.
+      </p>
+      <div class="reveal-up">
+        <button onclick="document.getElementById('programs-section').scrollIntoView({behavior: 'smooth'})" class="magnetic magnetic-btn btn-primary-orange hover-trigger py-4 px-12 text-lg shadow-[0_0_40px_rgba(255,102,0,0.3)]">
+          <span>Begin Your Practice</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Minimal Footer -->
   <footer class="w-full py-12 px-[5%] bg-[#020202] border-t border-gray-900 z-10 relative">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="text-gray-500 text-sm font-light">
+      <div class="text-gray-500 text-sm font-light hover-trigger">
         &copy; 2026 Spiritual Karan. All rights reserved.
       </div>
       <div class="flex gap-8 text-xs tracking-[0.2em] uppercase text-gray-500">
@@ -512,57 +712,118 @@
     // 2. Custom Cursor Logic
     const cursorDot = document.getElementById('cursor-dot');
     const cursorOutline = document.getElementById('cursor-outline');
-    const hoverTriggers = document.querySelectorAll('.hover-trigger');
-
-    window.addEventListener('mousemove', (e) => {
-      const posX = e.clientX;
-      const posY = e.clientY;
+    
+    // Function to attach hover events to new elements dynamically if needed, 
+    // but running it once on load works for static DOM
+    const initCursor = () => {
+      const hoverTriggers = document.querySelectorAll('.hover-trigger');
       
-      cursorDot.style.left = `${posX}px`;
-      cursorDot.style.top = `${posY}px`;
-      
-      gsap.to(cursorOutline, {
-        x: posX - 20,
-        y: posY - 20,
-        duration: 0.15,
-        ease: "power2.out"
+      window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
+        
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+        
+        gsap.to(cursorOutline, {
+          x: posX - 20,
+          y: posY - 20,
+          duration: 0.15,
+          ease: "power2.out"
+        });
       });
-    });
 
-    hoverTriggers.forEach(trigger => {
-      trigger.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
-      trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
-    });
+      hoverTriggers.forEach(trigger => {
+        // Prevent duplicate listeners
+        trigger.removeEventListener('mouseenter', onMouseEnter);
+        trigger.removeEventListener('mouseleave', onMouseLeave);
+        
+        trigger.addEventListener('mouseenter', onMouseEnter);
+        trigger.addEventListener('mouseleave', onMouseLeave);
+      });
+    };
+
+    function onMouseEnter() { cursorOutline.classList.add('hover'); }
+    function onMouseLeave() { cursorOutline.classList.remove('hover'); }
 
     // 3. Magnetic Button Logic
-    const magnetics = document.querySelectorAll('.magnetic');
-    magnetics.forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.4, ease: 'power2.out' });
+    const initMagnetic = () => {
+      const magnetics = document.querySelectorAll('.magnetic');
+      magnetics.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.4, ease: 'power2.out' });
+        });
+        btn.addEventListener('mouseleave', () => {
+          gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+        });
       });
-      btn.addEventListener('mouseleave', () => {
-        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
-      });
-    });
+    }
 
-    // 4. Initial Intro Sequence (No Loader)
+    // 4. Initial Intro Sequence
     const initSequence = () => {
       const tl = gsap.timeline();
       
-      // Reveal Nav
       tl.to("#nav", { autoAlpha: 1, duration: 0.5, ease: "power2.out" })
-        
-        // Reveal Hero Main Text (Split text sliding up)
         .to(".split-child", { y: "0%", duration: 1.2, stagger: 0.15, ease: "power4.out" }, "-=0.3")
-        
-        // Reveal Buttons and bottom badges
         .to(".hero-actions", { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out" }, "-=0.8");
     };
+
+    // 5. ScrollTrigger Animations for newly added sections
+    const initScrollTriggers = () => {
+      const revealElements = document.querySelectorAll('.reveal-up');
+      revealElements.forEach((el) => {
+        gsap.to(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none"
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        });
+      });
+    };
+
+    // 6. FAQ Accordion Logic
+    const initFAQ = () => {
+      const faqs = document.querySelectorAll('.faq-item');
+      
+      faqs.forEach(faq => {
+        const toggle = faq.querySelector('.faq-toggle');
+        const content = faq.querySelector('.faq-content');
+        
+        toggle.addEventListener('click', () => {
+          const isActive = faq.classList.contains('active');
+          
+          // Close all other FAQs
+          faqs.forEach(f => {
+            f.classList.remove('active');
+            f.querySelector('.faq-content').style.maxHeight = null;
+          });
+          
+          // Open the clicked one if it wasn't already active
+          if (!isActive) {
+            faq.classList.add('active');
+            // Calculate actual height needed
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      });
+    };
     
-    window.addEventListener('load', initSequence);
+    // Initialize everything on load
+    window.addEventListener('load', () => {
+      initCursor();
+      initMagnetic();
+      initSequence();
+      initScrollTriggers();
+      initFAQ();
+    });
 
   </script>
 </body>
