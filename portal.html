@@ -22,7 +22,7 @@
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
 
   <style>
-    /* Absolute Reset & Base */
+    /* Absolute Reset & Strict Overflow Prevention */
     :root {
       --bg: #03010A; 
       --text: #F3F3F3;
@@ -31,12 +31,12 @@
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    body {
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden; /* Prevents horizontal stretching/scrolling */
       background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      width: 100%;
       cursor: none;
       -webkit-font-smoothing: antialiased;
       background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%);
@@ -62,15 +62,30 @@
     }
 
     @media (max-width: 768px), (pointer: coarse) {
-      body { cursor: auto !important; }
+      html, body { cursor: auto !important; }
       .cursor-dot, .cursor-outline { display: none !important; }
     }
+
+    /* Loader Screen */
+    #loader {
+      position: fixed; inset: 0; background: var(--bg); z-index: 10000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .loader-text { font-size: 5vw; font-weight: 800; text-transform: uppercase; overflow: hidden; }
+    .loader-text span { display: inline-block; transform: translateY(100%); }
+    .progress-bar { width: 0%; height: 2px; background: white; margin-top: 2rem; }
 
     /* Cinematic Noise Grain */
     .noise {
       position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.03;
       background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
     }
+
+    /* Typography & Animation Utilities for Hero */
+    .text-huge { font-size: 15vw; line-height: 0.85; letter-spacing: -0.02em; font-weight: 800; }
+    @media (min-width: 768px) { .text-huge { font-size: 8vw; } }
+    .split-parent { overflow: hidden; }
+    .split-child { display: inline-block; transform: translateY(110%); }
 
     /* Magnetic Button */
     .magnetic-btn {
@@ -82,7 +97,7 @@
       z-index: 1; text-decoration: none; text-align: center;
     }
     @media (min-width: 768px) {
-      .magnetic-btn { padding: 1.25rem 3rem; font-size: 0.75rem; }
+      .magnetic-btn { padding: 1.25rem 2.5rem; font-size: 0.75rem; }
     }
     .magnetic-btn span {
       position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1);
@@ -141,6 +156,23 @@
     }
 
     .reveal-elem { opacity: 0; transform: translateY(30px); }
+
+    /* Wide Cinematic Rows for Lists */
+    .cinematic-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
+    }
+    .cinematic-row:hover {
+      background: rgba(255,255,255,0.03);
+      padding-left: 3rem;
+      border-color: rgba(255,102,0,0.3);
+    }
+    @media (max-width: 768px) {
+      .cinematic-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .cinematic-row:hover { padding-left: 2rem; }
+    }
   </style>
 </head>
 <body class="selection:bg-[#FF6600] selection:text-white">
@@ -157,49 +189,72 @@
   <div class="bg-glow-purple top-1/3 left-0 -translate-x-1/2"></div>
   <div class="bg-glow-orange bottom-1/4 right-0 translate-x-1/4 opacity-50"></div>
 
-  <!-- Navigation (Centered Logo Design) -->
-  <nav class="fixed top-0 w-full p-4 md:p-6 z-50 text-white backdrop-blur-xl bg-black/40 border-b border-white/5" id="nav">
-    <div class="max-w-7xl mx-auto w-full grid grid-cols-3 items-center">
-      <!-- Left Side -->
-      <div class="flex items-center justify-start">
-        <span class="text-[9px] sm:text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] uppercase text-[#FF6600] font-semibold">Sadhak Portal</span>
-      </div>
-      
-      <!-- Center Logo -->
-      <div class="flex justify-center">
-        <a href="index.html" class="flex-shrink-0 hover-trigger">
-          <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-6 sm:h-8 md:h-10 w-auto object-contain">
-        </a>
-      </div>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="display-font loader-text"><span id="loader-word">BELIEVER</span></div>
+    <div class="w-64 h-[1px] bg-gray-800 mt-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 h-full bg-white progress-bar" id="progress"></div>
+    </div>
+  </div>
 
-      <!-- Right Side -->
-      <div class="flex justify-end">
-        <a href="#archives" class="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.2em] text-gray-300 hover:text-white transition-colors hover-trigger">Archives</a>
-      </div>
+  <!-- Pure Centered Navigation -->
+  <nav class="fixed top-0 w-full p-4 md:p-6 z-50 backdrop-blur-xl bg-black/40 border-b border-white/5" id="nav">
+    <div class="max-w-7xl mx-auto w-full flex justify-center items-center">
+      <a href="#" class="hover-trigger">
+        <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-8 md:h-12 w-auto object-contain">
+      </a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="min-h-screen pt-32 pb-16 px-4 md:px-[5%] relative z-10 flex flex-col justify-center items-center text-center">
-    <div class="max-w-4xl mx-auto w-full">
-      <p class="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-6 md:mb-8 font-medium reveal-elem">
-        Initiation Protocol • Level I
-      </p>
-      <h1 class="display-font text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] leading-[1.1] md:leading-[0.9] text-white uppercase drop-shadow-2xl reveal-elem mb-6 md:mb-10">
-        The Inner <br><span class="text-transparent" style="-webkit-text-stroke: 1px #F3F3F3;">Awakening</span>
-      </h1>
-      <p class="text-gray-300 text-base sm:text-lg md:text-2xl font-light max-w-2xl mx-auto reveal-elem leading-relaxed px-2">
-        Welcome to your exclusive sanctuary. Here you will discover the structured protocols, sacred mantras, and foundational wisdom required to initiate your spiritual mastery.
+  <!-- Animated Hero Section -->
+  <section class="min-h-[100dvh] w-full flex flex-col justify-center items-center px-4 md:px-[5%] relative text-center overflow-hidden" id="hero">
+    
+    <!-- Hero Content Overlay -->
+    <div class="relative z-10 max-w-6xl mx-auto flex flex-col items-center justify-center pt-16">
+      <p class="text-[10px] md:text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-6 hero-elem split-parent font-medium">
+        <span class="split-child">Initiation Protocol • Level I</span>
       </p>
       
-      <div class="mt-12 md:mt-16 reveal-elem">
-        <div class="w-px h-16 md:h-24 bg-gradient-to-b from-[#FF6600] to-transparent mx-auto"></div>
+      <div class="relative w-full flex flex-col items-center justify-center mb-6">
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent drop-shadow-2xl leading-[0.9]">
+          <span class="split-child">The Inner</span>
+        </h1>
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent mt-[-2vw] drop-shadow-2xl leading-[0.9]">
+          <span class="split-child text-[#F3F3F3]">Awakening</span>
+        </h1>
       </div>
+
+      <div class="hero-elem flex justify-center items-center mt-6">
+        <a href="#phase-1" class="magnetic magnetic-btn btn-primary-orange hover-trigger shadow-lg shadow-orange-500/20">
+          <span>Om Na Ma si va ya</span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Status Badge -->
+    <div class="absolute bottom-10 right-[5%] z-20 flex items-center gap-3">
+      <span class="text-[10px] tracking-widest uppercase text-gray-300 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span>BE NOTHING</span>
+      </span>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-[5%] text-[10px] md:text-xs tracking-widest uppercase text-gray-400 hero-elem flex gap-3 md:gap-4 items-center z-10">
+      <span>Scroll</span>
+      <div class="w-px h-8 md:h-12 bg-gray-500 origin-top animate-pulse"></div>
     </div>
   </section>
 
+  <!-- The Manifesto (Scroll Reveal Text) -->
+  <section class="min-h-[60dvh] w-full flex items-center justify-center px-[10%] py-24 md:py-32" id="manifesto">
+    <h2 class="display-font text-3xl sm:text-4xl md:text-6xl lg:text-8xl leading-tight text-center max-w-7xl mx-auto text-gray-700" id="reveal-text">
+      Welcome to your exclusive sanctuary. Here you will discover the structured protocols, sacred mantras, and foundational wisdom required to initiate your spiritual mastery.
+    </h2>
+  </section>
+
   <!-- Phase 1: The Foundation -->
-  <section class="py-16 md:py-24 px-4 md:px-[5%] relative z-10">
+  <section class="py-16 md:py-24 px-4 md:px-[5%] relative z-10" id="phase-1">
     <div class="max-w-4xl mx-auto w-full">
       
       <!-- Phase Title -->
@@ -287,7 +342,7 @@
                 <p class="text-gray-400 text-sm md:text-base font-light max-w-lg">Play this specific energetic audio on a continuous loop while conducting the home cleansing process.</p>
               </div>
             </div>
-            <span class="text-gray-600 group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore ↗</span>
+            <span class="text-gray-300 font-medium group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore</span>
           </a>
 
           <a href="https://t.me/spiritualkaran/166" target="_blank" class="group flex flex-col md:flex-row md:items-center justify-between p-6 md:p-8 border-b border-white/5 hover:bg-white/[0.03] hover:border-[#FF6600]/30 transition-all duration-300 hover:pl-6 md:hover:pl-12 hover-trigger gap-4 md:gap-0">
@@ -298,7 +353,7 @@
                 <p class="text-gray-400 text-sm md:text-base font-light max-w-lg">Detailed protocol for performing the Havan to completely eradicate deep-rooted negativity.</p>
               </div>
             </div>
-            <span class="text-gray-600 group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore ↗</span>
+            <span class="text-gray-300 font-medium group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore</span>
           </a>
 
           <a href="https://t.me/spiritualkaran/169" target="_blank" class="group flex flex-col md:flex-row md:items-center justify-between p-6 md:p-8 border-b border-white/5 hover:bg-white/[0.03] hover:border-[#FF6600]/30 transition-all duration-300 hover:pl-6 md:hover:pl-12 hover-trigger gap-4 md:gap-0">
@@ -309,11 +364,11 @@
                 <p class="text-gray-400 text-sm md:text-base font-light max-w-lg">Utilize daily to dissolve all blockages. Invokes the divine blessings of Saraswati, Laxmi, and Parvati.</p>
               </div>
             </div>
-            <span class="text-gray-600 group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore ↗</span>
+            <span class="text-gray-300 font-medium group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore</span>
           </a>
 
           <!-- Karmic Feeding Primary Row -->
-          <a href="https://t.me/spiritualkaran/173" target="_blank" class="group flex flex-col md:flex-row md:items-center justify-between p-6 md:p-8 border-b border-white/5 hover:bg-white/[0.03] hover:border-[#FF6600]/30 transition-all duration-300 hover:pl-6 md:hover:pl-12 hover-trigger gap-4 md:gap-0">
+          <a href="https://t.me/spiritualkaran/173" target="_blank" class="group flex flex-col md:flex-row md:items-center justify-between p-6 md:p-8 border-b border-white/5 hover:bg-white/[0.03] hover:border-[#FF6600]/30 transition-all duration-300 hover:pl-6 md:hover:pl-12 hover-trigger gap-4 md:gap-0 !border-b-0">
             <div class="flex items-start md:items-center gap-4 md:gap-8">
               <span class="text-3xl md:text-4xl shrink-0 mt-1 md:mt-0">🕊️</span>
               <div>
@@ -321,7 +376,7 @@
                 <p class="text-gray-400 text-sm md:text-base font-light max-w-lg">Hanging bird feeding setup. Highly effective in balancing Karma and cleansing Pitra Dosha.</p>
               </div>
             </div>
-            <span class="text-gray-600 group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore ↗</span>
+            <span class="text-gray-300 font-medium group-hover:text-white transition-colors text-sm md:text-base shrink-0 self-end md:self-auto">Explore</span>
           </a>
           
           <!-- Advanced Options (Nested beautifully under Karmic Feeding) -->
@@ -688,7 +743,49 @@
       });
     });
 
-    // 4. Scroll Reveal Animations
+    // 4. Initial Loader & Hero Sequence
+    const initSequence = () => {
+      const tl = gsap.timeline();
+      
+      // Progress bar fill
+      tl.to("#progress", { width: "100%", duration: 1.5, ease: "expo.inOut" })
+        // Text reveal
+        .to(".loader-text span", { y: "0%", duration: 0.8, ease: "power4.out" }, "-=0.5")
+        // Hide loader
+        .to("#loader", { yPercent: -100, duration: 1, ease: "expo.inOut", delay: 0.5, onComplete: () => { document.getElementById('loader').style.display = 'none'; }})
+        // Show Nav
+        .fromTo("#nav", { y: -50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.5")
+        // Reveal Hero Text
+        .to(".hero-elem .split-child", { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out" }, "-=0.8")
+        .fromTo(".hero-elem:not(.split-parent)", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: "power3.out" }, "-=0.8");
+    };
+    
+    window.addEventListener('load', initSequence);
+
+    // 5. ScrollTrigger: Manifesto Text Reveal (Word by Word)
+    const textElement = document.getElementById('reveal-text');
+    if (textElement) {
+      const textContent = textElement.innerText;
+      textElement.innerHTML = '';
+      textContent.split(' ').forEach(word => {
+        if(word.trim() !== '') {
+          textElement.innerHTML += `<span class="inline-block mx-1" style="color: rgba(255,255,255,0.1); transition: color 0.5s;">${word}</span> `;
+        }
+      });
+
+      gsap.to("#reveal-text span", {
+        color: "#FFF",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: "#manifesto",
+          start: "top 70%",
+          end: "bottom 60%",
+          scrub: 1
+        }
+      });
+    }
+
+    // 6. Standard Scroll Reveal Animations
     const revealElements = document.querySelectorAll('.reveal-elem');
     revealElements.forEach((elem) => {
       gsap.to(elem, {
