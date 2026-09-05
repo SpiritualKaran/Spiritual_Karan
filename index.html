@@ -135,14 +135,31 @@
       justify-content: center; align-items: center; padding: 10vw;
     }
     
-    /* Stacking Cards Section */
+    /* Stacking Cards Section - UPDATED LOGIC */
     .cards-container { position: relative; width: 100%; margin-top: 10vh; }
     .stack-card {
-      position: sticky; top: 15vh; height: 70vh; width: 100%;
-      background: rgba(20,20,20,0.6); backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.05); border-radius: 2vw;
-      padding: 4vw; display: flex; flex-direction: column; justify-content: space-between;
+      position: sticky; 
+      top: 12vh; 
+      width: 100%; 
+      height: auto; /* Allow natural height based on content */
+      background: rgba(20,20,20,0.6); 
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.05); 
+      border-radius: 24px;
+      padding: 3rem 2.5rem; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between;
       transform-origin: top center;
+      margin-bottom: 25vh; /* This creates the gap between cards so they don't instantly overlap */
+    }
+
+    @media (max-width: 768px) {
+      .stack-card {
+        padding: 2rem 1.5rem;
+        top: 10vh;
+        margin-bottom: 20vh;
+      }
     }
 
     /* Fallback Gradient Background for Hero Section */
@@ -424,75 +441,105 @@
   </section>
 
   <!-- 4. Sadhana Programs (Stacking Cards) -->
-  <section class="min-h-[300vh] w-full px-[5%] py-32" id="programs-section">
-    <div class="text-center mb-20">
+  <section class="min-h-[100vh] w-full px-[5%] py-32 relative" id="programs-section">
+    <div class="text-center mb-20 max-w-4xl mx-auto">
       <h2 class="display-font text-6xl md:text-8xl">The Pathways</h2>
       <p class="text-gray-400 mt-4 tracking-widest uppercase text-sm">Select your trajectory</p>
     </div>
 
     <div class="cards-container w-full max-w-6xl mx-auto">
       
-      <!-- Card 1 -->
-      <div class="stack-card card-1 hover-trigger">
-        <div class="flex justify-between items-start">
+      <!-- NEW Card 0: Free Beginner Sadhana -->
+      <div class="stack-card card-0 hover-trigger border-emerald-500/30 shadow-[0_0_50px_rgba(5,150,105,0.05)]" style="background: rgba(5,20,15,0.8);">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-emerald-900/50 pb-6">
+          <div>
+            <span class="text-xs tracking-[0.3em] uppercase text-emerald-400">Foundation</span>
+            <h3 class="display-font text-4xl md:text-6xl mt-4 text-white">Beginner Sadhana</h3>
+          </div>
+          <div class="display-font text-3xl md:text-5xl text-emerald-300 mt-4 md:mt-0">Free</div>
+        </div>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end flex-grow">
+          <ul class="text-emerald-100/80 space-y-3 text-sm md:text-base font-light mb-8 md:mb-0">
+            <li class="flex items-center gap-2"><span class="text-emerald-500">✦</span> 11 to 41-Day Initial Sankalp</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-500">✦</span> Guru Blessing Protocol</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-500">✦</span> Fear & Ego Eradication</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-500">✦</span> Obstacle Removal Mantra</li>
+          </ul>
+          
+          <a href="https://spiritualkaran.com/free.html" class="magnetic magnetic-btn btn-emerald hover-trigger shadow-lg shadow-emerald-500/20">
+            <span>Begin Practice</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 1: Initiation -->
+      <div class="stack-card card-1 hover-trigger border-[#FF6600]/30 shadow-[0_0_50px_rgba(255,102,0,0.05)]">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-800 pb-6">
           <div>
             <span class="text-xs tracking-[0.3em] uppercase text-gray-400">Level I</span>
-            <h3 class="display-font text-5xl md:text-7xl mt-4">Initiation</h3>
+            <h3 class="display-font text-4xl md:text-6xl mt-4 text-white">Initiation</h3>
           </div>
-          <div class="display-font text-3xl md:text-5xl">₹11,000</div>
+          <div class="display-font text-3xl md:text-5xl mt-4 md:mt-0">₹11,000</div>
         </div>
-        <div class="flex justify-between items-end">
-          <ul class="text-gray-400 space-y-2 text-sm md:text-base font-light">
-            <li>+ Health, Wealth & Prosperity Sadhana</li>
-            <li>+ 6-Month Protocol</li>
-            <li>+ Digital Archives Access</li>
-            <li>+ Non-refundable Policy</li>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end flex-grow">
+          <ul class="text-gray-400 space-y-3 text-sm md:text-base font-light mb-8 md:mb-0">
+            <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> Health, Wealth & Prosperity Sadhana</li>
+            <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> 6-Month Detailed Protocol</li>
+            <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> Digital Archives Access</li>
+            <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> Non-refundable Policy</li>
           </ul>
-          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer z-10 hover-trigger">
+          
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer z-10 hover-trigger flex-shrink-0">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="stack-card card-2 hover-trigger" style="background: rgba(40,40,40,0.8); border-color: rgba(255,255,255,0.2);">
-        <div class="flex justify-between items-start">
+      <!-- Card 2: Deepening -->
+      <div class="stack-card card-2 hover-trigger border-indigo-500/30 shadow-[0_0_50px_rgba(99,102,241,0.05)]" style="background: rgba(30,25,45,0.9);">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-indigo-900/50 pb-6">
           <div>
             <span class="text-xs tracking-[0.3em] uppercase text-indigo-400">Level I + II</span>
-            <h3 class="display-font text-5xl md:text-7xl mt-4">Deepening</h3>
+            <h3 class="display-font text-4xl md:text-6xl mt-4 text-white">Deepening</h3>
           </div>
-          <div class="display-font text-3xl md:text-5xl">₹51,000</div>
+          <div class="display-font text-3xl md:text-5xl text-indigo-100 mt-4 md:mt-0">₹51,000</div>
         </div>
-        <div class="flex justify-between items-end">
-          <ul class="text-gray-300 space-y-2 text-sm md:text-base font-light">
-            <li>+ Advanced Divine Practices</li>
-            <li>+ Kul Tree Cleansing Protocol</li>
-            <li>+ 3-Month Immersion</li>
-            <li>+ Non-refundable Policy</li>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end flex-grow">
+          <ul class="text-indigo-200/80 space-y-3 text-sm md:text-base font-light mb-8 md:mb-0">
+            <li class="flex items-center gap-2"><span class="text-indigo-400">✦</span> Advanced Divine Practices</li>
+            <li class="flex items-center gap-2"><span class="text-indigo-400">✦</span> Kul Tree Cleansing Protocol</li>
+            <li class="flex items-center gap-2"><span class="text-indigo-400">✦</span> 3-Month Immersion</li>
+            <li class="flex items-center gap-2"><span class="text-indigo-400">✦</span> Non-refundable Policy</li>
           </ul>
-          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-indigo-400 flex items-center justify-center text-indigo-400 hover:bg-indigo-400 hover:text-white transition-colors cursor-pointer z-10 hover-trigger">
+          
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-indigo-400 flex items-center justify-center text-indigo-400 hover:bg-indigo-400 hover:text-white transition-colors cursor-pointer z-10 hover-trigger flex-shrink-0">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="stack-card card-3 hover-trigger" style="background: white; color: black;">
-        <div class="flex justify-between items-start">
+      <!-- Card 3: Mastery -->
+      <div class="stack-card card-3 hover-trigger border-white/40 shadow-[0_0_50px_rgba(255,255,255,0.05)]" style="background: white; color: black; margin-bottom: 0;">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-300 pb-6">
           <div>
             <span class="text-xs tracking-[0.3em] uppercase text-gray-500">Level I + II + III</span>
-            <h3 class="display-font text-5xl md:text-7xl mt-4">Mastery</h3>
+            <h3 class="display-font text-4xl md:text-6xl mt-4 text-black">Mastery</h3>
           </div>
-          <div class="display-font text-3xl md:text-5xl">₹1,51,000</div>
+          <div class="display-font text-3xl md:text-5xl text-black mt-4 md:mt-0">₹1,51,000</div>
         </div>
-        <div class="flex justify-between items-end">
-          <ul class="text-gray-600 space-y-2 text-sm md:text-base font-light">
-            <li>+ Divya Drishti* As Per Zodiac</li>
-            <li>+ Divine Codex Access</li>
-            <li>+ Tantric Energetic Shielding</li>
-            <li>+ 12-Month Mentorship</li>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end flex-grow">
+          <ul class="text-gray-700 space-y-3 text-sm md:text-base font-light mb-8 md:mb-0">
+            <li class="flex items-center gap-2"><span class="text-black">✦</span> Divya Drishti* As Per Zodiac</li>
+            <li class="flex items-center gap-2"><span class="text-black">✦</span> Divine Codex Access</li>
+            <li class="flex items-center gap-2"><span class="text-black">✦</span> Tantric Energetic Shielding</li>
+            <li class="flex items-center gap-2"><span class="text-black">✦</span> 12-Month Mentorship</li>
           </ul>
-          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-black flex items-center justify-center bg-black text-white hover:bg-transparent hover:text-black transition-colors cursor-pointer z-10 hover-trigger">
+          
+          <a href="https://razorpay.me/@believingspiritual" target="_blank" class="w-16 h-16 rounded-full border border-black flex items-center justify-center bg-black text-white hover:bg-transparent hover:text-black transition-colors cursor-pointer z-10 hover-trigger flex-shrink-0">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
@@ -666,9 +713,7 @@
     // Register GSAP Plugins
     gsap.registerPlugin(ScrollTrigger);
 
-    // 1. Lenis Smooth Scroll Setup (FIXED DESKTOP SCROLLING)
-    // The main issue was Lenis not communicating with GSAP's ScrollTrigger. 
-    // They must be synchronized via gsap.ticker to prevent scroll-locking on pinned sections.
+    // 1. Lenis Smooth Scroll Setup
     const lenis = new Lenis({
       duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -679,7 +724,7 @@
     // Sync Lenis scroll with ScrollTrigger updates
     lenis.on('scroll', ScrollTrigger.update);
     
-    // Add Lenis's requestAnimationFrame to GSAP's ticker (removes the need for a separate raf loop)
+    // Add Lenis's requestAnimationFrame to GSAP's ticker
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
@@ -758,7 +803,6 @@
     const initSequence = () => {
       const tl = gsap.timeline({
         onComplete: () => {
-          // Fix: Ensure the loader is completely hidden from the DOM so it never intercepts scrolls
           document.getElementById('loader').style.display = 'none';
         }
       });
@@ -813,26 +857,17 @@
       }
     });
 
-    // 8. ScrollTrigger: Stacking Cards Effect
+    // 8. ScrollTrigger: Stacking Cards Effect - UPDATED LOGIC FOR SMOOTH SCROLLING
     const cards = document.querySelectorAll('.stack-card');
     cards.forEach((card, index) => {
-      ScrollTrigger.create({
-        trigger: card,
-        start: "top 15vh",
-        endTrigger: ".cards-container",
-        end: "bottom bottom",
-        pin: true,
-        pinSpacing: false
-      });
-      
       if (index !== cards.length - 1) {
         gsap.to(card, {
-          scale: 0.9,
-          opacity: 0.5,
+          scale: 0.92,
+          opacity: 0.3,
           scrollTrigger: {
             trigger: cards[index + 1],
-            start: "top 80%",
-            end: "top 15vh",
+            start: "top 90%", // Trigger scale-down right as the next card comes up
+            end: "top 12vh",
             scrub: true
           }
         });
