@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Spiritual Codex | Spiritual Karan</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/TPp8bwKy/om-logo.png">
+
+  <!-- Modern, High-End Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & Lenis for Buttery Smooth Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    /* ======================================================
+       ROOT VARIABLES
+    ====================================================== */
+    :root {
+      --bg: #03010A;
+      --text: #F3F3F3;
+      --accent: #FF6600;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { max-width: 100%; overflow-x: hidden; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      cursor: none;
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, .display-font { font-family: 'Syne', sans-serif; }
+    .signature-font { font-family: 'Eagle Horizon', 'Great Vibes', cursive; font-weight: 400; }
+    .mantra-font { font-family: 'Playfair Display', serif; }
+
+    /* ======================================================
+       CUSTOM CURSOR
+    ====================================================== */
+    .cursor-dot, .cursor-outline {
+      position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+      border-radius: 50%; z-index: 9999; pointer-events: none;
+    }
+    .cursor-dot { width: 6px; height: 6px; background-color: white; }
+    .cursor-outline {
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5);
+      transition: width 0.3s, height 0.3s, background-color 0.3s;
+    }
+    .cursor-outline.hover {
+      width: 80px; height: 80px; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(2px);
+    }
+    @media (max-width: 768px), (pointer: coarse) {
+      body { cursor: auto !important; }
+      .cursor-dot, .cursor-outline { display: none !important; }
+    }
+
+    /* ======================================================
+       LOADER & NOISE
+    ====================================================== */
+    #loader {
+      position: fixed; inset: 0; background: var(--bg); z-index: 10000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .loader-text { font-size: 5vw; font-weight: 800; text-transform: uppercase; overflow: hidden; letter-spacing: 0.1em; }
+    .loader-text span { display: inline-block; transform: translateY(100%); }
+    .progress-bar { width: 0%; height: 2px; background: white; margin-top: 2rem; }
+
+    .noise {
+      position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.03;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    }
+
+    /* ======================================================
+       TYPOGRAPHY UTILITIES
+    ====================================================== */
+    .text-huge {
+      font-size: 7.7vw; line-height: 0.9; letter-spacing: -0.02em; font-weight: 800;
+      white-space: normal; word-break: break-word;
+    }
+    @media (max-width: 480px)  { .text-huge { font-size: 14vw; line-height: 0.95; } }
+    @media (min-width: 481px) and (max-width: 768px) { .text-huge { font-size: 12vw; line-height: 0.92; } }
+
+    .split-parent { overflow: hidden; width: 100%; display: block; text-align: center; }
+    .split-child  { display: inline-block; transform: translateY(110%); }
+    .hide         { opacity: 0; visibility: hidden; }
+    .reveal-elem  { opacity: 0; transform: translateY(30px); }
+
+    /* ======================================================
+       BUTTONS
+    ====================================================== */
+    .magnetic-btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 1.25rem 2.5rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent;
+      color: white; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      position: relative; overflow: hidden; transition: border-color 0.3s;
+      z-index: 1; text-decoration: none; text-align: center;
+    }
+    @media (max-width: 768px) { .magnetic-btn { padding: 1rem 2rem; font-size: 0.7rem; } }
+    .magnetic-btn span { position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1); }
+    .magnetic-btn::before {
+      content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+      background: white; transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); z-index: 1;
+    }
+    .magnetic-btn:hover { border-color: white; }
+    .magnetic-btn:hover span { color: black; }
+    .magnetic-btn:hover::before { transform: translateY(-100%); }
+
+    /* ======================================================
+       GLASS PANELS
+    ====================================================== */
+    .glass-panel {
+      background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2vw; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    @media (max-width: 768px) { .glass-panel { border-radius: 1.5rem; } }
+
+    /* ======================================================
+       HERO VIDEO BACKGROUND
+    ====================================================== */
+    #hero {
+      background: radial-gradient(circle at 50% 50%, rgba(93, 26, 175, 0.8) 0%, rgba(40, 13, 147, 0.95) 50%, rgba(3, 1, 10, 1) 100%),
+                  linear-gradient(135deg, #5d1aaf 0%, #280d93 50%, #03010a 100%);
+      background-size: cover; background-position: center;
+    }
+    .video-hero-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 0; }
+    .video-hero-wrapper iframe {
+      position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh;
+      transform: translate(-50%, -50%) scale(1.15); object-fit: cover;
+    }
+    @media (max-width: 768px), (pointer: coarse) { .video-hero-wrapper { display: none !important; } }
+    .hero-video-overlay {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at center, rgba(3, 1, 10, 0.45) 0%, rgba(3, 1, 10, 0.85) 80%, rgba(3, 1, 10, 0.98) 100%),
+                  linear-gradient(to bottom, rgba(3,1,10,0.6) 0%, rgba(3,1,10,0.2) 50%, rgba(3,1,10,0.95) 100%);
+      z-index: 1;
+    }
+
+    /* List styling */
+    .custom-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .custom-list li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #FF6600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+  <div class="noise"></div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="display-font loader-text text-white tracking-widest"><span>THE CODEX</span></div>
+    <div class="w-64 h-[1px] bg-gray-800 mt-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 h-full bg-white progress-bar" id="progress"></div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[99999] flex flex-col justify-center items-center text-center p-6 opacity-0 pointer-events-none transition-all duration-300">
+    <button id="mobile-menu-close" aria-label="Close Menu" class="absolute top-6 right-6 p-4 text-white focus:outline-none hover-trigger">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="flex flex-col gap-8 text-xl font-medium tracking-[0.2em] uppercase">
+      <a href="#hero" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Home</a>
+      <a href="#foundations" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Foundations</a>
+      <a href="#purification" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Purification</a>
+      <a href="#knowledge" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Knowledge</a>
+      <a href="#lifestyle" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Lifestyle</a>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full p-4 md:p-6 z-50 text-white hide transition-all duration-300 backdrop-blur-sm bg-black/20" id="nav">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+      <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center p-2 text-white hover-trigger cursor-pointer focus:outline-none">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+
+      <div class="hidden md:flex flex-1 justify-end items-center gap-10 pr-10">
+        <a href="#foundations" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Foundations</a>
+        <a href="#purification" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Purification</a>
+      </div>
+
+      <a href="#hero" class="flex-shrink-0 hover-trigger">
+        <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Logo" class="h-10 md:h-14 w-auto object-contain filter brightness-200">
+      </a>
+
+      <div class="hidden md:flex flex-1 justify-start items-center gap-10 pl-10">
+        <a href="#knowledge" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Knowledge</a>
+        <a href="#lifestyle" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Lifestyle</a>
+      </div>
+      <div class="md:hidden w-6"></div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="h-screen w-full flex flex-col justify-center items-center px-[5%] relative text-center overflow-hidden" id="hero">
+    <div class="video-hero-wrapper">
+      <iframe src="https://go.screenpal.com/player/cOjjXRnvtjt?ff=1&title=0&controls=0&a=1&m=1&l=1&autoplay=1&muted=1&loop=1&width=100%&height=100%&oembed=1" title="Hero Video" allow="autoplay; encrypted-media; gyroscope" allowfullscreen></iframe>
+    </div>
+    <div class="hero-video-overlay"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center justify-center">
+      <p class="text-[10px] md:text-xs tracking-[0.4em] uppercase text-amber-200/90 mb-6 hero-elem split-parent font-medium">
+        <span class="split-child">The Master Blueprint</span>
+      </p>
+      
+      <div class="relative w-full flex flex-col items-center justify-center">
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent drop-shadow-2xl">
+          <span class="split-child">KEY</span>
+        </h1>
+        <h1 class="display-font text-huge text-white uppercase hero-elem split-parent mt-[-2vw] drop-shadow-2xl">
+          <span class="split-child text-[#F3F3F3]">OF LIFE</span>
+        </h1>
+      </div>
+
+      <div class="mt-8 md:mt-12 hero-elem flex flex-wrap justify-center gap-4 items-center">
+        <a href="#foundations" class="magnetic magnetic-btn hover-trigger bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black">
+          <span>Begin Journey</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-10 left-[5%] text-xs tracking-widest uppercase text-gray-400 hero-elem flex gap-4 items-center z-10">
+      <span>Scroll</span>
+      <div class="w-px h-12 bg-gray-500 origin-top animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- STEP 1 & 2: PREPARATION -->
+  <section class="min-h-screen w-full px-[5%] py-32 relative z-10" id="foundations">
+    <div class="max-w-5xl mx-auto w-full">
+
+      <div class="mb-20 text-center md:text-left reveal-elem">
+        <p class="text-xs tracking-[0.3em] uppercase text-[#FF6600] mb-4">Step 01 & 02</p>
+        <h2 class="display-font text-5xl md:text-7xl mb-6 text-white">The Foundations</h2>
+        <p class="text-gray-400 font-light text-lg max-w-2xl">Remove distractions, gain deep knowledge, and structure your spiritual environment before taking any Sankalpa.</p>
+      </div>
+
+      <!-- Step 1: Preparation -->
+      <div class="glass-panel p-8 md:p-12 mb-16 reveal-elem border-l-4 border-l-red-500">
+        <h3 class="display-font text-3xl md:text-4xl text-white mb-4">Prepare for Your Journey</h3>
+        <p class="text-gray-300 font-light mb-6">Before initiating, you must ruthlessly remove specific distracting and energetically heavy items from your physical space.</p>
+        <a href="https://drive.google.com/file/d/10Y5JAV3e32IfaVNtHuK4cw8sCGRrxjGl/view?usp=sharing" target="_blank" class="inline-flex items-center gap-3 text-red-400 hover:text-white transition-colors text-sm uppercase tracking-widest hover-trigger">
+          <span>View Removal List</span> <span class="text-xl">→</span>
+        </a>
+      </div>
+
+      <!-- Extra Guidelines Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 reveal-elem">
+        <div class="bg-emerald-950/20 border border-emerald-500/20 p-8 rounded-[2vw]">
+          <h4 class="text-emerald-400 text-lg font-medium mb-6">Mandatory Practices</h4>
+          <ul class="space-y-4 text-gray-300 text-sm font-light">
+            <li class="flex gap-3"><span class="text-emerald-500">✓</span> Light a Diya, Agarbatti, or Sambrani Havan cup daily.</li>
+            <li class="flex gap-3"><span class="text-emerald-500">✓</span> Pray to Guru, Kul Dev/Devi before Jaap.</li>
+            <li class="flex gap-3"><span class="text-emerald-500">✓</span> Eat light. One full salad plate + one portion of sprouts/mixed salad.</li>
+            <li class="flex gap-3"><span class="text-emerald-500">✓</span> Keep water nearby during Jaap to prevent headaches.</li>
+            <li class="flex gap-3"><span class="text-emerald-500">✓</span> Pause Jaap for 5 mins before using the washroom.</li>
+          </ul>
+        </div>
+
+        <div class="bg-red-950/20 border border-red-500/20 p-8 rounded-[2vw]">
+          <h4 class="text-red-400 text-lg font-medium mb-6">Strict Restrictions</h4>
+          <ul class="space-y-4 text-gray-300 text-sm font-light">
+            <li class="flex gap-3"><span class="text-red-500">✕</span> Absolutely no alcohol or non-veg food. Maintain Brahmacharya.</li>
+            <li class="flex gap-3"><span class="text-red-500">✕</span> Do not speak negatively about others or overthink.</li>
+            <li class="flex gap-3"><span class="text-red-500">✕</span> Zero social media or entertainment. Phone must be on DND.</li>
+            <li class="flex gap-3"><span class="text-red-500">✕</span> Avoid heavy, spicy, and Chinese food completely.</li>
+            <li class="flex gap-3"><span class="text-red-500">✕</span> Avoid wearing black, red, or dark clothing to prevent negative attraction.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STEP 3: HAVAN -->
+  <section class="min-h-screen w-full px-[5%] py-32 relative z-10 border-t border-gray-900" id="purification">
+    <div class="max-w-5xl mx-auto w-full">
+
+      <div class="mb-20 reveal-elem">
+        <p class="text-xs tracking-[0.3em] uppercase text-[#FF6600] mb-4">Step 03</p>
+        <h2 class="display-font text-5xl md:text-7xl mb-6 text-white">Purification</h2>
+      </div>
+
+      <!-- Havan Process -->
+      <div class="glass-panel p-8 md:p-12 mb-16 reveal-elem border-l-4 border-l-amber-500">
+        <div class="flex flex-col md:flex-row justify-between md:items-center mb-8 gap-6">
+          <div>
+            <h3 class="display-font text-3xl md:text-4xl text-white mb-2">Havan for Negativity Removal</h3>
+            <p class="text-gray-400 font-light">Performed for 3 Days (Friday, Saturday, Sunday)</p>
+          </div>
+          <a href="https://t.me/BelievingSpiritual/166" target="_blank" class="px-6 py-2 rounded-full border border-gray-600 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors hover-trigger whitespace-nowrap">Items List →</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h5 class="text-white text-sm font-semibold mb-4 tracking-widest uppercase">The Ritual</h5>
+            <ol class="list-decimal list-inside text-gray-300 font-light text-sm space-y-4">
+              <li>Take 7 dry red chilies. Rotate them <strong>clockwise</strong> 7 times around the afflicted person. Slowly burn each chili in the Havan.</li>
+              <li>Take another 7 dry chilies. Rotate them <strong>anti-clockwise</strong> 7 times around the person. Slowly burn each chili.</li>
+              <li><em>Alternative:</em> If Havan is not possible, use Kapur (camphor) to burn the chilies.</li>
+            </ol>
+          </div>
+          <div class="bg-black/40 p-6 rounded-xl border border-white/5">
+            <h5 class="text-amber-400 text-xs font-semibold mb-4 tracking-widest uppercase">Quantities & Rules</h5>
+            <ul class="text-gray-300 font-light text-sm space-y-2 mb-6">
+              <li><strong>Minor Issues:</strong> 7, 11, or 21 chilies.</li>
+              <li><strong>Severe Issues:</strong> 1.25 kg or more.</li>
+            </ul>
+            <a href="https://youtu.be/lC0GHfbEdCw" target="_blank" class="inline-flex items-center gap-2 text-sm text-white hover:text-amber-400 transition-colors">
+              <span class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500">▶</span>
+              Play Audio on Repeat
+            </a>
+          </div>
+        </div>
+        
+        <p class="text-xs text-gray-500 italic">If extreme fear hits: take 2 incense sticks, rotate clockwise 3 times around yourself, and burn them nearby while praying to your Guru/Shiva.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- KNOWLEDGE BASE & LIFESTYLE -->
+  <section class="min-h-screen w-full px-[5%] py-32 relative z-10 border-t border-gray-900 bg-black/50" id="knowledge">
+    <div class="max-w-6xl mx-auto w-full">
+
+      <div class="mb-20 text-center reveal-elem">
+        <h2 class="display-font text-4xl md:text-6xl mb-4 text-white">The Five Paths</h2>
+        <p class="text-gray-400 font-light text-lg">Understanding the fundamental avenues of spiritual progression.</p>
+      </div>
+
+      <!-- The 5 Kands Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
+        
+        <div class="glass-panel p-8 reveal-elem hover:-translate-y-2 transition-transform duration-300">
+          <h3 class="display-font text-2xl text-white mb-4">1. Dhyan Kand</h3>
+          <p class="text-gray-400 text-sm font-light mb-6">A spiritual state to concentrate the mind and experience inner peace and bliss.</p>
+          <div class="text-xs space-y-2 text-gray-500">
+            <p><strong class="text-gray-300">Benefits:</strong> Peace, self-realization, improved health.</p>
+            <p><strong class="text-gray-300">Methods:</strong> Meditation, Pranayama, Mantra Jaap.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-8 reveal-elem hover:-translate-y-2 transition-transform duration-300">
+          <h3 class="display-font text-2xl text-white mb-4">2. Karma Kand</h3>
+          <p class="text-gray-400 text-sm font-light mb-6">Receiving the fruits of actions and fulfilling your life's exact purpose.</p>
+          <div class="text-xs space-y-2 text-gray-500">
+            <p><strong class="text-gray-300">Benefits:</strong> Fulfilling purpose, deep self-satisfaction.</p>
+            <p><strong class="text-gray-300">Methods:</strong> Nishkam Karma, Seva, disciplined life.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-8 reveal-elem hover:-translate-y-2 transition-transform duration-300">
+          <h3 class="display-font text-2xl text-white mb-4">3. Gyan Kand</h3>
+          <p class="text-gray-400 text-sm font-light mb-6">Developing supreme knowledge, wisdom, and understanding cosmic mechanics.</p>
+          <div class="text-xs space-y-2 text-gray-500">
+            <p><strong class="text-gray-300">Benefits:</strong> Wisdom, self-realization, absolute clarity.</p>
+            <p><strong class="text-gray-300">Methods:</strong> Study, Guru-Shishya tradition, self-contemplation.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-8 reveal-elem hover:-translate-y-2 transition-transform duration-300 lg:col-span-2">
+          <h3 class="display-font text-2xl text-white mb-4">4. Bhakti Kand</h3>
+          <p class="text-gray-400 text-sm font-light mb-6">The practice of absolute devotion, surrender, and faith towards your Ishta Devta.</p>
+          <div class="text-xs space-y-2 text-gray-500 flex flex-col md:flex-row gap-4">
+            <p class="flex-1"><strong class="text-gray-300">Benefits:</strong> Devotion, profound bliss, fulfilling life's purpose effortlessly.</p>
+            <p class="flex-1"><strong class="text-gray-300">Methods:</strong> Puja, Archana, Bhajan, Kirtan, Seva.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel p-8 reveal-elem hover:-translate-y-2 transition-transform duration-300 border-l-4 border-emerald-500">
+          <h3 class="display-font text-2xl text-white mb-4">5. Yog Kand</h3>
+          <p class="text-gray-400 text-sm font-light mb-6">Ancient science to keep the body/mind robust, flexible, and completely peaceful.</p>
+          <div class="text-xs space-y-2 text-gray-500">
+            <p><strong class="text-gray-300">Main Asanas:</strong> Surya Namaskar, Bhujangasana, Shavasana, Padmasana.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Links & Resources Database -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 reveal-elem" id="lifestyle">
+        
+        <!-- Left Col -->
+        <div>
+          <h3 class="display-font text-3xl text-white mb-8 border-b border-gray-800 pb-4">Knowledge Base</h3>
+          <div class="space-y-3">
+            <a href="https://youtu.be/9m-bTiVnkc4?si=VT3NjSD2X5G5oHfY" target="_blank" class="block p-4 rounded-xl border border-white/5 bg-white/5 hover:border-[#FF6600]/50 hover:bg-white/10 transition-all text-sm text-gray-300">▶ Devlok Knowledge</a>
+            <a href="https://youtu.be/8NdhP6QDo2Q?si=-EjExMKuNUStozxg" target="_blank" class="block p-4 rounded-xl border border-white/5 bg-white/5 hover:border-[#FF6600]/50 hover:bg-white/10 transition-all text-sm text-gray-300">▶ Connections of Rebirth</a>
+            <a href="https://youtu.be/hy9fydayoVs?si=pHYgN7gl1SVKfPlj" target="_blank" class="block p-4 rounded-xl border border-white/5 bg-white/5 hover:border-[#FF6600]/50 hover:bg-white/10 transition-all text-sm text-gray-300">▶ Meditation / Dhyanam</a>
+            <a href="https://youtu.be/Tbz2xcK1HKk?si=ypHURcM7fn4-j0yq" target="_blank" class="block p-4 rounded-xl border border-white/5 bg-white/5 hover:border-[#FF6600]/50 hover:bg-white/10 transition-all text-sm text-gray-300">▶ Tratak Knowledge</a>
+            <a href="https://youtube.com/playlist?list=PLpazIQxSEK-jv_S-YJmrD--HCaRE7-IIx" target="_blank" class="block p-4 rounded-xl border border-white/5 bg-white/5 hover:border-[#FF6600]/50 hover:bg-white/10 transition-all text-sm text-gray-300">▶ Pituitary Gland Playlist</a>
+            <div class="pt-4 mt-4 border-t border-gray-800 flex gap-4">
+              <a href="https://vedpuran.net/download-all-ved-and-puran-pdf-hindi-free/" target="_blank" class="text-xs uppercase tracking-widest text-[#FF6600] hover:text-white">Vedas PDF</a>
+              <a href="https://www.veducation.world/library/search?search=Hindi" target="_blank" class="text-xs uppercase tracking-widest text-[#FF6600] hover:text-white">Veducation Library</a>
+            </div>
+          </div>
+
+          <div class="mt-12 bg-red-950/20 border border-red-900/40 p-6 rounded-2xl">
+            <h4 class="text-red-400 font-semibold mb-2 text-sm uppercase tracking-widest">Yantra Rituals Warning</h4>
+            <p class="text-gray-400 text-xs leading-relaxed mb-4">We strongly advise against using Yantras. Placing one is highly complicated; missing daily/weekly rituals can attract dark energies harmful to your family. Even a simple Yantra can block your energy.</p>
+            <a href="https://drive.google.com/file/d/1VspC2Gq8k0ZJ72L8FRzjXst0yqBL6tj7/view?usp=drivesdk" target="_blank" class="text-xs text-white underline hover:text-red-400">Yantra Rituals</a>
+          </div>
+        </div>
+
+        <!-- Right Col -->
+        <div>
+          <h3 class="display-font text-3xl text-white mb-8 border-b border-gray-800 pb-4">Temple Setup & Items</h3>
+          
+          <div class="space-y-6">
+            <div class="bg-black/30 p-5 rounded-xl border border-white/5">
+              <h5 class="text-white text-sm font-semibold mb-3">Home Temple Structure</h5>
+              <ul class="text-gray-400 text-xs space-y-2 font-light list-disc pl-4">
+                <li>Single picture of Shiv Parivar (under 6 inches). <a href="https://amzn.in/d/0e5UVyKQ" class="text-[#FF6600] ml-1">Link</a></li>
+                <li>Kul Dev / Kul Devi pictures (under 6 inches).</li>
+                <li>One Diya, one hand bell, one incense stand.</li>
+                <li>Keep one Red Bulb ON 24/7 for protection. <a href="https://amzn.in/d/fhpv0fV" class="text-[#FF6600] ml-1">Link</a></li>
+                <li>Place all frames in a single row.</li>
+              </ul>
+            </div>
+
+            <div class="bg-black/30 p-5 rounded-xl border border-white/5">
+              <h5 class="text-white text-sm font-semibold mb-3">Divine Incense Types</h5>
+              <div class="grid grid-cols-2 gap-2 text-xs text-gray-400">
+                <a href="https://sugandhlok.com/products/premier-mysore-kasturi-240-grams-economy-box" target="_blank" class="hover:text-white">Kasturi (Wealth)</a>
+                <a href="https://sugandhlok.com/products/premium-rose-agarbathi" target="_blank" class="hover:text-white">Rose (Peace)</a>
+                <a href="https://sugandhlok.com/products/vidwan-agarbathi" target="_blank" class="hover:text-white">Vidwan (Power)</a>
+                <a href="https://sugandhlok.com/products/holy-palo-santo-30-sticks-box" target="_blank" class="hover:text-white">Palo Santo (Clarity)</a>
+                <a href="https://sugandhlok.com/products/woody-palo-santo" target="_blank" class="hover:text-white col-span-2">Woody Santo (Deep Meditation)</a>
+              </div>
+            </div>
+
+            <div class="bg-black/30 p-5 rounded-xl border border-white/5 flex justify-between items-center">
+              <div>
+                <h5 class="text-white text-sm font-semibold mb-1">Karmic Bird Feeding</h5>
+                <p class="text-gray-400 text-xs">Mix 5 grains. Neutralizes Karma/Pitra Dosh.</p>
+              </div>
+              <a href="https://amzn.in/d/5Hew1kv" target="_blank" class="px-4 py-2 border border-gray-600 rounded-full text-xs text-white hover:bg-white hover:text-black transition-colors">Setup</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ISSUES: NIGHTMARES, SLEEP, PAIN -->
+  <section class="min-h-screen w-full px-[5%] py-32 relative z-10 border-t border-gray-900" id="remedies">
+    <div class="max-w-4xl mx-auto w-full">
+
+      <div class="mb-16 text-center reveal-elem">
+        <h2 class="display-font text-4xl md:text-5xl mb-4 text-white">Specific Remedies</h2>
+        <p class="text-gray-400 font-light text-lg">Protocols for nightmares, sleep disorders, and physical pain.</p>
+      </div>
+
+      <!-- Nightmares & Shadow Entities -->
+      <div class="glass-panel p-8 md:p-12 mb-12 reveal-elem">
+        <h3 class="display-font text-2xl text-white mb-4">Overcoming Nightmares & Shadow Entities</h3>
+        <p class="text-gray-300 font-light text-sm md:text-base leading-relaxed mb-6">
+          For individuals experiencing horror dreams, shadow entities, or sleep issues, watch recommended spiritual content (Garuda Purana, Shrimad Bhagavad Gita, Vishnu Purana) for <strong>one hour before sleeping</strong>.
+        </p>
+        <p class="text-gray-400 font-light text-sm italic border-l-2 border-indigo-500 pl-4">
+          Dreams are a natural part of our sleep cycle (REM). Vivid dreams can be caused by stress or medications. Keep a consistent schedule, maintain a dream journal, and practice pre-sleep relaxation.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal-elem">
+        
+        <!-- Sleep Disorders -->
+        <div class="bg-indigo-950/20 border border-indigo-500/20 p-8 rounded-[2vw]">
+          <h4 class="text-indigo-400 text-lg font-medium mb-4">Fixing Sleep Disorders</h4>
+          <ol class="space-y-4 text-gray-300 text-sm font-light list-decimal list-inside mb-6">
+            <li><strong>Daily Meditation:</strong> 15-25 minutes daily.</li>
+            <li><strong>Mansik Chanting:</strong> Practice "So Hum" — inhale with "So" and exhale with "Hum".</li>
+          </ol>
+          <div class="bg-red-950/50 p-4 rounded-xl border border-red-900">
+            <p class="text-red-400 text-xs uppercase tracking-widest font-semibold mb-1">‼️ Warning</p>
+            <p class="text-gray-300 text-xs font-light">Avoid practicing this remedy between 12:00 AM to 3:00 AM (inauspicious time).</p>
+          </div>
+        </div>
+
+        <!-- Body Pain -->
+        <div class="bg-amber-950/20 border border-amber-500/20 p-8 rounded-[2vw]">
+          <h4 class="text-amber-400 text-lg font-medium mb-4">Physical Pain Relief Method</h4>
+          <p class="text-gray-300 text-sm font-light leading-relaxed mb-4">
+            Take one big cardamom (badi elaichi) and hold it in your mouth while chanting Jaap. Do not swallow it instantly. 
+          </p>
+          <p class="text-gray-400 text-sm font-light leading-relaxed">
+            Slowly bite into it and savor the flavor as it mixes with your saliva, allowing its natural healing aroma to unfold gradually into your system.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER / CTA -->
+  <footer class="py-32 px-[5%] bg-[#020202] text-center border-t border-gray-900 relative z-10" id="contact">
+    <div class="max-w-4xl mx-auto">
+      
+      <div class="mb-16">
+        <h2 class="display-font text-5xl md:text-7xl text-white mb-6">Consultations</h2>
+        <p class="text-gray-400 font-light text-lg mb-10">For personalized Energy & Lifestyle consultations, or one-to-one guidance.</p>
+        <a href="https://spiritualkaran.com/" target="_blank" class="magnetic magnetic-btn btn-primary-orange hover-trigger">
+          <span>Book Consultation</span>
+        </a>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-8 text-xs md:text-sm tracking-widest uppercase text-gray-500 border-t border-gray-800 pt-12">
+        <a href="https://t.me/B_spiritual" target="_blank" class="hover:text-[#FF6600] transition-colors hover-trigger">Telegram</a>
+        <a href="https://www.instagram.com/spiritualkaranx" target="_blank" class="hover:text-[#FF6600] transition-colors hover-trigger">Instagram</a>
+        <a href="https://youtube.com/@spiritualkaranx" target="_blank" class="hover:text-[#FF6600] transition-colors hover-trigger">YouTube</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      mouseMultiplier: 1
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+    const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      if (cursorDot) { cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`; }
+      if (cursorOutline) { gsap.to(cursorOutline, { x: posX - 20, y: posY - 20, duration: 0.15, ease: "power2.out" }); }
+    });
+
+    hoverTriggers.forEach(trigger => {
+      trigger.addEventListener('mouseenter', () => { if(cursorOutline) cursorOutline.classList.add('hover'); });
+      trigger.addEventListener('mouseleave', () => { if(cursorOutline) cursorOutline.classList.remove('hover'); });
+    });
+
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function openMobileMenu() {
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+    }
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', openMobileMenu);
+      if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+      mobileNavLinks.forEach(link => { link.addEventListener('click', closeMobileMenu); });
+    }
+
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return;
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.4, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+
+    const initSequence = () => {
+      const tl = gsap.timeline({
+        onComplete: () => { document.getElementById('loader').style.display = 'none'; }
+      });
+      tl.to("#progress", { width: "100%", duration: 1.5, ease: "expo.inOut" })
+        .to(".loader-text span", { y: "0%", duration: 0.8, ease: "power4.out" }, "-=0.5")
+        .to("#loader", { yPercent: -100, duration: 1, ease: "expo.inOut", delay: 0.5 })
+        .fromTo("#nav", { y: -50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.5")
+        .to(".hero-elem .split-child", { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out" }, "-=0.8");
+    };
+    window.addEventListener('load', initSequence);
+
+    const revealElements = document.querySelectorAll('.reveal-elem');
+    revealElements.forEach((elem) => {
+      gsap.to(elem, {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 90%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+  </script>
+</body>
+</html>
