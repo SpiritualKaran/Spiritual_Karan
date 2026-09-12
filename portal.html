@@ -865,6 +865,39 @@
       trigger.addEventListener('mouseleave', () => { if(cursorOutline) cursorOutline.classList.remove('hover'); });
     });
 
+    // Mobile Menu Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function openMobileMenu() {
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+      // Prevent scrolling on body when menu is open
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      // Restore scrolling
+      document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', openMobileMenu);
+      
+      if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+      }
+      
+      // Close menu when a link is clicked
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+      });
+    }
+
     const magnetics = document.querySelectorAll('.magnetic');
     magnetics.forEach(btn => {
       btn.addEventListener('mousemove', (e) => {
