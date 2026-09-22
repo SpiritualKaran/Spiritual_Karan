@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitra Dosh Sadhana & Protocol | Spiritual Karan</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/TPp8bwKy/om-logo.png">
+
+  <!-- Core Brand Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP & Lenis for Smooth Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #03010A;
+      --text: #F3F3F3;
+      --accent: #FF6600;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Enforced Dark Cosmic Gradient with !important to prevent Tailwind Preflight override */
+    html {
+      background-color: #03010A !important;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%) !important;
+      background-attachment: fixed !important;
+      min-height: 100%;
+    }
+
+    body {
+      background-color: transparent !important;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%) !important;
+      background-attachment: fixed !important;
+      color: #F3F3F3 !important;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, .display-font { font-family: 'Syne', sans-serif; }
+    .signature-font { font-family: 'Great Vibes', cursive; font-weight: 400; }
+
+    /* Custom Cursor */
+    .cursor-dot, .cursor-outline {
+      position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+      border-radius: 50%; z-index: 99999; pointer-events: none;
+    }
+    .cursor-dot { width: 6px; height: 6px; background-color: white; }
+    .cursor-outline {
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5);
+      transition: width 0.3s, height 0.3s, background-color 0.3s;
+    }
+    .cursor-outline.hover {
+      width: 80px; height: 80px; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(2px);
+    }
+
+    @media (max-width: 768px), (pointer: coarse) {
+      body { cursor: auto !important; }
+      .cursor-dot, .cursor-outline { display: none !important; }
+    }
+
+    /* Cinematic Noise Overlay */
+    .noise {
+      position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.03;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    }
+
+    /* Fixed Cosmic Radial Background Glow */
+    .mesh-bg {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 100vw; height: 100vh; z-index: 0; overflow: hidden;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 30%, rgba(93, 26, 175, 0.4) 0%, rgba(40, 13, 147, 0.25) 50%, rgba(3, 1, 10, 0.8) 100%);
+    }
+
+    /* Magnetic Brand Buttons */
+    .magnetic-btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 1.15rem 2.5rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent;
+      color: white; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      position: relative; overflow: hidden; transition: border-color 0.3s;
+      z-index: 1;
+    }
+    .magnetic-btn span {
+      position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    }
+    .magnetic-btn::before {
+      content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+      background: white; transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); z-index: 1;
+    }
+    .magnetic-btn:hover { border-color: white; }
+    .magnetic-btn:hover span { color: black; }
+    .magnetic-btn:hover::before { transform: translateY(-100%); }
+
+    .btn-primary-orange {
+      background-color: #FF6600;
+      border: none !important;
+      font-weight: 600;
+    }
+    .btn-primary-orange span { color: #FFFFFF !important; }
+    .btn-primary-orange::before { background: #FFFFFF; }
+    .btn-primary-orange:hover span { color: #000000 !important; }
+
+    /* Authentic Dark Glassmorphic Cards */
+    .glass-card {
+      background: rgba(12, 6, 24, 0.7) !important;
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(255, 102, 0, 0.4);
+    }
+  </style>
+</head>
+<body class="relative">
+
+  <!-- Interactive Custom Cursor Elements -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+
+  <!-- Noise Background & Cosmic Radial Layer -->
+  <div class="noise"></div>
+  <div class="mesh-bg"></div>
+
+  <!-- Mobile Navigation Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[99990] flex flex-col justify-center items-center text-center p-6 opacity-0 pointer-events-none transition-all duration-300">
+    <button id="mobile-menu-close" aria-label="Close Navigation Menu" class="absolute top-6 right-6 p-4 text-white focus:outline-none hover-trigger">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="flex flex-col gap-8 text-xl font-medium tracking-[0.2em] uppercase">
+      <a href="index.html" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Home</a>
+      <a href="#elements" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">The 5 Kands</a>
+      <a href="#consultations" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Consultations</a>
+      <a href="#protocol" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Protocol Tasks</a>
+      <a href="#contact" class="mobile-nav-link text-white hover:text-[#FF6600] transition-colors">Contact</a>
+    </div>
+  </div>
+
+  <!-- Master Brand Navigation Bar -->
+  <nav class="fixed top-0 w-full p-4 md:p-6 z-50 text-white backdrop-blur-md bg-black/40 border-b border-white/5 transition-all duration-300" id="nav">
+    <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+      
+      <button id="mobile-menu-btn" aria-label="Open Navigation Menu" class="md:hidden flex items-center justify-center p-2 text-white hover-trigger cursor-pointer focus:outline-none">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </button>
+
+      <div class="hidden md:flex flex-1 justify-end items-center gap-10 pr-10">
+        <a href="index.html" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Home</a>
+        <a href="#elements" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">The 5 Kands</a>
+        <a href="#consultations" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Consultations</a>
+      </div>
+
+      <a href="index.html" class="flex-shrink-0 hover-trigger">
+        <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-10 md:h-14 w-auto object-contain">
+      </a>
+
+      <div class="hidden md:flex flex-1 justify-start items-center gap-10 pl-10">
+        <a href="#protocol" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Master Tasks</a>
+        <a href="#purification" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Purification</a>
+        <a href="#contact" class="text-xs uppercase tracking-[0.2em] hover:text-[#FF6600] transition-colors hover-trigger">Contact</a>
+      </div>
+
+      <div class="md:hidden w-6"></div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="min-h-screen w-full flex flex-col justify-center items-center px-[5%] pt-36 pb-20 relative text-center overflow-hidden">
+    <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
+      <p class="text-xs md:text-sm tracking-[0.4em] uppercase text-amber-200/90 mb-6 font-medium">
+        Karmic Alignment & Ancestral Liberation
+      </p>
+      
+      <!-- Pitra Dosh in Bold Syne -->
+      <h1 class="display-font font-bold text-5xl md:text-7xl lg:text-8xl text-white uppercase tracking-tight leading-none mb-6">
+        PITRA<br><span class="text-[#FF6600]">DOSH</span>
+      </h1>
+      
+      <p class="text-gray-300 text-lg md:text-xl font-light max-w-3xl leading-relaxed mb-10">
+        Authentic, step-by-step guidance based on ancient energetic sciences. A 100% Satvik protocol designed to resolve ancestral blocks, purify energy portals, and invite health, wealth, and spiritual growth right from your home.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-5 items-center">
+        <a href="#protocol" class="magnetic magnetic-btn btn-primary-orange hover-trigger shadow-lg shadow-orange-500/20">
+          <span>Explore Protocol</span>
+        </a>
+        <a href="#consultations" class="magnetic magnetic-btn hover-trigger bg-white/10 backdrop-blur-md border border-white/20 text-white">
+          <span>Book Consultation</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduction & 5 Elements of Kand -->
+  <section class="w-full px-[5%] py-24 relative z-10 border-t border-white/5" id="elements">
+    <div class="max-w-6xl mx-auto">
+      <div class="glass-card p-8 md:p-14 mb-16 relative overflow-hidden">
+        <p class="text-xs tracking-[0.3em] uppercase text-[#FF6600] mb-3">Authentic Lineage</p>
+        <h2 class="display-font text-3xl md:text-5xl text-white mb-6">Welcome to Practical Spirituality</h2>
+        <p class="text-gray-300 text-base md:text-lg font-light leading-relaxed mb-6">
+          I am Karan Chawla. My spiritual journey began in 2002, and after years of dedicated study and verification, I founded this community in 2023 with a focused intent: to deliver complete, unfiltered, and practical spiritual knowledge.
+        </p>
+        <p class="text-gray-300 text-base md:text-lg font-light leading-relaxed">
+          Unlike complex, commercialized rituals, this is an uncompromising <strong class="text-white">100% Satvik path</strong>. There is no requirement for external bhog offerings. If you execute each task step-by-step with disciplined regularity, you will experience unmistakable shifts in your reality.
+        </p>
+      </div>
+
+      <div class="text-center mb-12">
+        <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-2">The Energetic Foundation</p>
+        <h2 class="display-font text-4xl md:text-6xl text-white">The Five Cosmic Elements (Kands)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div class="glass-card p-6 text-center border-t-2 border-t-amber-500/50">
+          <div class="text-4xl mb-4">🏔️</div>
+          <h3 class="display-font text-xl text-white mb-2">Gyan Kand</h3>
+          <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Earth Element</p>
+          <p class="text-gray-400 text-sm font-light">Rooted in ancient scriptures and timeless ancestral wisdom.</p>
+        </div>
+
+        <div class="glass-card p-6 text-center border-t-2 border-t-blue-500/50">
+          <div class="text-4xl mb-4">💧</div>
+          <h3 class="display-font text-xl text-white mb-2">Bhakti Kand</h3>
+          <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Water Element</p>
+          <p class="text-gray-400 text-sm font-light">Sacred daily rituals, pure surrender, and emotional devotion.</p>
+        </div>
+
+        <div class="glass-card p-6 text-center border-t-2 border-t-orange-500/50">
+          <div class="text-4xl mb-4">🔥</div>
+          <h3 class="display-font text-xl text-white mb-2">Yog Kand</h3>
+          <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Fire Element</p>
+          <p class="text-gray-400 text-sm font-light">Transformational internal disciplines derived from Vigyan Bhairav.</p>
+        </div>
+
+        <div class="glass-card p-6 text-center border-t-2 border-t-teal-500/50">
+          <div class="text-4xl mb-4">🌀</div>
+          <h3 class="display-font text-xl text-white mb-2">Karam Kand</h3>
+          <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Air Element</p>
+          <p class="text-gray-400 text-sm font-light">Selfless action, bird feeding, and balancing dynamic return.</p>
+        </div>
+
+        <div class="glass-card p-6 text-center border-t-2 border-t-purple-500/50">
+          <div class="text-4xl mb-4">🌌</div>
+          <h3 class="display-font text-xl text-white mb-2">Dhyan Kand</h3>
+          <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Space Element</p>
+          <p class="text-gray-400 text-sm font-light">Profound stillness, expanded meditation, and total pure awareness.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consultation Offerings -->
+  <section class="w-full px-[5%] py-24 relative z-10" id="consultations">
+    <div class="max-w-6xl mx-auto">
+      <div class="mb-14">
+        <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-3">Guidance Structure</p>
+        <h2 class="display-font text-4xl md:text-6xl text-white">Consultations & Offerings</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Pitra Dosh Card -->
+        <div class="glass-card p-8 md:p-10 border-[#FF6600]/40 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-6">
+              <span class="text-xs uppercase tracking-[0.3em] text-[#FF6600]">Ancestral Grace</span>
+              <span class="display-font text-3xl text-emerald-400 font-bold">100% FREE</span>
+            </div>
+            <h3 class="display-font text-3xl md:text-4xl text-white mb-4">Pitra Dosh Guidance</h3>
+            <p class="text-gray-400 font-light mb-6 text-sm md:text-base">Comprehensive ancestral evaluation for individuals facing generational blocks.</p>
+            <ul class="text-gray-300 space-y-3 font-light text-sm mb-8">
+              <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> 30-minute one-on-one session with tailored remedies.</li>
+              <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> Complete step-by-step remedy document included free.</li>
+              <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> All subsequent follow-ups remain free for dedicated seekers.</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/917666554400" target="_blank" class="magnetic magnetic-btn btn-primary-orange hover-trigger w-full text-center">
+            <span>Claim Free Session</span>
+          </a>
+        </div>
+
+        <!-- Secondary Dosha Card -->
+        <div class="glass-card p-8 md:p-10 border-white/10 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-6">
+              <span class="text-xs uppercase tracking-[0.3em] text-gray-400">Energetic Alignment</span>
+              <span class="display-font text-3xl text-white">Tiered</span>
+            </div>
+            <h3 class="display-font text-3xl md:text-4xl text-white mb-4">Pret, Guru & Shakti Dosh</h3>
+            <p class="text-gray-400 font-light mb-6 text-sm md:text-base">Specialized diagnostic clearing for heavy energetic, teacher, or divine discords.</p>
+            <ul class="text-gray-300 space-y-3 font-light text-sm mb-8">
+              <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> First consultation (30 minutes) provided 100% free.</li>
+              <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> Comprehensive remedies PDF provided at zero charge.</li>
+              <li class="flex items-center gap-2"><span class="text-[#FF6600]">✦</span> Advanced follow-up sessions are structured as paid sessions.</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/917666554400" target="_blank" class="magnetic magnetic-btn hover-trigger bg-white/10 border border-white/20 text-white w-full text-center">
+            <span>Inquire on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Task Protocol Section -->
+  <section class="w-full px-[5%] py-24 relative z-10 border-t border-white/5" id="protocol">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-20">
+        <p class="text-xs tracking-[0.3em] uppercase text-[#FF6600] mb-3">Structured Execution</p>
+        <h2 class="display-font text-4xl md:text-7xl text-white">The 8 Master Tasks</h2>
+        <p class="text-gray-400 font-light mt-4 max-w-xl mx-auto">Complete each level sequentially. Log your initiation and completion timestamps within the practitioner portal.</p>
+      </div>
+
+      <div class="space-y-8">
+        
+        <!-- Task 01 -->
+        <div class="glass-card p-8 md:p-12">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600]">Foundation Step</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 01: Watch youtube playlist</h3>
+            </div>
+            <span class="text-xs uppercase tracking-widest text-gray-400 mt-2 md:mt-0">Mandatory Notes Required</span>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-6">
+            These transmissions contain valuable sacred energetic teachings rather than casual media. Never watch passively: take written notes and contemplate each principle.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <a href="https://youtube.com/playlist?list=PLCj2wTUy9YzFSvjCxCeeiAaVemn-5D-UI&si=aKVU_KAN4qPUIedl" target="_blank" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FF6600] transition-colors block">
+              <h4 class="text-white font-medium mb-1">1. Case Studies</h4>
+              <p class="text-xs text-gray-400">Examine documented real-world energetic transformations.</p>
+            </a>
+            <a href="https://youtube.com/playlist?list=PLELVYLQ9Um5U&si=AJRv3EAFrwkcDkXW" target="_blank" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FF6600] transition-colors block">
+              <h4 class="text-white font-medium mb-1">2. Sadhana Practice</h4>
+              <p class="text-xs text-gray-400">Step-by-step methodologies and chanting dynamics.</p>
+            </a>
+            <a href="https://www.youtube.com/watch?v=DERSfmId_Kc&list=PLeuFfaDNHggE" target="_blank" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#FF6600] transition-colors block">
+              <h4 class="text-white font-medium mb-1">3. Questions & Answers</h4>
+              <p class="text-xs text-gray-400">Direct resolutions to common obstacles and queries.</p>
+            </a>
+          </div>
+          <div class="p-4 rounded-xl bg-black/40 border border-white/5 font-mono text-xs text-gray-400">
+            <span class="text-[#FF6600]">Update Rule:</span> Post status in practitioner group with start date and end date.<br>
+            Example: <span class="text-white">#youtubeplaylist Started Today (DD/MMM/YYYY) #youtubeplaylist End Today (DD/MMM/YYYY)</span>
+          </div>
+        </div>
+
+        <!-- Task 02 -->
+        <div class="glass-card p-8 md:p-12 border-rose-500/30">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-rose-500/20 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-rose-400">Energetic Clearing</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 02: Elimination of Portal Objects</h3>
+            </div>
+            <span class="text-xs uppercase tracking-widest text-rose-400 mt-2 md:mt-0">Strict House Protocol</span>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-6">
+            Disordered, energized, or fractured articles often serve as open astral portals that deplete household prana. If your household is experiencing persistent discord, dismantle and remove these items immediately:
+          </p>
+          <div class="p-6 rounded-2xl bg-black/40 border border-white/10 text-sm font-light text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">Items to remove:</strong> Sacred threads (Dhaga), amulets (Tawaiz), non-consecrated Yantras, photos of deceased ancestors (Pitra photos), Koodi, Gomti Chakra, Indrajal, decorative pyramids, loose crystals, rock salt lamps, unprescribed Rudraksha, cat's umbilical cord (billi ki jer), Kali Haldi, artificial metallic jewelry, commercial Feng Shui knick-knacks, cracked statues, and all seasonal festival decorations once events conclude.
+          </div>
+          <ul class="text-gray-300 text-sm space-y-3 font-light mb-6">
+            <li><span class="text-[#FF6600]">✦</span> <strong class="text-white">Married Women:</strong> If enduring recurring suffering, remove these objects from both your maternal home and your husband's residence; consign them to a flowing natural river.</li>
+            <li><span class="text-[#FF6600]">✦</span> <strong class="text-white">Food Offerings:</strong> Immediately suspend food offerings (bhog) to Ancestors and Devi/Devta in your house. </li>
+            <li><span class="text-[#FF6600]">✦</span> <strong class="text-white">Space Purification:</strong> Promptly burn 7 whole dry red chilies with pure Kapoor (camphor) in a metal or clay vessel and disperse the smoke (dhuni) across all rooms. Expect distinct shifts within 7 days.</li>
+          </ul>
+          <a href="https://drive.google.com/file/d/10Y5JAV3e32IfaVNtHuK4cw8sCGRrxjGl/view" target="_blank" class="text-xs uppercase tracking-widest text-[#FF6600] hover:text-white transition-colors underline underline-offset-4">
+            View Reference Visual Document ↗
+          </a>
+        </div>
+
+        <!-- Task 03 -->
+        <div class="glass-card p-8 md:p-12">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600]">Sacred Altar</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 03: Altar & Mandir Architecture</h3>
+            </div>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-6">
+            Eliminate excessive clutter from your home altar. Keep spiritual geometry strictly streamlined to avoid fragmented energy patterns:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-5 rounded-xl bg-white/5 border border-white/10 text-center">
+              <span class="display-font text-2xl text-[#FF6600] block mb-2">01</span>
+              <h4 class="text-white font-medium mb-1">Shiv Parivar</h4>
+              <p class="text-xs text-gray-400">A single consecrated frame, strictly under 6 inches in height.</p>
+            </div>
+            <div class="p-5 rounded-xl bg-white/5 border border-white/10 text-center">
+              <span class="display-font text-2xl text-[#FF6600] block mb-2">02</span>
+              <h4 class="text-white font-medium mb-1">Kul Dev / Devi</h4>
+              <p class="text-xs text-gray-400">Lineage guardian frame (under 6 inches), aligned in a horizontal row.</p>
+            </div>
+            <div class="p-5 rounded-xl bg-white/5 border border-white/10 text-center">
+              <span class="display-font text-2xl text-[#FF6600] block mb-2">03</span>
+              <h4 class="text-white font-medium mb-1">Sacred Tools</h4>
+              <p class="text-xs text-gray-400">Strictly one single Diya, one hand bell, and one incense stand.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task 04 -->
+        <div class="glass-card p-8 md:p-12">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600]">Karmic Forgiveness</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 04: The Guilt Killer Protocol</h3>
+            </div>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-6">
+            True ancestral liberation begins when deep-seated self-reproach, blame, and past emotional charges dissolve. Engage in this guided meditation to consciously release and forgive every soul, family member, companion, animal, and place across all lifetimes.
+          </p>
+          <a href="https://www.youtube.com/watch?v=PLDBHI2G6d8" target="_blank" class="magnetic magnetic-btn hover-trigger bg-white/10 border border-white/20 text-white">
+            <span>Listen to Guilt Killer Audio</span>
+          </a>
+        </div>
+
+        <!-- Task 05 -->
+        <div class="glass-card p-8 md:p-12">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600]">Daily Discipline</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 05: The Divine Daily Discipline</h3>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+              <h4 class="text-emerald-400 font-semibold uppercase tracking-wider text-xs mb-4">Mandatory Daily Observances</h4>
+              <ul class="text-gray-300 space-y-3 font-light text-sm">
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span> Light a pure Desi Ghee Diya and natural herbal agarbatti daily.</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span> Keep a dedicated red bulb illuminated in the temple space 24/7.</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span> Offer prayers to Ganesha, your Guru, Kul Dev/Devi, Isht Dev, and Pitr Devtas before Jaap.</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span> Eat light food, clean meals (fresh salads and sprouts).</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span> Keep fresh water nearby during chanting to avoid energetic headaches.</li>
+                <li class="flex items-start gap-2"><span class="text-emerald-400">✓</span> Pause Jaap for at least 5 minutes before leaving your mat to use the washroom.</li>
+              </ul>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-rose-950/20 border border-rose-500/20">
+              <h4 class="text-rose-400 font-semibold uppercase tracking-wider text-xs mb-4">Strict Restrictions & Guardrails</h4>
+              <ul class="text-gray-300 space-y-3 font-light text-sm">
+                <li class="flex items-start gap-2"><span class="text-rose-400">✕</span> Zero alcohol and no non-vegetarian food; preserve Brahmacharya.</li>
+                <li class="flex items-start gap-2"><span class="text-rose-400">✕</span> Refrain from criticism, malice, emotional gossip, and overthinking.</li>
+                <li class="flex items-start gap-2"><span class="text-rose-400">✕</span> Zero casual entertainment or social media. Keep your phone on Do Not Disturb.</li>
+                <li class="flex items-start gap-2"><span class="text-rose-400">✕</span> Strictly avoid heavily spiced, processed, and oily foods.</li>
+                <li class="flex items-start gap-2"><span class="text-rose-400">✕</span> Avoid wearing dark red, black, or heavy dark garments to prevent dense astral attraction.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+              <h4 class="text-white text-sm font-medium">Recommended Incense: Vidwan Natural Herbal Agarbatti</h4>
+              <p class="text-xs text-gray-400">25 Sticks | 60-minute clean burn | Handcrafted natural herbs</p>
+            </div>
+            <a href="https://sungandh-lok.myshopify.com/?referralID=WYbMmzMA1yFXLdv85JzP-signup" target="_blank" class="px-5 py-2 rounded-full border border-white/20 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all">
+              Order Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Task 06 -->
+        <div class="glass-card p-8 md:p-12" id="purification">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600]">Kriya Procedures</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 06: Sacred Purification Kriyas</h3>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="p-6 rounded-xl bg-white/5 border border-white/10">
+              <h4 class="text-white font-semibold mb-2">1. Physical & Pranic Purification</h4>
+              <p class="text-gray-300 text-sm font-light leading-relaxed">
+                Take 1 small green cardamom and 1 clove in your right hand, and the identical combination in your left. Bring your palms together, close your eyes, and chant your assigned Guru Mantra continuously for 5 minutes. Light pure Kapoor (camphor) in a clay or brass vessel. First, release the right-hand herbs into the flame while uttering your mantra with <em>"Swaha"</em>; subsequently, release the left-hand herbs with <em>"Swaha"</em>.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-white/5 border border-white/10">
+              <h4 class="text-white font-semibold mb-2">2. Individual Negativity Dissolution</h4>
+              <p class="text-gray-300 text-sm font-light leading-relaxed mb-3">
+                Conduct this weekly or continuously for 3 consecutive days (Friday, Saturday, and Sunday):
+              </p>
+              <ul class="text-gray-300 text-sm space-y-2 font-light">
+                <li><span class="text-[#FF6600]">✦</span> Circle 7 dry red chilies clockwise 7 times around the person; carefully burn each chili in sacred Havan embers or over camphor.</li>
+                <li><span class="text-[#FF6600]">✦</span> Take another set of 7 chilies, circle anti-clockwise 7 times, and burn them completely.</li>
+                <li><span class="text-[#FF6600]">✦</span> <strong class="text-white">Fear Remedy:</strong> Circle 2 burning herbal incense sticks clockwise 3 times around your body, plant them close by, and pray to Lord Shiva or your Guru.</li>
+                <li><span class="text-[#FF6600]">✦</span> <strong class="text-white">Dosage Protocol:</strong> Use 7, 11, or 21 chilies for standard blockages; use 1.25 kg once annually for chronic generational distress.</li>
+              </ul>
+            </div>
+
+            <div class="p-6 rounded-xl bg-white/5 border border-white/10">
+              <h4 class="text-white font-semibold mb-2">3. House Negativity Clearing</h4>
+              <p class="text-gray-300 text-sm font-light leading-relaxed mb-4">
+                Take 7 dried red chilies, pray directly to Lord Ganesha, your Guru, Kul Dev/Devi, Isht Dev, and Pitr Devtas, then burn them directly over pure camphor in a designated bowl. Walk through every quadrant of your home with the cleansing smoke. Loop the clearing frequency audio in the background.
+              </p>
+              <a href="https://youtu.be/lC0GHfbEdCw?si=wu6SycTO7U-iUD0H" target="_blank" class="text-xs uppercase tracking-widest text-[#FF6600] hover:text-white transition-colors underline underline-offset-4">
+                Listen to Negative Energy Removal Audio ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task 07 -->
+        <div class="glass-card p-8 md:p-12">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600]">Karmic Balance</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 07: Daily Karmic Recalibration</h3>
+            </div>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-6">
+            Balance generational debits through active, compassionate service to surrounding life forms:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="p-5 rounded-xl bg-white/5 border border-white/10">
+              <h4 class="text-white font-medium mb-1">Panch-Dhanya Bird Feeding</h4>
+              <p class="text-xs text-gray-400 font-light">Blend 5 types of grains and maintain a dedicated hanging feeder.</p>
+            </div>
+            <div class="p-5 rounded-xl bg-white/5 border border-white/10">
+              <h4 class="text-white font-medium mb-1">Surya Arghya (Solar Offering)</h4>
+              <p class="text-xs text-gray-400 font-light">Offer water in a copper vessel to Surya Dev at sunrise to harmonize ancestral debts.</p>
+            </div>
+          </div>
+          <div class="border-t border-white/10 pt-6">
+            <h4 class="text-white text-xs uppercase tracking-widest text-[#FF6600] mb-4">Advanced Offerings (Seek Guru Approval First)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-light text-gray-300">
+              <div class="p-4 rounded-lg bg-black/30">
+                <span class="text-white font-medium block mb-1">ൠ Ant Feeding</span>
+                Finely powdered rice and raw sugar offered at the base of a sacred Peepal tree.
+              </div>
+              <div class="p-4 rounded-lg bg-black/30">
+                <span class="text-white font-medium block mb-1">𐦐 Animal Seva</span>
+                Selfless feeding of cows, street canines, and wild aquatic life.
+              </div>
+              <div class="p-4 rounded-lg bg-black/30">
+                <span class="text-white font-medium block mb-1">𖥸 Sacred Donation</span>
+                Making respectful offerings or financial donations to a Temple, Guru, or Dharamshala.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task 08 -->
+        <div class="glass-card p-8 md:p-12 border-rose-500/40">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-rose-500/20 pb-6 mb-6">
+            <div>
+              <span class="text-xs tracking-[0.3em] uppercase text-rose-400">Sacred Trust</span>
+              <h3 class="display-font text-2xl md:text-4xl text-white mt-1">Task 08: Ancient Texts & Confidentiality</h3>
+            </div>
+          </div>
+          <p class="text-gray-300 font-light leading-relaxed mb-6">
+            Expand your intellect through direct exposure to traditional canonical literature:
+          </p>
+          <div class="flex flex-wrap gap-4 mb-8">
+            <a href="https://tr.ee/tzjkDO" target="_blank" class="px-5 py-3 rounded-full bg-white/10 hover:bg-white hover:text-black transition-colors text-xs uppercase tracking-wider font-medium">
+              Access Hindu Puranas ↗
+            </a>
+            <a href="https://tr.ee/qEYmzY" target="_blank" class="px-5 py-3 rounded-full bg-white/10 hover:bg-white hover:text-black transition-colors text-xs uppercase tracking-wider font-medium">
+              Access Sacred Vedic Texts ↗
+            </a>
+          </div>
+          
+          <div class="p-6 rounded-2xl bg-rose-950/30 border border-rose-500/30">
+            <h4 class="text-rose-400 font-bold uppercase tracking-widest text-xs mb-2">Strict Non-Disclosure Mandate</h4>
+            <p class="text-rose-200/90 text-sm font-light leading-relaxed">
+              Never share mantras or specific sadhana materials publicly. Mantras are tailored energetic formulas intended only for the initiated disciple. Sharing access credentials or unauthorized materials without explicit consent will lead to immediate and permanent revocation of your mentorship.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Footer with Direct Contact -->
+  <footer class="w-full flex flex-col justify-between p-[5%] bg-[#020202] border-t border-white/10 relative z-10" id="contact">
+    <div class="flex flex-col md:flex-row justify-between items-start w-full border-b border-gray-800 pb-12 gap-8">
+      <div>
+        <h4 class="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Direct Communication</h4>
+        <a href="mailto:hi@spiritualkaran.com" class="text-xl md:text-3xl hover:text-white transition-colors hover-trigger block">hi@spiritualkaran.com</a>
+        <a href="https://wa.me/917666554400" target="_blank" class="text-xl md:text-3xl hover:text-white transition-colors hover-trigger block mt-2">WhatsApp: +91 76665 54400</a>
+      </div>
+      <div class="md:text-right">
+        <h4 class="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Channels</h4>
+        <a href="https://www.instagram.com/spiritualkaranx" target="_blank" class="block hover:text-white hover-trigger">Instagram</a>
+        <a href="https://youtube.com/@spiritualkaranx" target="_blank" class="block hover:text-white hover-trigger mt-2">YouTube</a>
+        <a href="https://t.me/spiritualkaran" target="_blank" class="block hover:text-white hover-trigger mt-2">Telegram</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // 1. Lenis Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // 2. Custom Cursor Movement
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+    const hoverTriggers = document.querySelectorAll('.hover-trigger, a, button');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+      gsap.to(cursorOutline, {
+        x: posX,
+        y: posY,
+        duration: 0.15,
+        ease: "power2.out"
+      });
+    });
+
+    hoverTriggers.forEach(trigger => {
+      trigger.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+      trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+    });
+
+    // 3. Mobile Navigation Controls
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function toggleMenu(open) {
+      if (open) {
+        mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+        mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+      } else {
+        mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+        mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => toggleMenu(true));
+    if (mobileMenuClose) mobileMenuClose.addEventListener('click', () => toggleMenu(false));
+    mobileNavLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+    // 4. Magnetic Button Interactions
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.35, y: y * 0.35, duration: 0.3, ease: 'power2.out' });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+  </script>
+</body>
+</html>
