@@ -19,7 +19,7 @@
   <!-- GSAP & Lenis for Smooth Motion -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
 
   <style>
     :root {
@@ -49,6 +49,238 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
     }
+
+    /* ─── PASSWORD GATE ─────────────────────────────────── */
+    #password-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: linear-gradient(135deg, #5d1aaf 0%, #280d93 45%, #000000 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #password-gate.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .gate-noise {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)"/%3E%3C/svg%3E');
+      pointer-events: none;
+    }
+    .gate-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw; height: 70vh;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,26,175,0.45) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
+    }
+
+    .gate-box {
+      position: relative;
+      z-index: 2;
+      background: rgba(8, 4, 20, 0.88);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 3rem 2.5rem 2.5rem;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(93,26,175,0.2);
+      animation: gateIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes gateIn {
+      from { opacity: 0; transform: translateY(28px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .gate-om {
+      font-size: 2.8rem;
+      line-height: 1;
+      margin-bottom: 1.4rem;
+      display: block;
+      animation: spinSlow 20s linear infinite;
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .gate-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.01em;
+    }
+    .gate-sub {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .gate-label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-align: left;
+      margin-bottom: 0.55rem;
+    }
+
+    .gate-input-wrap {
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+    .gate-input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 0.9rem 3.2rem 0.9rem 1.1rem;
+      color: #fff;
+      font-size: 1.15rem;
+      letter-spacing: 0.25em;
+      font-family: 'Inter', monospace;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+    .gate-input:focus {
+      border-color: rgba(93,26,175,0.7);
+      background: rgba(255,255,255,0.09);
+      box-shadow: 0 0 0 3px rgba(93,26,175,0.18);
+    }
+    .gate-input.input-error {
+      border-color: rgba(239,68,68,0.7) !important;
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important;
+      animation: shake 0.38s cubic-bezier(0.36,0.07,0.19,0.97);
+    }
+    @keyframes shake {
+      10%, 90% { transform: translateX(-3px); }
+      20%, 80% { transform: translateX(4px); }
+      30%, 50%, 70% { transform: translateX(-5px); }
+      40%, 60% { transform: translateX(5px); }
+    }
+
+    .gate-eye {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      padding: 0.2rem;
+      display: flex;
+      align-items: center;
+    }
+    .gate-eye:hover { color: rgba(255,255,255,0.7); }
+
+    .gate-btn {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #FF6600;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+      box-shadow: 0 8px 30px rgba(255,102,0,0.3);
+      margin-top: 0.4rem;
+    }
+    .gate-btn:hover { background: #e55a00; box-shadow: 0 12px 40px rgba(255,102,0,0.45); transform: translateY(-1px); }
+    .gate-btn:active { transform: translateY(0); }
+
+    /* Error message */
+    .gate-error {
+      display: none;
+      margin-top: 1.25rem;
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      text-align: left;
+    }
+    .gate-error.visible { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .gate-error-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f87171;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .gate-error p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.55;
+      margin-bottom: 0.6rem;
+    }
+    .gate-error a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4ade80;
+      text-decoration: none;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.25);
+      transition: background 0.2s, color 0.2s;
+    }
+    .gate-error a:hover { background: rgba(74,222,128,0.2); color: #86efac; }
+
+    .gate-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 1.5rem 0 1.1rem;
+    }
+    .gate-footer {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .gate-box { padding: 2.2rem 1.5rem 2rem; border-radius: 20px; }
+      .gate-om { font-size: 2.2rem; }
+      .gate-title { font-size: 1.15rem; }
+    }
+    /* ─── END PASSWORD GATE ─────────────────────────────── */
 
     h1, h2, h3, h4, .display-font { font-family: 'Syne', sans-serif; }
     .signature-font { font-family: 'Great Vibes', cursive; font-weight: 400; }
@@ -130,6 +362,64 @@
   </style>
 </head>
 <body class="relative">
+
+  <!-- ═══════════════════════════════════════════════════
+       PASSWORD GATE OVERLAY
+  ═══════════════════════════════════════════════════ -->
+  <div id="password-gate" role="dialog" aria-modal="true" aria-label="Access protected content">
+    <div class="gate-noise"></div>
+    <div class="gate-glow"></div>
+
+    <div class="gate-box">
+      <!-- Om Symbol -->
+      <span class="gate-om" aria-hidden="true">〇</span>
+
+      <h1 class="gate-title">Sacred Protocol Access</h1>
+      <p class="gate-sub">Spiritual Karan · Sadhana Portal</p>
+
+      <label for="gate-password-input" class="gate-label">Please enter password</label>
+
+      <div class="gate-input-wrap">
+        <input
+          type="password"
+          id="gate-password-input"
+          class="gate-input"
+          placeholder="Enter access key"
+          autocomplete="current-password"
+          spellcheck="false"
+          maxlength="30"
+        >
+        <button class="gate-eye" id="gate-toggle-eye" aria-label="Toggle password visibility" type="button">
+          <svg id="eye-icon-show" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg id="eye-icon-hide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+          </svg>
+        </button>
+      </div>
+
+      <button class="gate-btn" id="gate-submit-btn" type="button">
+        Enter Portal
+      </button>
+
+      <!-- Error / Warning box -->
+      <div class="gate-error" id="gate-error-box" role="alert" aria-live="polite">
+        <div class="gate-error-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.5L20.5 19h-17L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+          Incorrect Password
+        </div>
+        <p>The password you entered is incorrect. This is a private sacred portal. If you are an authorised practitioner, please contact support via WhatsApp.</p>
+        <a href="https://wa.me/917666554400" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.553 4.099 1.522 5.822L.057 23.854a.5.5 0 0 0 .611.611l6.072-1.462A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.933 0-3.745-.52-5.3-1.427L2.2 21.8l1.245-4.454A9.965 9.965 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Contact WhatsApp Support
+        </a>
+      </div>
+
+      <div class="gate-divider"></div>
+      <p class="gate-footer">Protected content for initiated practitioners only.<br>Unauthorised access is prohibited.</p>
+    </div>
+  </div>
 
   <!-- Interactive Custom Cursor Elements -->
   <div class="cursor-dot" id="cursor-dot"></div>
@@ -233,35 +523,35 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
         <div class="glass-card p-6 text-center border-t-2 border-t-amber-500/50">
-          <div class="text-4xl mb-4">🏔️</div>
+          <div class="text-4xl mb-4">🜃</div>
           <h3 class="display-font text-xl text-white mb-2">Gyan Kand</h3>
           <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Earth Element</p>
           <p class="text-gray-400 text-sm font-light">Rooted in ancient scriptures and timeless ancestral wisdom.</p>
         </div>
 
         <div class="glass-card p-6 text-center border-t-2 border-t-blue-500/50">
-          <div class="text-4xl mb-4">💧</div>
+          <div class="text-4xl mb-4">〇</div>
           <h3 class="display-font text-xl text-white mb-2">Bhakti Kand</h3>
           <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Water Element</p>
           <p class="text-gray-400 text-sm font-light">Sacred daily rituals, pure surrender, and emotional devotion.</p>
         </div>
 
         <div class="glass-card p-6 text-center border-t-2 border-t-orange-500/50">
-          <div class="text-4xl mb-4">🔥</div>
+          <div class="text-4xl mb-4">△</div>
           <h3 class="display-font text-xl text-white mb-2">Yog Kand</h3>
           <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Fire Element</p>
           <p class="text-gray-400 text-sm font-light">Transformational internal disciplines derived from Vigyan Bhairav.</p>
         </div>
 
         <div class="glass-card p-6 text-center border-t-2 border-t-teal-500/50">
-          <div class="text-4xl mb-4">🌀</div>
+          <div class="text-4xl mb-4">༄</div>
           <h3 class="display-font text-xl text-white mb-2">Karam Kand</h3>
           <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Air Element</p>
           <p class="text-gray-400 text-sm font-light">Selfless action, bird feeding, and balancing dynamic return.</p>
         </div>
 
         <div class="glass-card p-6 text-center border-t-2 border-t-purple-500/50">
-          <div class="text-4xl mb-4">🌌</div>
+          <div class="text-4xl mb-4">꩜</div>
           <h3 class="display-font text-xl text-white mb-2">Dhyan Kand</h3>
           <p class="text-xs uppercase tracking-widest text-[#FF6600] mb-3">Space Element</p>
           <p class="text-gray-400 text-sm font-light">Profound stillness, expanded meditation, and total pure awareness.</p>
@@ -614,6 +904,88 @@
 
   <!-- Scripts -->
   <script>
+    /* ─── PASSWORD GATE LOGIC ─────────────────────────── */
+    (function () {
+      var CORRECT = '16011986';
+      var SESSION_KEY = 'sk_gate_auth';
+      var gate = document.getElementById('password-gate');
+      var input = document.getElementById('gate-password-input');
+      var submitBtn = document.getElementById('gate-submit-btn');
+      var errorBox = document.getElementById('gate-error-box');
+      var toggleEye = document.getElementById('gate-toggle-eye');
+      var eyeShow = document.getElementById('eye-icon-show');
+      var eyeHide = document.getElementById('eye-icon-hide');
+
+      // Check if already authenticated in this session
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        gate.classList.add('unlocked');
+      }
+
+      function unlock() {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        gate.classList.add('unlocked');
+        // Re-enable body scroll after unlock
+        document.body.style.cursor = '';
+      }
+
+      function attempt() {
+        var val = input.value.trim();
+        if (val === CORRECT) {
+          unlock();
+        } else {
+          input.classList.remove('input-error');
+          void input.offsetWidth; // reflow to restart animation
+          input.classList.add('input-error');
+          errorBox.classList.add('visible');
+          input.value = '';
+          input.focus();
+          // Remove error class after animation
+          setTimeout(function () {
+            input.classList.remove('input-error');
+          }, 400);
+        }
+      }
+
+      submitBtn.addEventListener('click', attempt);
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') attempt();
+        if (errorBox.classList.contains('visible')) {
+          errorBox.classList.remove('visible');
+        }
+      });
+
+      // Toggle visibility
+      toggleEye.addEventListener('click', function () {
+        if (input.type === 'password') {
+          input.type = 'text';
+          eyeShow.style.display = 'none';
+          eyeHide.style.display = 'block';
+        } else {
+          input.type = 'password';
+          eyeShow.style.display = 'block';
+          eyeHide.style.display = 'none';
+        }
+        input.focus();
+      });
+
+      // Prevent tab-out of gate while visible
+      gate.addEventListener('keydown', function (e) {
+        if (e.key === 'Tab') {
+          var focusable = gate.querySelectorAll('input, button, a');
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+            e.preventDefault();
+            (e.shiftKey ? last : first).focus();
+          }
+        }
+      });
+
+      // Auto-focus input when gate is visible
+      input.focus();
+    })();
+    /* ─── END PASSWORD GATE LOGIC ─────────────────────── */
+
     // 1. Lenis Smooth Scroll
     const lenis = new Lenis({
       duration: 1.2,
