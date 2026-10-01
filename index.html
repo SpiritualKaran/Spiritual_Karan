@@ -135,13 +135,13 @@
       justify-content: center; align-items: center; padding: 10vw;
     }
     
-    /* Stacking Cards Section - UPDATED LOGIC */
+    /* Stacking Cards Section */
     .cards-container { position: relative; width: 100%; margin-top: 10vh; }
     .stack-card {
       position: sticky; 
       top: 12vh; 
       width: 100%; 
-      height: auto; /* Allow natural height based on content */
+      height: auto; 
       background: rgba(20,20,20,0.6); 
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.05); 
@@ -151,7 +151,7 @@
       flex-direction: column; 
       justify-content: space-between;
       transform-origin: top center;
-      margin-bottom: 25vh; /* This creates the gap between cards so they don't instantly overlap */
+      margin-bottom: 25vh; 
     }
 
     @media (max-width: 768px) {
@@ -212,6 +212,7 @@
 
     /* Utilities */
     .hide { opacity: 0; visibility: hidden; }
+    .reveal-elem { opacity: 0; transform: translateY(30px); }
   </style>
 </head>
 <body>
@@ -548,18 +549,56 @@
     </div>
   </section>
 
+  <!-- 4.25 Gupt Daan (Donation) Section -->
+  <section class="w-full px-[5%] py-32 relative z-10 bg-black/20 border-y border-white/5 mt-32" id="gupt-daan">
+    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16">
+      
+      <!-- Text Content -->
+      <div class="flex-1 reveal-elem">
+        <p class="text-xs tracking-[0.3em] uppercase text-emerald-500 mb-4 font-semibold">The Path of Selfless Giving</p>
+        <h2 class="display-font text-5xl md:text-7xl mb-8">Support A <br>True Seeker</h2>
+        <p class="text-gray-300 text-lg md:text-xl font-light max-w-2xl leading-relaxed mb-6">
+          Your generosity becomes the bridge for dedicated souls who burn with the desire for spiritual awakening, yet lack the financial means to step onto the path of Sadhana.
+        </p>
+        <p class="text-gray-400 text-sm md:text-base font-light max-w-xl leading-relaxed mb-10 border-l-2 border-emerald-500/30 pl-4">
+          In the realm of energy, what you give freely returns to you multiplied. By funding a true seeker's Sadhana, you directly partake in the immense karmic merit of their spiritual liberation.
+        </p>
+        
+        <a href="donate.html" class="magnetic magnetic-btn bg-emerald-600 border-none hover-trigger text-white hover:text-black before:bg-white shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+          <span>Make a Contribution</span>
+        </a>
+      </div>
+
+      <!-- Visual Card -->
+      <div class="w-full lg:w-1/3 reveal-elem">
+        <div class="bg-black/60 p-10 md:p-12 rounded-[2rem] border border-emerald-500/20 shadow-[0_0_60px_rgba(16,185,129,0.05)] text-center relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500 blur-[120px] rounded-full opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity duration-700"></div>
+          
+          <div class="w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-4xl mb-6 relative z-10">
+            ✨️
+          </div>
+          <h3 class="display-font text-2xl text-white mb-4 relative z-10">Gupt Daan</h3>
+          <p class="text-gray-400 text-sm font-light leading-relaxed relative z-10">
+            All sacred donations are strictly audited and allocated 100% towards seeker sponsorships and essential ritual provisions.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- 4.5 Members Support & Consultations Pricing Section -->
   <section class="w-full px-[5%] py-32 relative z-10" id="members-support">
     <div class="max-w-6xl mx-auto">
       
       <!-- Section Header -->
-      <div class="mb-16">
+      <div class="mb-16 reveal-elem">
         <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-4">One-to-one guidance</p>
         <h2 class="display-font text-5xl md:text-7xl mb-6">Consultations & <br>Member Support</h2>
       </div>
 
       <!-- Specific Consultations List -->
-      <div class="w-full border-t border-gray-800">
+      <div class="w-full border-t border-gray-800 reveal-elem">
         
         <!-- Consultation 1 -->
         <div class="group border-b border-gray-800 py-10 flex flex-col lg:flex-row lg:items-center justify-between hover-trigger transition-colors hover:border-gray-500">
@@ -612,7 +651,7 @@
       </div>
 
       <!-- Members Club Highlight Card -->
-      <div class="mt-20 p-8 md:p-16 rounded-[2vw] border border-[#FF6600]/30 bg-gradient-to-br from-[rgba(255,102,0,0.1)] to-transparent backdrop-blur-md relative overflow-hidden group">
+      <div class="mt-20 p-8 md:p-16 rounded-[2vw] border border-[#FF6600]/30 bg-gradient-to-br from-[rgba(255,102,0,0.1)] to-transparent backdrop-blur-md relative overflow-hidden group reveal-elem">
         <!-- Glow effect behind -->
         <div class="absolute top-0 right-0 w-64 h-64 bg-[#FF6600] blur-[120px] rounded-full opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-700"></div>
         
@@ -660,13 +699,13 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
         
         <!-- Left: Title & Subtitle -->
-        <div class="lg:col-span-5 mb-8 lg:mb-0">
+        <div class="lg:col-span-5 mb-8 lg:mb-0 reveal-elem">
           <h2 class="display-font text-5xl md:text-7xl mb-6 text-white">Welcome to <br><span class="text-[#FF6600]">Spiritual Karan</span></h2>
           <p class="text-xs tracking-[0.3em] uppercase text-gray-400 mb-8 border-l-2 border-[#FF6600] pl-4">Ancient wisdom, a practical path.</p>
         </div>
 
         <!-- Right: Body Text -->
-        <div class="lg:col-span-7 space-y-8 text-gray-300 font-light text-lg md:text-xl leading-relaxed">
+        <div class="lg:col-span-7 space-y-8 text-gray-300 font-light text-lg md:text-xl leading-relaxed reveal-elem">
           <p>
             Hello, I'm Karan Chawla. My spiritual journey began in 2002. For over two decades, I have studied spiritual traditions, scriptures, meditation techniques, and ancient practices.
           </p>
@@ -687,7 +726,7 @@
 
   <!-- 5. Footer (Massive CTA) -->
   <footer class="h-screen w-full flex flex-col justify-between p-[5%] bg-[#020202]" id="contact">
-    <div class="flex justify-between items-start w-full border-b border-gray-800 pb-12">
+    <div class="flex justify-between items-start w-full border-b border-gray-800 pb-12 reveal-elem">
       <div>
         <h4 class="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Direct Contact</h4>
         <a href="mailto:hi@spiritualkaran.com" class="text-xl md:text-3xl hover:text-white transition-colors hover-trigger block">hi@spiritualkaran.com</a>
@@ -741,22 +780,24 @@
       const posX = e.clientX;
       const posY = e.clientY;
       
-      // Dot follows instantly
-      cursorDot.style.left = `${posX}px`;
-      cursorDot.style.top = `${posY}px`;
+      if(cursorDot) {
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+      }
       
-      // Outline has a slight delay (smooth interpolation)
-      gsap.to(cursorOutline, {
-        x: posX - 20, // offset by half width
-        y: posY - 20,
-        duration: 0.15,
-        ease: "power2.out"
-      });
+      if(cursorOutline) {
+        gsap.to(cursorOutline, {
+          x: posX - 20, 
+          y: posY - 20,
+          duration: 0.15,
+          ease: "power2.out"
+        });
+      }
     });
 
     hoverTriggers.forEach(trigger => {
-      trigger.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
-      trigger.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+      trigger.addEventListener('mouseenter', () => { if(cursorOutline) cursorOutline.classList.add('hover'); });
+      trigger.addEventListener('mouseleave', () => { if(cursorOutline) cursorOutline.classList.remove('hover'); });
     });
 
     // 3. Mobile Menu Toggle Logic
@@ -766,29 +807,32 @@
     const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
     function openMobileMenu() {
-      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
-      mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
-      document.body.style.overflow = 'hidden';
+      if(mobileMenu) {
+        mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+        mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+      }
     }
 
     function closeMobileMenu() {
-      mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
-      document.body.style.overflow = '';
+      if(mobileMenu) {
+        mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+        mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
     }
 
-    if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', openMobileMenu);
-      if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
-      mobileNavLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-      });
-    }
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
 
     // 4. Magnetic Button Logic
     const magnetics = document.querySelectorAll('.magnetic');
     magnetics.forEach(btn => {
       btn.addEventListener('mousemove', (e) => {
+        if(window.innerWidth < 768) return; 
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
@@ -807,57 +851,55 @@
         }
       });
       
-      // Progress bar fill
       tl.to("#progress", { width: "100%", duration: 1.5, ease: "expo.inOut" })
-        // Text reveal
         .to(".loader-text span", { y: "0%", duration: 0.8, ease: "power4.out" }, "-=0.5")
-        // Hide loader
         .to("#loader", { yPercent: -100, duration: 1, ease: "expo.inOut", delay: 0.5 })
-        // Show Nav
         .fromTo("#nav", { y: -50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.5")
-        // Reveal Hero Text
         .to(".hero-elem .split-child", { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out" }, "-=0.8");
     };
     
-    // Start sequence on load
     window.addEventListener('load', initSequence);
 
     // 6. ScrollTrigger: Manifesto Text Reveal
     const textElement = document.getElementById('reveal-text');
-    const textContent = textElement.innerText;
-    textElement.innerHTML = '';
-    textContent.split(' ').forEach(word => {
-      if(word.trim() !== '') {
-        textElement.innerHTML += `<span class="inline-block mx-1" style="color: rgba(255,255,255,0.1); transition: color 0.5s;">${word}</span> `;
-      }
-    });
+    if (textElement) {
+      const textContent = textElement.innerText;
+      textElement.innerHTML = '';
+      textContent.split(' ').forEach(word => {
+        if(word.trim() !== '') {
+          textElement.innerHTML += `<span class="inline-block mx-1" style="color: rgba(255,255,255,0.1); transition: color 0.5s;">${word}</span> `;
+        }
+      });
 
-    gsap.to("#reveal-text span", {
-      color: "#FFF",
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: "#manifesto",
-        start: "top 70%",
-        end: "bottom 60%",
-        scrub: 1
-      }
-    });
+      gsap.to("#reveal-text span", {
+        color: "#FFF",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: "#manifesto",
+          start: "top 70%",
+          end: "bottom 60%",
+          scrub: 1
+        }
+      });
+    }
 
     // 7. ScrollTrigger: Horizontal Scroll (The 5 Pillars)
     const horizontalWrapper = document.getElementById('horizontal-wrapper');
-    gsap.to(horizontalWrapper, {
-      xPercent: -100 * (5 - 1) / 5, // 5 cards
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#horizontal-section",
-        pin: true,
-        scrub: 1,
-        snap: 1 / (5 - 1),
-        end: () => "+=" + horizontalWrapper.offsetWidth
-      }
-    });
+    if (horizontalWrapper) {
+      gsap.to(horizontalWrapper, {
+        xPercent: -100 * (5 - 1) / 5, // 5 cards
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#horizontal-section",
+          pin: true,
+          scrub: 1,
+          snap: 1 / (5 - 1),
+          end: () => "+=" + horizontalWrapper.offsetWidth
+        }
+      });
+    }
 
-    // 8. ScrollTrigger: Stacking Cards Effect - UPDATED LOGIC FOR SMOOTH SCROLLING
+    // 8. ScrollTrigger: Stacking Cards Effect
     const cards = document.querySelectorAll('.stack-card');
     cards.forEach((card, index) => {
       if (index !== cards.length - 1) {
@@ -874,17 +916,36 @@
       }
     });
 
-    // 9. Footer Hover Effect
+    // 9. Standard Reveal Elements
+    const revealElements = document.querySelectorAll('.reveal-elem');
+    revealElements.forEach((elem) => {
+      gsap.to(elem, {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // 10. Footer Hover Effect
     const footerCta = document.getElementById('footer-cta');
-    footerCta.addEventListener('mouseenter', () => {
-      footerCta.style.color = 'transparent';
-      footerCta.style.webkitTextStroke = '2px #FFF';
-    });
-    footerCta.addEventListener('mouseleave', () => {
-      footerCta.style.color = '#FFF';
-      footerCta.style.webkitTextStroke = '2px transparent';
-    });
+    if (footerCta) {
+      footerCta.addEventListener('mouseenter', () => {
+        footerCta.style.color = 'transparent';
+        footerCta.style.webkitTextStroke = '2px #FFF';
+      });
+      footerCta.addEventListener('mouseleave', () => {
+        footerCta.style.color = '#FFF';
+        footerCta.style.webkitTextStroke = '2px transparent';
+      });
+    }
 
   </script>
 </body>
 </html>
+```eof
