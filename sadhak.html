@@ -63,8 +63,8 @@
 
     /* Fixed A4 Landscape Dimensions */
     #certificate {
-      width: 1123px; /* A4 Width at 96dpi */
-      height: 794px; /* A4 Height at 96dpi */
+      width: 297mm; /* Standard A4 Width */
+      height: 210mm; /* Standard A4 Height */
       background: #FFFFFF;
       position: relative;
       transform-origin: center center;
@@ -72,36 +72,37 @@
       color: #03010A; /* Dark text for light background */
       overflow: hidden;
       flex-shrink: 0;
+      box-sizing: border-box;
     }
 
-    /* Inner Border Styling */
+    /* Inner Border Styling (Added extra bleed margins) */
     .cert-border-outer {
       position: absolute;
-      inset: 20px;
+      inset: 12mm; /* Pushed inward for print bleed */
       border: 2px solid var(--cert-accent);
       z-index: 10;
       pointer-events: none;
     }
     .cert-border-inner {
       position: absolute;
-      inset: 30px;
+      inset: 15mm;
       border: 1px solid rgba(0,0,0,0.2);
       z-index: 10;
       pointer-events: none;
     }
     
-    /* Corner Ornaments */
+    /* Corner Ornaments adjusted for bleed */
     .corner {
       position: absolute;
-      width: 40px;
-      height: 40px;
-      border: 4px solid var(--cert-accent);
+      width: 12mm;
+      height: 12mm;
+      border: 3px solid var(--cert-accent);
       z-index: 11;
     }
-    .corner-tl { top: 15px; left: 15px; border-right: none; border-bottom: none; }
-    .corner-tr { top: 15px; right: 15px; border-left: none; border-bottom: none; }
-    .corner-bl { bottom: 15px; left: 15px; border-right: none; border-top: none; }
-    .corner-br { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+    .corner-tl { top: 10.5mm; left: 10.5mm; border-right: none; border-bottom: none; }
+    .corner-tr { top: 10.5mm; right: 10.5mm; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 10.5mm; left: 10.5mm; border-right: none; border-top: none; }
+    .corner-br { bottom: 10.5mm; right: 10.5mm; border-left: none; border-top: none; }
 
     /* Watermark */
     .watermark {
@@ -127,7 +128,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px;
+      padding: 22mm; /* Extra padding to prevent bottom text cut-off */
       text-align: center;
     }
 
@@ -143,10 +144,10 @@
 
     .cert-title {
       font-family: 'Playfair Display', serif;
-      font-size: 56px;
+      font-size: 50px; /* Slightly scaled down to fit A4 perfectly */
       font-weight: 700;
       color: #000;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       line-height: 1.1;
     }
 
@@ -156,24 +157,24 @@
       color: #555;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .cert-name {
       font-family: 'Great Vibes', cursive;
-      font-size: 80px;
+      font-size: 75px;
       color: var(--cert-accent);
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       line-height: 1;
       border-bottom: 1px solid rgba(0,0,0,0.2);
-      padding-bottom: 10px;
+      padding-bottom: 5px;
       min-width: 600px;
       display: inline-block;
     }
 
     .cert-level {
       font-family: 'Syne', sans-serif;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
       color: #000;
       margin-bottom: 20px;
@@ -184,19 +185,19 @@
     .cert-message {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 20px;
+      font-size: 18px;
       color: #333;
       max-width: 800px;
       line-height: 1.6;
-      margin-bottom: 60px;
+      margin-bottom: auto; /* Push footer down but keep within bounds */
     }
 
     /* Footer Signatures */
     .cert-footer {
       display: flex;
       justify-content: space-between;
-      width: 80%;
-      margin-top: auto;
+      width: 85%;
+      margin-top: 30px;
       align-items: flex-end;
     }
 
@@ -209,7 +210,7 @@
 
     .signature-img {
       font-family: 'Great Vibes', cursive;
-      font-size: 40px;
+      font-size: 36px;
       color: #000;
       margin-bottom: 5px;
       border-bottom: 1px solid #000;
@@ -231,10 +232,15 @@
     @media print {
       @page {
         size: A4 landscape;
-        margin: 0;
+        margin: 0 !important;
       }
-      body {
+      html, body {
+        width: 297mm;
+        height: 210mm;
+        margin: 0 !important;
+        padding: 0 !important;
         background: #FFF;
+        overflow: hidden !important; /* STRICTLY PREVENT SECOND PAGE */
       }
       /* Hide dashboard UI completely */
       #dashboard-controls, nav, .noise, .mesh-bg {
@@ -242,16 +248,28 @@
       }
       /* Reset wrapper and scale for perfect 1:1 print */
       #cert-wrapper {
-        padding: 0;
-        border: none;
-        background: transparent;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
       }
       #certificate {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 297mm !important;
+        height: 210mm !important;
         transform: scale(1) !important;
         box-shadow: none !important;
-        margin: 0;
+        margin: 0 !important;
+        padding: 0 !important;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
+        page-break-after: avoid;
+        page-break-inside: avoid;
       }
     }
   </style>
@@ -369,8 +387,8 @@
               </div>
               
               <!-- Center Logo Small -->
-              <div class="w-16 h-16 flex items-center justify-center">
-                <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-full w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+              <div class="w-20 h-20 flex items-center justify-center">
+                <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-14 w-auto object-contain opacity-90 border-0 outline-none">
               </div>
 
               <div class="signature-block">
@@ -448,18 +466,25 @@
     });
 
     // Handle Visual Scaling for Live Preview Window
-    // The certificate is fixed to 1123x794 (A4 size). We use CSS transform to fit it into the screen view.
+    // The certificate is fixed to physical A4 size. We dynamically calculate scale based on available space.
     function scaleCertificate() {
       const wrapper = document.getElementById('cert-wrapper');
       const cert = document.getElementById('certificate');
+      
+      // Temporarily reset transform to get true DOM dimensions for math
+      cert.style.transform = `scale(1)`;
       
       // Calculate available space
       const availableWidth = wrapper.clientWidth - 40; // 40px for padding
       const availableHeight = wrapper.clientHeight - 40;
       
+      // Get actual physical rendered size of certificate
+      const certWidth = cert.offsetWidth;
+      const certHeight = cert.offsetHeight;
+      
       // Calculate scale required
-      const scaleWidth = availableWidth / 1123;
-      const scaleHeight = availableHeight / 794;
+      const scaleWidth = availableWidth / certWidth;
+      const scaleHeight = availableHeight / certHeight;
       
       // Use the smaller scale to ensure it fits perfectly inside the box
       const scale = Math.min(scaleWidth, scaleHeight, 1); // Cap at 1 so it doesn't get pixelated
