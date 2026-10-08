@@ -22,7 +22,9 @@
       --bg: #03010A; 
       --text: #F3F3F3;
       --brand: #FF6600; 
-      --cert-accent: #FF6600; /* Dynamic variable for certificate */
+      --cert-accent: #FF6600; /* For Name and Header */
+      --cert-border: #2e3192; /* Deep Blue for borders */
+      --cert-watermark: #efefef; /* Light gray for watermark */
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -75,11 +77,11 @@
       box-sizing: border-box;
     }
 
-    /* Inner Border Styling (Added extra bleed margins) */
+    /* Inner Border Styling */
     .cert-border-outer {
       position: absolute;
       inset: 12mm; /* Pushed inward for print bleed */
-      border: 2px solid var(--cert-accent);
+      border: 2px solid var(--cert-border);
       z-index: 10;
       pointer-events: none;
     }
@@ -91,12 +93,12 @@
       pointer-events: none;
     }
     
-    /* Corner Ornaments adjusted for bleed */
+    /* Corner Ornaments */
     .corner {
       position: absolute;
       width: 12mm;
       height: 12mm;
-      border: 3px solid var(--cert-accent);
+      border: 3px solid var(--cert-border);
       z-index: 11;
     }
     .corner-tl { top: 10.5mm; left: 10.5mm; border-right: none; border-bottom: none; }
@@ -111,8 +113,8 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 500px;
-      color: var(--cert-accent);
-      opacity: 0.03;
+      color: var(--cert-watermark);
+      opacity: 1; /* Set to 1 because the color #efefef is already very light */
       z-index: 1;
       pointer-events: none;
       font-family: 'Syne', sans-serif;
@@ -329,16 +331,6 @@
                  class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6600] transition-colors uppercase text-sm">
         </div>
 
-        <!-- Input: Theme Color -->
-        <div>
-          <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Certificate Accent Color</label>
-          <div class="flex items-center gap-3">
-            <input type="color" id="input-color" value="#FF6600" 
-                   class="w-12 h-12 rounded cursor-pointer border-0 bg-transparent p-0">
-            <span class="text-sm text-gray-400 font-mono" id="color-hex">#FF6600</span>
-          </div>
-        </div>
-
       </div>
 
       <div class="mt-10 pt-8 border-t border-white/10">
@@ -387,8 +379,8 @@
               </div>
               
               <!-- Center Logo Small -->
-              <div class="w-20 h-20 flex items-center justify-center">
-                <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-14 w-auto object-contain opacity-90 border-0 outline-none">
+              <div class="w-100 h-100 flex items-center justify-center">
+                <img src="https://i.postimg.cc/MpPQmZNJ/om-seal.png" alt="Spiritual Karan Seal" class="w-full h-full object-contain">
               </div>
 
               <div class="signature-block">
@@ -425,8 +417,6 @@
     const inputName = document.getElementById('input-name');
     const inputLevel = document.getElementById('input-level');
     const inputDate = document.getElementById('input-date');
-    const inputColor = document.getElementById('input-color');
-    const colorHex = document.getElementById('color-hex');
 
     const displayName = document.getElementById('display-name');
     const displayLevel = document.getElementById('display-level');
@@ -457,12 +447,6 @@
 
     inputDate.addEventListener('change', (e) => {
       displayDate.innerText = formatDate(e.target.value);
-    });
-
-    inputColor.addEventListener('input', (e) => {
-      const color = e.target.value;
-      document.documentElement.style.setProperty('--cert-accent', color);
-      colorHex.innerText = color.toUpperCase();
     });
 
     // Handle Visual Scaling for Live Preview Window
