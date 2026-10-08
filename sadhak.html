@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sadhana Certificate Generator | Spiritual Karan</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/TPp8bwKy/om-logo.png">
+
+  <!-- Brand Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Dashboard Base Styles */
+    :root {
+      --bg: #03010A; 
+      --text: #F3F3F3;
+      --brand: #FF6600; 
+      --cert-accent: #FF6600; /* Dynamic variable for certificate */
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #160733 0%, #080315 45%, #000000 100%);
+      background-attachment: fixed;
+    }
+
+    .display-font { font-family: 'Syne', sans-serif; }
+
+    /* Custom Scrollbar for dashboard */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+    /* =========================================
+       CERTIFICATE SPECIFIC STYLES (Print Ready)
+       ========================================= */
+    
+    #cert-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: rgba(0,0,0,0.4);
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 2rem;
+    }
+
+    /* Fixed A4 Landscape Dimensions */
+    #certificate {
+      width: 1123px; /* A4 Width at 96dpi */
+      height: 794px; /* A4 Height at 96dpi */
+      background: #FFFFFF;
+      position: relative;
+      transform-origin: center center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      color: #03010A; /* Dark text for light background */
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Inner Border Styling */
+    .cert-border-outer {
+      position: absolute;
+      inset: 20px;
+      border: 2px solid var(--cert-accent);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .cert-border-inner {
+      position: absolute;
+      inset: 30px;
+      border: 1px solid rgba(0,0,0,0.2);
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    /* Corner Ornaments */
+    .corner {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--cert-accent);
+      z-index: 11;
+    }
+    .corner-tl { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+    .corner-tr { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+    .corner-br { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+
+    /* Watermark */
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 500px;
+      color: var(--cert-accent);
+      opacity: 0.03;
+      z-index: 1;
+      pointer-events: none;
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* Certificate Typography */
+    .cert-content {
+      position: relative;
+      z-index: 20;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      text-align: center;
+    }
+
+    .cert-header {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--cert-accent);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .cert-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 700;
+      color: #000;
+      margin-bottom: 30px;
+      line-height: 1.1;
+    }
+
+    .cert-presented {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 20px;
+    }
+
+    .cert-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 80px;
+      color: var(--cert-accent);
+      margin-bottom: 20px;
+      line-height: 1;
+      border-bottom: 1px solid rgba(0,0,0,0.2);
+      padding-bottom: 10px;
+      min-width: 600px;
+      display: inline-block;
+    }
+
+    .cert-level {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .cert-message {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: #333;
+      max-width: 800px;
+      line-height: 1.6;
+      margin-bottom: 60px;
+    }
+
+    /* Footer Signatures */
+    .cert-footer {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: auto;
+      align-items: flex-end;
+    }
+
+    .signature-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 250px;
+    }
+
+    .signature-img {
+      font-family: 'Great Vibes', cursive;
+      font-size: 40px;
+      color: #000;
+      margin-bottom: 5px;
+      border-bottom: 1px solid #000;
+      width: 100%;
+    }
+
+    .signature-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    /* =========================================
+       PRINT SPECIFIC STYLES
+       ========================================= */
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+      body {
+        background: #FFF;
+      }
+      /* Hide dashboard UI completely */
+      #dashboard-controls, nav, .noise, .mesh-bg {
+        display: none !important;
+      }
+      /* Reset wrapper and scale for perfect 1:1 print */
+      #cert-wrapper {
+        padding: 0;
+        border: none;
+        background: transparent;
+      }
+      #certificate {
+        transform: scale(1) !important;
+        box-shadow: none !important;
+        margin: 0;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body class="selection:bg-[#FF6600] selection:text-white flex flex-col min-h-screen">
+
+  <!-- Background Aesthetics -->
+  <div class="noise"></div>
+  <div class="mesh-bg"></div>
+
+  <!-- Navigation -->
+  <nav class="w-full p-6 z-50 backdrop-blur-xl bg-black/40 border-b border-white/5 relative">
+    <div class="max-w-[1400px] mx-auto w-full flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <div class="text-white text-2xl">🕉️</div>
+        <div class="h-4 w-px bg-white/20"></div>
+        <span class="text-xs tracking-[0.3em] uppercase text-[#FF6600] font-semibold">Admin Panel</span>
+      </div>
+      <a href="index.html" class="text-xs uppercase tracking-[0.2em] text-gray-300 hover:text-white transition-colors">Return to Site</a>
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <main class="flex-1 flex flex-col lg:flex-row relative z-10 max-w-[1600px] mx-auto w-full h-full p-4 md:p-8 gap-8">
+    
+    <!-- LEFT: Dashboard Controls -->
+    <aside id="dashboard-controls" class="w-full lg:w-[400px] flex-shrink-0 bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-6 h-fit sticky top-24">
+      <div class="mb-8">
+        <h2 class="display-font text-2xl text-white mb-2">Certificate Generator</h2>
+        <p class="text-gray-400 text-sm font-light">Generate secure, printable Sadhana completion certificates.</p>
+      </div>
+
+      <div class="space-y-6">
+        
+        <!-- Input: Sadhak Name -->
+        <div>
+          <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Sadhak Name</label>
+          <input type="text" id="input-name" placeholder="Enter Full Name" value="Karan Chawla" 
+                 class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6600] transition-colors font-medium">
+        </div>
+
+        <!-- Input: Level Trajectory -->
+        <div>
+          <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Sadhana Trajectory</label>
+          <select id="input-level" class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6600] transition-colors appearance-none">
+            <option value="foundation">Foundation: Beginner Sadhana</option>
+            <option value="level-1" selected>Level I: Initiation</option>
+            <option value="level-2">Level I + II: Deepening</option>
+            <option value="level-3">Level I + II + III: Mastery</option>
+          </select>
+        </div>
+
+        <!-- Input: Date -->
+        <div>
+          <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Completion Date</label>
+          <input type="date" id="input-date" 
+                 class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#FF6600] transition-colors uppercase text-sm">
+        </div>
+
+        <!-- Input: Theme Color -->
+        <div>
+          <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Certificate Accent Color</label>
+          <div class="flex items-center gap-3">
+            <input type="color" id="input-color" value="#FF6600" 
+                   class="w-12 h-12 rounded cursor-pointer border-0 bg-transparent p-0">
+            <span class="text-sm text-gray-400 font-mono" id="color-hex">#FF6600</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-10 pt-8 border-t border-white/10">
+        <button onclick="window.print()" class="w-full bg-[#FF6600] text-white font-bold tracking-widest text-sm uppercase py-4 rounded-full hover:bg-white hover:text-black transition-colors shadow-[0_0_20px_rgba(255,102,0,0.3)]">
+          Print Certificate
+        </button>
+        <p class="text-center text-[10px] text-gray-500 mt-4 uppercase tracking-wider">Ensure printer is set to "Landscape" and "Background Graphics" is ON.</p>
+      </div>
+    </aside>
+
+    <!-- RIGHT: Live Certificate Preview -->
+    <div class="flex-1 flex flex-col h-full min-h-[500px]">
+      <div id="cert-wrapper">
+        
+        <!-- ACTUAL PRINTABLE CERTIFICATE -->
+        <div id="certificate">
+          <div class="cert-border-outer"></div>
+          <div class="cert-border-inner"></div>
+          
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+
+          <div class="watermark">OM</div>
+
+          <div class="cert-content">
+            <div class="cert-header">Spiritual Karan</div>
+            
+            <h1 class="cert-title">Sacred Sadhana Certification</h1>
+            
+            <p class="cert-presented">This honors the spiritual dedication and karmic elevation of</p>
+            
+            <div class="cert-name" id="display-name">Karan Chawla</div>
+            
+            <div class="cert-level" id="display-level">Level I: Initiation</div>
+            
+            <p class="cert-message" id="display-message">
+              Through dedication and discipline, you have successfully completed the Initiation protocol. May this sacred resonance continue to manifest health, wealth, and profound spiritual clarity on your journey.
+            </p>
+
+            <div class="cert-footer">
+              <div class="signature-block">
+                <div class="signature-img" id="display-date">October 10, 2026</div>
+                <div class="signature-text">Date of Completion</div>
+              </div>
+              
+              <!-- Center Logo Small -->
+              <div class="w-16 h-16 flex items-center justify-center">
+                <img src="https://i.postimg.cc/TPp8bwKy/om-logo.png" alt="Spiritual Karan Logo" class="h-full w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+              </div>
+
+              <div class="signature-block">
+                <div class="signature-img">Karan Chawla</div>
+                <div class="signature-text">Spiritual Mentor & Guide</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Scripts for Real-Time Logic & Scaling -->
+  <script>
+    // Motivational Messages Logic
+    const messages = {
+      'foundation': "You have successfully laid the cornerstone of your spiritual journey. True spirituality is not an escape from reality; it is the absolute mastery of it. May this foundational awakening dispel the shadows and ignite a lifelong pursuit of absolute truth.",
+      'level-1': "Through profound dedication and discipline, you have stepped through the gateway of initiation. May the energetic science you have learned continue to build the bridge toward your highest human potential, manifesting clarity and peace.",
+      'level-2': "Your relentless commitment to deepening the practice has purified your ancestral roots and elevated your soul's frequency. Continue to walk this path with a pure heart, mastering the reality you command.",
+      'level-3': "You have accessed the Divine Codex and fortified your energetic being. This signifies the highest echelon of dedication. Walk forward as a beacon of cosmic potential, illuminating the darkness for those who follow."
+    };
+
+    const levelTitles = {
+      'foundation': "Foundation: Beginner Sadhana",
+      'level-1': "Level I: Initiation",
+      'level-2': "Level I + II: Deepening",
+      'level-3': "Level I + II + III: Mastery"
+    };
+
+    // DOM Elements
+    const inputName = document.getElementById('input-name');
+    const inputLevel = document.getElementById('input-level');
+    const inputDate = document.getElementById('input-date');
+    const inputColor = document.getElementById('input-color');
+    const colorHex = document.getElementById('color-hex');
+
+    const displayName = document.getElementById('display-name');
+    const displayLevel = document.getElementById('display-level');
+    const displayMessage = document.getElementById('display-message');
+    const displayDate = document.getElementById('display-date');
+
+    // Set today's date as default
+    const today = new Date().toISOString().split('T')[0];
+    inputDate.value = today;
+
+    // Formatting date helper
+    const formatDate = (dateString) => {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    };
+    displayDate.innerText = formatDate(today);
+
+    // Event Listeners for real-time updates
+    inputName.addEventListener('input', (e) => {
+      displayName.innerText = e.target.value || "[Sadhak Name]";
+    });
+
+    inputLevel.addEventListener('change', (e) => {
+      const val = e.target.value;
+      displayLevel.innerText = levelTitles[val];
+      displayMessage.innerText = messages[val];
+    });
+
+    inputDate.addEventListener('change', (e) => {
+      displayDate.innerText = formatDate(e.target.value);
+    });
+
+    inputColor.addEventListener('input', (e) => {
+      const color = e.target.value;
+      document.documentElement.style.setProperty('--cert-accent', color);
+      colorHex.innerText = color.toUpperCase();
+    });
+
+    // Handle Visual Scaling for Live Preview Window
+    // The certificate is fixed to 1123x794 (A4 size). We use CSS transform to fit it into the screen view.
+    function scaleCertificate() {
+      const wrapper = document.getElementById('cert-wrapper');
+      const cert = document.getElementById('certificate');
+      
+      // Calculate available space
+      const availableWidth = wrapper.clientWidth - 40; // 40px for padding
+      const availableHeight = wrapper.clientHeight - 40;
+      
+      // Calculate scale required
+      const scaleWidth = availableWidth / 1123;
+      const scaleHeight = availableHeight / 794;
+      
+      // Use the smaller scale to ensure it fits perfectly inside the box
+      const scale = Math.min(scaleWidth, scaleHeight, 1); // Cap at 1 so it doesn't get pixelated
+      
+      cert.style.transform = `scale(${scale})`;
+    }
+
+    // Run scaling on load and window resize
+    window.addEventListener('load', scaleCertificate);
+    window.addEventListener('resize', scaleCertificate);
+  </script>
+</body>
+</html>
+```
+
+### Instructions for printing:
+1. Open this file in your browser.
+2. Select the level, type the name, and pick an accent color.
+3. Click **"Print Certificate"**.
+4. In your printer dialogue box, ensure **Orientation** is set to **Landscape**, and **"Print Background Graphics"** (or "Print Background Colors") is checked ON. The system will cleanly crop out the dashboard and print only the gorgeous white certificate!
